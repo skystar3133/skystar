@@ -170,15 +170,45 @@
 
  <section id="map">
   <h2>오시는 길</h2>
-  <iframe 
-    src="https://map.naver.com/p/entry/place/1162018183?c=20.00,0,0,0,dh&placePath=/home" 
-    width="100%" 
-    height="1000" 
-    style="border:0; border-radius:10px;"
-    allowfullscreen=""
-    loading="lazy">
-  </iframe>
+
+  <!-- PC 전용: iframe 지도 -->
+  <div class="pc-map">
+    <iframe 
+      src="https://map.naver.com/p/entry/place/1162018183?c=20.00,0,0,0,dh&placePath=/home" 
+      width="100%" 
+      height="1000" 
+      style="border:0; border-radius:10px;"
+      allowfullscreen=""
+      loading="lazy">
+    </iframe>
+  </div>
+
+  <!-- 모바일 전용: 버튼 링크 -->
+  <div class="mobile-map" style="text-align:center; display:none;">
+    <p>모바일에서는 아래 버튼을 눌러 네이버 지도로 이동해 주세요.</p>
+    <a href="https://map.naver.com/v5/entry/place/1162018183" target="_blank" style="
+      display:inline-block;
+      padding:12px 24px;
+      background:#03C75A;
+      color:#fff;
+      text-decoration:none;
+      font-weight:bold;
+      border-radius:8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    ">
+      📍 네이버 지도에서 열기
+    </a>
+  </div>
 </section>
+
+<script>
+  // 화면 너비 기준으로 PC/Mobile 분기
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    document.querySelector('.pc-map').style.display = 'none';
+    document.querySelector('.mobile-map').style.display = 'block';
+  }
+</script>
 
   <footer>
     &copy; 2025 하늘별컴퓨터교습소.made by kimsunghee All rights reserved.
