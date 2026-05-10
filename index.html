@@ -1427,9 +1427,9 @@
         📍 서울특별시 성북구 장월로 118-1, 1층 하늘별컴퓨터교습소
       </p>
       <!-- 네이버 지도 -->
-    <div class="hnb-map-wrap">
-  <div id="hnbNaverMap"></div>
-</div>
+      <div class="hnb-map-wrap">
+        <div id="hnbNaverMap"></div>
+      </div>
     </div>
 
   </div>
@@ -1599,7 +1599,65 @@
 
 })();
 </script>
+<!-- 네이버 지도 API (Client ID: w20g1qeo7e) -->
+<script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=w20g1qeo7e"></script>
+<script>
+(function () {
+  /* 지도가 준비된 뒤 실행 */
+  function initNaverMap() {
+    var coords = new naver.maps.LatLng(37.6044, 127.0373); /* 서울 성북구 장월로 118-1 */
 
+    var map = new naver.maps.Map('hnbNaverMap', {
+      center: coords,
+      zoom: 16,
+      mapTypeId: naver.maps.MapTypeId.NORMAL,
+      mapDataControl: false,      /* 우측 하단 정보 숨김 */
+      scaleControl: false
+    });
+
+    /* 마커 */
+    var marker = new naver.maps.Marker({
+      position: coords,
+      map: map,
+      title: '하늘별컴퓨터교습소'
+    });
+
+    /* 정보창 */
+    var infoWindow = new naver.maps.InfoWindow({
+      content: [
+        '<div style="padding:12px 16px;font-family:Pretendard,sans-serif;',
+        'font-size:13px;line-height:1.6;min-width:180px;">',
+        '<strong style="font-size:14px;color:#034AA6;">하늘별컴퓨터교습소</strong><br>',
+        '서울 성북구 장월로 118-1, 1층',
+        '</div>'
+      ].join(''),
+      borderColor: '#034AA6',
+      borderWidth: 2,
+      disableAnchor: false,
+      backgroundColor: '#fff'
+    });
+
+    /* 마커 클릭 시 정보창 토글 */
+    naver.maps.Event.addListener(marker, 'click', function () {
+      if (infoWindow.getMap()) {
+        infoWindow.close();
+      } else {
+        infoWindow.open(map, marker);
+      }
+    });
+
+    /* 기본으로 정보창 열기 */
+    infoWindow.open(map, marker);
+  }
+
+  /* naver.maps 로드 완료 후 실행 */
+  if (window.naver && window.naver.maps) {
+    initNaverMap();
+  } else {
+    window.addEventListener('load', initNaverMap);
+  }
+})();
+</script>
 
 </body>
 </html>
