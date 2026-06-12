@@ -1044,22 +1044,26 @@
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       gap: 10px;
-      background: #FFFFFF;
-      border: 1.5px solid #034AA6;
-      color: #034AA6;
-      padding: 16px 22px;
-      border-radius: 8px;
-      font-size: .95rem;
-      font-weight: 700;
+      background: transparent;
+      border: none;
+      border-top: 1px solid #CBD5E1;
+      border-bottom: 1px solid #CBD5E1;
+      color: #1a1a1a;
+      padding: 18px 22px;
+      border-radius: 0;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -.01em;
       font-family: inherit;
       cursor: pointer;
-      transition: background .2s, color .2s;
+      transition: color .2s, border-color .2s;
     }
     .hnb-refund-toggle:hover {
-      background: #034AA6;
-      color: #FFFFFF;
+      color: #034AA6;
+      border-top-color: #034AA6;
+      border-bottom-color: #034AA6;
     }
     .hnb-refund-toggle .hnb-refund-arrow {
       transition: transform .3s ease;
@@ -1086,12 +1090,12 @@
       text-align: center;
     }
     .hnb-refund-doc {
-      font-size: .92rem;
+      font-size: 14px;
       line-height: 1.8;
       color: #1a1a1a;
     }
     .hnb-r-h2 {
-      font-size: 1rem;
+      font-size: 14px;
       font-weight: 800;
       color: #034AA6;
       line-height: 1.5;
@@ -1099,7 +1103,7 @@
     }
     .hnb-r-h2:first-child { margin-top: 0; }
     .hnb-r-h3 {
-      font-size: .92rem;
+      font-size: 14px;
       font-weight: 700;
       color: #1a1a1a;
       margin: 16px 0 8px;
@@ -1112,11 +1116,11 @@
       margin: 0 0 10px;
     }
     .hnb-r-list li {
-      padding: 10px 14px;
-      background: #F7F9FD;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      font-size: .9rem;
+      padding: 8px 0;
+      background: transparent;
+      border-radius: 0;
+      margin-bottom: 4px;
+      font-size: 14px;
       line-height: 1.7;
     }
     .hnb-r-list li strong {
@@ -1145,10 +1149,10 @@
       .hnb-tuition-table { font-size: .82rem; }
       .hnb-tuition-table th,
       .hnb-tuition-table td { padding: 10px 6px; }
-      .hnb-refund-doc { font-size: .87rem; }
-      .hnb-r-h2 { font-size: .94rem; }
-      .hnb-r-h3 { font-size: .88rem; }
-      .hnb-r-list li { font-size: .86rem; padding: 9px 12px; }
+      .hnb-refund-doc { font-size: 13px; }
+      .hnb-r-h2 { font-size: 13px; }
+      .hnb-r-h3 { font-size: 13px; }
+      .hnb-r-list li { font-size: 13px; padding: 7px 0; }
     }
 
     /* ================================================
@@ -1710,8 +1714,8 @@
     <!-- 환불기준 아코디언 -->
     <div class="hnb-refund hnb-fade d2">
       <button class="hnb-refund-toggle" type="button" id="hnbRefundToggle" aria-expanded="false" aria-controls="hnbRefundPanel">
-        <span>📋 교습비 환불기준 보기</span>
-        <svg class="hnb-refund-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <span>교습비 환불기준 보기</span>
+        <svg class="hnb-refund-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <polyline points="6 9 12 15 18 9"/>
         </svg>
       </button>
@@ -2041,7 +2045,7 @@
       var isOpen = refundPanel.classList.toggle('open');
       refundToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       if (refundLabel) {
-        refundLabel.textContent = isOpen ? '📋 교습비 환불기준 닫기' : '📋 교습비 환불기준 보기';
+        refundLabel.textContent = isOpen ? '교습비 환불기준 닫기' : '교습비 환불기준 보기';
       }
     });
   }
