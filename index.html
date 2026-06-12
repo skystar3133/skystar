@@ -1156,6 +1156,91 @@
     }
 
     /* ================================================
+       공지 팝업
+    ================================================ */
+    .hnb-popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 27, 42, .65);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: hnbPopupFadeIn .25s ease;
+    }
+    .hnb-popup.open { display: flex; }
+    .hnb-popup-box {
+      position: relative;
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      background: #FFFFFF;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,.4);
+      display: flex;
+      flex-direction: column;
+      animation: hnbPopupSlideUp .35s ease;
+    }
+    .hnb-popup-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow-y: auto;
+    }
+    .hnb-popup-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.55);
+      color: #FFFFFF;
+      border: none;
+      font-size: 18px;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+      z-index: 2;
+    }
+    .hnb-popup-close:hover { background: rgba(0,0,0,.8); }
+    .hnb-popup-actions {
+      display: flex;
+      border-top: 1px solid #E2E8F0;
+      background: #FAFAFA;
+      flex-shrink: 0;
+    }
+    .hnb-popup-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      color: #1a1a1a;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .hnb-popup-btn:hover { background: #F7F9FD; color: #034AA6; }
+    .hnb-popup-btn + .hnb-popup-btn { border-left: 1px solid #E2E8F0; }
+
+    @keyframes hnbPopupFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes hnbPopupSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .hnb-popup-box { max-width: 100%; }
+    }
+
+    /* ================================================
        플로팅 버튼 (카카오톡 + 네이버 지도)
     ================================================ */
     .hnb-float-stack {
@@ -2036,6 +2121,40 @@
     fadeEls.forEach(function (el) { el.classList.add('visible'); });
   }
 
+  /* ── 공지 팝업 (2026-08-01 12:00 KST 까지) ── */
+  (function () {
+    var popup = document.getElementById('hnbPopup');
+    if (!popup) return;
+    var endTime = new Date('2026-08-01T12:00:00+09:00').getTime();
+    var now = Date.now();
+    if (now >= endTime) return;
+
+    // "오늘 하루 보지 않기" 체크
+    var hiddenUntil = localStorage.getItem('hnbPopupHiddenUntil');
+    if (hiddenUntil && now < parseInt(hiddenUntil, 10)) return;
+
+    popup.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    function closePopup() {
+      popup.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function hideForToday() {
+      // 클릭 시점 기준 24시간 동안 숨김
+      var oneDay = Date.now() + 24 * 60 * 60 * 1000;
+      localStorage.setItem('hnbPopupHiddenUntil', String(oneDay));
+      closePopup();
+    }
+
+    document.getElementById('hnbPopupClose').addEventListener('click', closePopup);
+    document.getElementById('hnbPopupCloseBtn').addEventListener('click', closePopup);
+    document.getElementById('hnbPopupTodayClose').addEventListener('click', hideForToday);
+    popup.addEventListener('click', function (e) {
+      if (e.target === popup) closePopup();
+    });
+  })();
+
   /* ── 환불기준 아코디언 토글 ── */
   var refundToggle = document.getElementById('hnbRefundToggle');
   var refundPanel  = document.getElementById('hnbRefundPanel');
@@ -2066,6 +2185,18 @@
 </script>
 
 <!-- 플로팅 버튼 (네이버 지도 + 카카오톡) -->
+<!-- 공지 팝업 (2026.08.01 12:00 까지) -->
+<div class="hnb-popup" id="hnbPopup" role="dialog" aria-modal="true" aria-label="공지">
+  <div class="hnb-popup-box">
+    <button class="hnb-popup-close" id="hnbPopupClose" aria-label="팝업 닫기">✕</button>
+    <img class="hnb-popup-img" src="./images/popup/popup-202607.png" alt="7월 휴강 및 여름방학 안내" />
+    <div class="hnb-popup-actions">
+      <button class="hnb-popup-btn" id="hnbPopupTodayClose" type="button">1일 동안 보지 않기</button>
+      <button class="hnb-popup-btn" id="hnbPopupCloseBtn" type="button">닫기</button>
+    </div>
+  </div>
+</div>
+
 <div class="hnb-float-stack">
   <a href="https://naver.me/GP2XJ6uU" target="_blank" rel="noopener" class="hnb-float-btn hnb-float-map" aria-label="교습소 위치 네이버 지도">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
