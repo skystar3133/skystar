@@ -2040,7 +2040,6 @@
 <!-- 공지 팝업 (2026.08.01 12:00 까지) -->
 <div class="hnb-popup" id="hnbPopup" role="dialog" aria-modal="true" aria-label="공지">
   <div class="hnb-popup-box">
-    <button class="hnb-popup-close" id="hnbPopupClose" aria-label="팝업 닫기">✕</button>
     <img class="hnb-popup-img" src="./images/popup/popup-202607.png" alt="7월 휴강 및 여름방학 안내" />
     <div class="hnb-popup-actions">
       <button class="hnb-popup-btn" id="hnbPopupTodayClose" type="button">1일 동안 보지 않기</button>
@@ -2160,7 +2159,6 @@
       closePopup();
     }
 
-    document.getElementById('hnbPopupClose').addEventListener('click', closePopup);
     document.getElementById('hnbPopupCloseBtn').addEventListener('click', closePopup);
     document.getElementById('hnbPopupTodayClose').addEventListener('click', hideForToday);
     popup.addEventListener('click', function (e) {
