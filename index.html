@@ -1035,10 +1035,120 @@
       text-align: right;
     }
 
+    /* 환불기준 아코디언 */
+    .hnb-refund {
+      max-width: 880px;
+      margin: 32px auto 0;
+    }
+    .hnb-refund-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #FFFFFF;
+      border: 1.5px solid #034AA6;
+      color: #034AA6;
+      padding: 16px 22px;
+      border-radius: 8px;
+      font-size: .95rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .hnb-refund-toggle:hover {
+      background: #034AA6;
+      color: #FFFFFF;
+    }
+    .hnb-refund-toggle .hnb-refund-arrow {
+      transition: transform .3s ease;
+    }
+    .hnb-refund-toggle[aria-expanded="true"] .hnb-refund-arrow {
+      transform: rotate(180deg);
+    }
+    .hnb-refund-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .45s ease;
+    }
+    .hnb-refund-panel.open {
+      max-height: 4000px;
+    }
+    .hnb-refund-inner {
+      padding: 24px 4px 8px;
+    }
+    .hnb-refund-heading {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .hnb-refund-doc {
+      font-size: .92rem;
+      line-height: 1.8;
+      color: #1a1a1a;
+    }
+    .hnb-r-h2 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #034AA6;
+      line-height: 1.5;
+      margin: 22px 0 12px;
+    }
+    .hnb-r-h2:first-child { margin-top: 0; }
+    .hnb-r-h3 {
+      font-size: .92rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 16px 0 8px;
+      padding-left: 12px;
+      border-left: 3px solid #4D80E6;
+    }
+    .hnb-r-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 10px;
+    }
+    .hnb-r-list li {
+      padding: 10px 14px;
+      background: #F7F9FD;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+    .hnb-r-list li strong {
+      color: #034AA6;
+      font-weight: 700;
+    }
+    .hnb-r-hr {
+      border: none;
+      border-top: 1px dashed #CBD5E1;
+      margin: 24px 0;
+    }
+    .hnb-refund-notes {
+      margin-top: 18px;
+      padding: 16px 18px;
+      background: #F7F9FD;
+      border-radius: 8px;
+      font-size: .85rem;
+      color: #1a1a1a;
+      line-height: 1.7;
+    }
+    .hnb-refund-notes strong { display: block; margin-bottom: 6px; }
+    .hnb-refund-notes ol { padding-left: 20px; }
+    .hnb-refund-notes li { margin-bottom: 4px; }
+
     @media (max-width: 600px) {
       .hnb-tuition-table { font-size: .82rem; }
       .hnb-tuition-table th,
       .hnb-tuition-table td { padding: 10px 6px; }
+      .hnb-refund-doc { font-size: .87rem; }
+      .hnb-r-h2 { font-size: .94rem; }
+      .hnb-r-h3 { font-size: .88rem; }
+      .hnb-r-list li { font-size: .86rem; padding: 9px 12px; }
     }
 
     /* ================================================
@@ -1597,6 +1707,102 @@
       <p class="hnb-tuition-note">※ 교습비 단위: 원 / 총교습시간 단위: 분</p>
     </div>
 
+    <!-- 환불기준 아코디언 -->
+    <div class="hnb-refund hnb-fade d2">
+      <button class="hnb-refund-toggle" type="button" id="hnbRefundToggle" aria-expanded="false" aria-controls="hnbRefundPanel">
+        <span>📋 교습비 환불기준 보기</span>
+        <svg class="hnb-refund-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+
+      <div class="hnb-refund-panel" id="hnbRefundPanel" role="region" aria-labelledby="hnbRefundToggle">
+        <div class="hnb-refund-inner">
+          <p class="hnb-refund-heading">학원, 교습소 교습비등 반환기준 (제18조제3항 관련)</p>
+
+          <div class="hnb-refund-doc">
+
+            <h3 class="hnb-r-h2">1. 의사의 진단결과 감염병에 감염 또는 감염된 것으로 의심되거나 감염될 우려가 있는 학습자가 학원설립ㆍ운영자의 조치로 학원으로부터 격리된 경우</h3>
+            <ul class="hnb-r-list">
+              <li><strong>반환사유 발생일 :</strong><br>학습자가 학원으로부터 격리된 날</li>
+              <li><strong>반환금액 :</strong><br>이미 납부한 교습비등 − (이미 납부한 교습비등을 일할계산한 금액 × 교습 시작일 또는 학습장소 제공 시작일부터 학원으로부터 격리된 날의 전날까지의 일수)</li>
+            </ul>
+
+            <hr class="hnb-r-hr">
+
+            <h3 class="hnb-r-h2">2. 가. 학원의 등록이 말소되거나 교습소가 폐지된 경우 또는 교습의 정지명령을 받은 경우</h3>
+            <ul class="hnb-r-list">
+              <li><strong>반환사유 발생일 :</strong><br>학원설립ㆍ운영자, 교습자 또는 개인과외교습자가 교습을 할 수 없거나 학습장소를 제공할 수 없게 된 날</li>
+              <li><strong>반환금액 :</strong><br>이미 납부한 교습비등 − (이미 납부한 교습비등을 일할계산한 금액 × 교습 시작일 또는 학습장소 제공 시작일부터 교습을 할 수 없거나 학습장소를 제공할 수 없게 된 날의 전날까지의 일수)</li>
+            </ul>
+
+            <hr class="hnb-r-hr">
+
+            <h3 class="hnb-r-h2">2. 나. 학원설립ㆍ운영자, 교습자 또는 개인과외교습자가 교습을 할 수 없거나 학습장소를 제공할 수 없게 된 경우</h3>
+            <ul class="hnb-r-list">
+              <li><strong>반환사유 발생일 :</strong><br>학원설립ㆍ운영자, 교습자 또는 개인과외교습자가 교습을 할 수 없거나 학습장소를 제공할 수 없게 된 날</li>
+              <li><strong>반환금액 :</strong><br>이미 납부한 교습비등 − (이미 납부한 교습비등을 일할계산한 금액 × 교습 시작일 또는 학습장소 제공 시작일부터 교습을 할 수 없거나 학습장소를 제공할 수 없게 된 날의 전날까지의 일수)</li>
+            </ul>
+
+            <hr class="hnb-r-hr">
+
+            <h3 class="hnb-r-h2">3. 학습자가 본인의 의사로 수강 또는 학습장소 사용을 포기한 경우</h3>
+
+            <h3 class="hnb-r-h2">3. 가. 교습기간 또는 학습장소 사용기간이 1개월 이내인 경우</h3>
+            <ul class="hnb-r-list">
+              <li><strong>반환사유 발생일 :</strong><br>학습자가 본인의 의사로 수강을 포기한 날</li>
+            </ul>
+
+            <h4 class="hnb-r-h3">교습 시작 전</h4>
+            <ul class="hnb-r-list">
+              <li><strong>반환금액 :</strong><br>이미 납부한 교습비등의 전액</li>
+            </ul>
+
+            <h4 class="hnb-r-h3">교습 시작 후부터 총 교습시간의 1/3 경과 전까지</h4>
+            <ul class="hnb-r-list">
+              <li><strong>반환금액 :</strong><br>이미 납부한 교습비등의 2/3에 해당하는 금액</li>
+            </ul>
+
+            <h4 class="hnb-r-h3">총 교습시간의 1/3 경과 후부터 1/2 경과 전까지</h4>
+            <ul class="hnb-r-list">
+              <li><strong>반환금액 :</strong><br>이미 납부한 교습비등의 1/2에 해당하는 금액</li>
+            </ul>
+
+            <h4 class="hnb-r-h3">총 교습시간의 1/2 경과 후</h4>
+            <ul class="hnb-r-list">
+              <li><strong>반환금액 :</strong><br>없음</li>
+            </ul>
+
+            <hr class="hnb-r-hr">
+
+            <h3 class="hnb-r-h2">3. 나. 교습기간 또는 학습장소 사용기간이 1개월을 초과하는 경우</h3>
+            <ul class="hnb-r-list">
+              <li><strong>반환사유 발생일 :</strong><br>학습자가 본인의 의사로 수강을 포기한 날</li>
+            </ul>
+
+            <h4 class="hnb-r-h3">교습 시작 전</h4>
+            <ul class="hnb-r-list">
+              <li><strong>반환금액 :</strong><br>이미 납부한 교습비등의 전액</li>
+            </ul>
+
+            <h4 class="hnb-r-h3">교습 시작 후</h4>
+            <ul class="hnb-r-list">
+              <li><strong>반환금액 :</strong><br>반환사유가 발생한 해당 월의 반환 대상 교습비등(교습기간 또는 학습장소 사용기간이 1개월 이내인 경우의 기준에 따라 산출한 금액을 말한다)에 나머지 월의 교습비등의 전액을 합산한 금액</li>
+            </ul>
+
+          </div>
+
+          <div class="hnb-refund-notes">
+            <strong>※ 비고</strong>
+            <ol>
+              <li>총 교습시간은 교습기간 중의 총 교습시간을 말하며, 반환금액의 산정은 반환사유가 발생한 날까지 경과된 교습시간을 기준으로 합니다.</li>
+              <li>원격교습의 경우 반환금액은 교습내용을 실제 수강한 부분(인터넷으로 수강하거나 학습기기로 저장한 것)에 해당하는 금액을 뺀 금액으로 합니다.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1824,6 +2030,20 @@
   } else {
     /* 구형 브라우저 폴백: 바로 보이기 */
     fadeEls.forEach(function (el) { el.classList.add('visible'); });
+  }
+
+  /* ── 환불기준 아코디언 토글 ── */
+  var refundToggle = document.getElementById('hnbRefundToggle');
+  var refundPanel  = document.getElementById('hnbRefundPanel');
+  if (refundToggle && refundPanel) {
+    var refundLabel = refundToggle.querySelector('span');
+    refundToggle.addEventListener('click', function () {
+      var isOpen = refundPanel.classList.toggle('open');
+      refundToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (refundLabel) {
+        refundLabel.textContent = isOpen ? '📋 교습비 환불기준 닫기' : '📋 교습비 환불기준 보기';
+      }
+    });
   }
 
   /* ── 부드러운 앵커 스크롤 (헤더 높이 보정) ── */
