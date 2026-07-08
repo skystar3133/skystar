@@ -428,11 +428,32 @@
     .hnb-about-img-wrap {
       border-radius: 0;
       overflow: visible;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
     }
     .hnb-about-img-wrap img {
       width: 100%;
       height: auto;
       display: block;
+    }
+
+    /* 캐릭터 컨테이너 */
+    .hnb-character-container {
+      position: relative;
+      width: 200px;
+      height: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 캐릭터 얼굴 */
+    .hnb-character-face {
+      font-size: 8rem;
+      line-height: 1;
     }
 
     /* 타이틀 (파란색 — 하이라이트 유지) */
@@ -1439,13 +1460,11 @@
     <!-- 2단: 이미지 + 텍스트 -->
     <div class="hnb-about-grid">
 
-      <!-- 강사 프로필 이미지 -->
+      <!-- 강사 캐릭터 -->
       <div class="hnb-about-img-wrap hnb-fade">
-        <img
-          src="./images/profile.png"
-          alt="하늘별컴퓨터교습소 강사"
-          loading="lazy"
-        />
+        <div class="hnb-character-container">
+          <span class="hnb-character-face">😊</span>
+        </div>
       </div>
 
       <!-- 텍스트 -->
