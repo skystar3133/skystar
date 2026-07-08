@@ -1375,6 +1375,35 @@
       flex: 1;
     }
 
+    /* 오른쪽 별빛 장식 */
+    .hnb-speed-content::after {
+      content: '';
+      position: absolute;
+      right: -80px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 200px;
+      background:
+        radial-gradient(circle, #FFFF33 0%, transparent 1%) 0 0,
+        radial-gradient(circle, #FF0000 0%, transparent 1%) 30px 40px,
+        radial-gradient(circle, #FFFF33 0%, transparent 1%) 60px 20px,
+        radial-gradient(circle, #FF0000 0%, transparent 1%) 80px 60px,
+        radial-gradient(circle, #FFFF00 0%, transparent 1%) 50px 80px,
+        radial-gradient(circle, #FFFF33 0%, transparent 1%) 25px 120px,
+        radial-gradient(circle, #FF0000 0%, transparent 1%) 70px 100px;
+      background-size: 8px 8px, 10px 10px, 7px 7px, 12px 12px, 9px 9px, 8px 8px, 11px 11px;
+      background-repeat: no-repeat;
+      animation: hnbStarsGlow 2s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    @keyframes hnbStarsGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
     .hnb-speed-title {
       font-size: clamp(1.2rem, 2.5vw, 2rem);
       font-weight: 900;
@@ -1844,9 +1873,9 @@
   <div class="hnb-speed-globe">
     <svg
       class="hnb-speed-svg"
-      viewBox="0 0 500 200"
+      viewBox="0 0 200 200"
       xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="none"
+      preserveAspectRatio="xMidYMid meet"
     >
       <defs>
         <filter id="hnbGlowFire">
@@ -1992,13 +2021,6 @@
       <use href="#star5" x="50" y="115" width="1.6" height="1.6" class="hnb-star hnb-star-sm" fill="#FFFF00" style="--tx: -25px; --ty: 5px; animation-delay: 1.05s" />
       <use href="#star5" x="60" y="80" width="2.1" height="2.1" class="hnb-star hnb-star-lg" fill="#FF0000" style="--tx: -20px; --ty: -15px; animation-delay: 1.25s" />
       <use href="#star5" x="100" y="100" width="1.9" height="1.9" class="hnb-star hnb-star-md" fill="#FFFF33" style="--tx: 0px; --ty: 0px; animation-delay: 0.5s" />
-
-      <!-- 오른쪽 영역 큰 별빛들 -->
-      <use href="#star5" x="300" y="50" width="6" height="6" fill="#FFFF33" style="animation: hnbStarTwinkle 2.5s ease-in-out infinite; animation-delay: 0s" />
-      <use href="#star5" x="380" y="80" width="5" height="5" fill="#FF0000" style="animation: hnbStarTwinkle 3s ease-in-out infinite; animation-delay: 0.5s" />
-      <use href="#star5" x="420" y="140" width="5.5" height="5.5" fill="#FFFF33" style="animation: hnbStarTwinkle 2.8s ease-in-out infinite; animation-delay: 1s" />
-      <use href="#star5" x="320" y="160" width="4.5" height="4.5" fill="#FF0000" style="animation: hnbStarTwinkle 3.2s ease-in-out infinite; animation-delay: 0.3s" />
-      <use href="#star5" x="360" y="100" width="4" height="4" fill="#FFFF00" style="animation: hnbStarTwinkle 2.6s ease-in-out infinite; animation-delay: 0.8s" />
     </svg>
   </div>
 
