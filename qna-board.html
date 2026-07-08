@@ -12,17 +12,12 @@
   <style>
     :root {
       --primary: #3A7BD5;
-      --primary-dark: #1E57B8;
       --dark: #1B2A4A;
       --text: #2D3748;
       --muted: #64748B;
       --white: #FFFFFF;
       --bg-light: #F7F9FD;
       --border: #E2E8F0;
-      --green: #28a745;
-      --red: #dc3545;
-      --shadow-sm: 0 2px 12px rgba(58,123,213,.08);
-      --shadow-md: 0 8px 32px rgba(58,123,213,.14);
     }
 
     * {
@@ -77,7 +72,7 @@
       color: var(--white);
     }
 
-    /* 메인 섹션 */
+    /* 섹션 */
     .section {
       padding: 80px 28px;
     }
@@ -107,6 +102,7 @@
       margin-bottom: 32px;
       flex-wrap: wrap;
       align-items: center;
+      justify-content: space-between;
     }
 
     .search-box {
@@ -129,11 +125,6 @@
       box-shadow: 0 0 0 3px rgba(3, 74, 166, 0.1);
     }
 
-    .filter-group {
-      display: flex;
-      gap: 12px;
-    }
-
     .filter-select {
       padding: 10px 12px;
       border: 1px solid var(--border);
@@ -142,11 +133,6 @@
       font-family: inherit;
       background: white;
       cursor: pointer;
-    }
-
-    .filter-select:focus {
-      outline: none;
-      border-color: #034AA6;
     }
 
     .btn {
@@ -185,7 +171,7 @@
 
     .qna-item:hover {
       border-color: #034AA6;
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 8px 32px rgba(58,123,213,.14);
       transform: translateY(-4px);
     }
 
@@ -230,11 +216,9 @@
       font-weight: 600;
     }
 
-    .cat-basic { background: rgba(33, 150, 243, 0.1); color: #1565c0; }
-    .cat-web { background: rgba(76, 175, 80, 0.1); color: #2e7d32; }
-    .cat-data { background: rgba(156, 39, 176, 0.1); color: #6a1b9a; }
-    .cat-ai { background: rgba(255, 152, 0, 0.1); color: #e65100; }
-    .cat-security { background: rgba(233, 30, 99, 0.1); color: #c2185b; }
+    .cat-python { background: rgba(33, 150, 243, 0.1); color: #1565c0; }
+    .cat-cert { background: rgba(76, 175, 80, 0.1); color: #2e7d32; }
+    .cat-sw { background: rgba(156, 39, 176, 0.1); color: #6a1b9a; }
 
     .qna-meta {
       display: flex;
@@ -259,7 +243,6 @@
       font-size: 0.95rem;
       color: var(--muted);
       margin-bottom: 16px;
-      line-height: 1.6;
     }
 
     .qna-footer {
@@ -269,18 +252,11 @@
       padding-top: 12px;
       border-top: 1px solid var(--border);
       font-size: 0.9rem;
-      color: var(--muted);
     }
 
     .qna-stats {
       display: flex;
       gap: 16px;
-    }
-
-    .stat {
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
 
     /* 모달 */
@@ -323,7 +299,6 @@
       font-size: 1.4rem;
       font-weight: 700;
       color: var(--dark);
-      max-width: 85%;
     }
 
     .modal-close {
@@ -332,10 +307,6 @@
       font-size: 28px;
       cursor: pointer;
       color: var(--muted);
-    }
-
-    .modal-close:hover {
-      color: var(--dark);
     }
 
     .modal-meta {
@@ -378,18 +349,49 @@
       line-height: 1.6;
     }
 
-    .btn-small {
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      background: var(--bg-light);
+    /* 폼 */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      padding: 12px 16px;
       border: 1px solid var(--border);
-      border-radius: 6px;
-      cursor: pointer;
+      border-radius: 8px;
+      font-size: 1rem;
       font-family: inherit;
     }
 
-    .btn-small:hover {
-      background: var(--border);
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #034AA6;
+      box-shadow: 0 0 0 3px rgba(3, 74, 166, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
     }
 
     .btn-secondary {
@@ -432,30 +434,20 @@
         width: 100%;
       }
 
-      .filter-group {
-        width: 100%;
-      }
-
-      .filter-select {
-        flex: 1;
-      }
-
-      .qna-header {
-        flex-direction: column;
-      }
-
-      .qna-footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-
       .modal-content {
         padding: 24px;
       }
 
       .modal-title {
         font-size: 1.2rem;
+      }
+
+      .modal-footer {
+        flex-direction: column;
+      }
+
+      .modal-footer .btn {
+        width: 100%;
       }
     }
   </style>
@@ -476,7 +468,7 @@
 <section class="section">
   <div class="container">
     <h1 class="section-title">Q&A 게시판</h1>
-    <p class="section-desc">컴퓨터 교육에 관한 질문과 답변을 공유하는 공간입니다. 궁금한 점을 물어보세요!</p>
+    <p class="section-desc">파이썬, 자격증, SW 학습에 관한 질문과 답변을 나누는 공간입니다. 궁금한 점을 남겨주세요!</p>
 
     <!-- 컨트롤 바 -->
     <div class="qna-controls">
@@ -486,18 +478,12 @@
 
       <select class="filter-select" id="filterCategory">
         <option value="all">전체 카테고리</option>
-        <option value="basic">프로그래밍 기초</option>
-        <option value="web">웹 개발</option>
-        <option value="data">데이터 과학</option>
-        <option value="ai">인공지능</option>
-        <option value="security">정보보안</option>
+        <option value="python">파이썬 문법</option>
+        <option value="cert">자격증 취득</option>
+        <option value="sw">SW 학습</option>
       </select>
 
-      <select class="filter-select" id="filterSolved">
-        <option value="all">모든 상태</option>
-        <option value="solved">해결됨</option>
-        <option value="unsolved">미해결</option>
-      </select>
+      <button class="btn" onclick="openWriteModal()">📝 문의하기</button>
     </div>
 
     <!-- Q&A 리스트 -->
@@ -513,7 +499,7 @@
         <span class="category-badge" id="modalCategory"></span>
         <span class="status-badge" id="modalStatus"></span>
       </div>
-      <button class="modal-close" onclick="closeModal()">×</button>
+      <button class="modal-close" onclick="closeDetailModal()">×</button>
     </div>
     <h2 class="modal-title" id="modalTitle"></h2>
     <div class="modal-meta">
@@ -528,341 +514,96 @@
   </div>
 </div>
 
+<!-- 글쓰기 모달 -->
+<div class="modal" id="writeModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">질문 작성</h2>
+      <button class="modal-close" onclick="closeWriteModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">이름</label>
+        <input type="text" class="form-input" id="authorInput" placeholder="성명을 입력하세요">
+      </div>
+      <div class="form-group">
+        <label class="form-label">카테고리</label>
+        <select class="form-select" id="categoryInput">
+          <option value="python">파이썬 문법</option>
+          <option value="cert">자격증 취득</option>
+          <option value="sw">SW 학습</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">제목</label>
+        <input type="text" class="form-input" id="titleInput" placeholder="질문 제목을 입력하세요">
+      </div>
+      <div class="form-group">
+        <label class="form-label">내용</label>
+        <textarea class="form-textarea" id="contentInput" placeholder="자세한 질문 내용을 입력하세요"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeWriteModal()">취소</button>
+      <button class="btn" onclick="submitQuestion()">질문 작성</button>
+    </div>
+  </div>
+</div>
+
 <!-- 푸터 -->
 <footer class="footer">
   <p class="footer-text">© 2026 하늘별컴퓨터교습소. All rights reserved.</p>
 </footer>
 
 <script>
-  const qnaData = [
-    // 프로그래밍 기초
-    {
-      id: 1,
-      title: '파이썬에서 변수의 자료형을 확인하는 방법은?',
-      author: '김민지',
-      category: 'basic',
-      date: '2026-07-05',
-      solved: true,
-      views: 145,
-      answers: 3,
-      content: '파이썬에서 변수의 자료형을 알아내려면 어떤 함수를 사용해야 하나요?',
-      answersDetail: [
-        { author: '강사', content: 'type() 함수를 사용하면 됩니다. 예: type(x)' },
-        { author: '선배', content: 'isinstance()도 자료형을 확인할 수 있습니다.' }
-      ]
-    },
-    {
-      id: 2,
-      title: 'Python과 Java 중 초보자가 배우기 쉬운 언어는?',
-      author: '이준호',
-      category: 'basic',
-      date: '2026-07-03',
-      solved: true,
-      views: 203,
-      answers: 4,
-      content: '프로그래밍 입문자로서 두 언어 중 어느 것을 먼저 배울까요?',
-      answersDetail: [
-        { author: '교수', content: 'Python은 문법이 간단하고 읽기 쉬워서 초보자에게 추천합니다.' },
-        { author: '개발자', content: 'Java는 더 엄격하지만 취업에 유리합니다.' }
-      ]
-    },
-    {
-      id: 3,
-      title: '재귀함수와 반복문의 차이점은?',
-      author: '박지은',
-      category: 'basic',
-      date: '2026-07-01',
-      solved: false,
-      views: 87,
-      answers: 2,
-      content: '둘 다 반복을 구현하는데 어떤 경우에 각각을 사용해야 하나요?',
-      answersDetail: [
-        { author: '강사', content: '재귀는 문제를 작은 부분으로 나누어 해결할 때 좋습니다.' }
-      ]
-    },
-    {
-      id: 4,
-      title: '배열과 리스트의 차이가 뭔가요?',
-      author: '최민수',
-      category: 'basic',
-      date: '2026-06-28',
-      solved: true,
-      views: 156,
-      answers: 3,
-      content: '자료구조에서 배열과 리스트가 어떻게 다른지 설명해주세요.',
-      answersDetail: [
-        { author: '강사', content: '배열은 고정된 크기, 리스트는 동적 크기입니다.' }
-      ]
-    },
-    {
-      id: 5,
-      title: '클래스와 객체의 관계는?',
-      author: '황수정',
-      category: 'basic',
-      date: '2026-06-25',
-      solved: true,
-      views: 234,
-      answers: 4,
-      content: 'OOP에서 클래스와 객체가 어떤 관계를 갖는지 이해가 안 돼요.',
-      answersDetail: [
-        { author: '강사', content: '클래스는 설계도, 객체는 그것으로 만든 실제 물건입니다.' }
-      ]
-    },
+  let qnaData = [
+    // 파이썬 문법 (7개)
+    { id: 1, title: '파이썬에서 변수의 자료형을 확인하는 방법은?', author: '김민지', category: 'python', date: '2026-07-05', solved: true, views: 145, answers: 2, content: '파이썬에서 변수의 자료형을 알아내려면 어떤 함수를 사용해야 하나요?', answersDetail: [{ author: '강사', content: 'type() 함수를 사용합니다. 예: type(x)' }] },
+    { id: 2, title: 'for 루프와 while 루프의 차이점은?', author: '이준호', category: 'python', date: '2026-07-03', solved: true, views: 203, answers: 2, content: '두 루프 방식이 언제 사용되고 어떤 차이가 있나요?', answersDetail: [{ author: '강사', content: 'for는 횟수가 정해졌을 때, while은 조건이 변할 때 사용합니다.' }] },
+    { id: 3, title: '파이썬의 리스트와 튜플 차이점', author: '박지은', category: 'python', date: '2026-07-01', solved: true, views: 87, answers: 2, content: '불변성 외에 어떤 차이가 있나요?', answersDetail: [{ author: '강사', content: '리스트는 수정 가능, 튜플은 수정 불가능합니다.' }] },
+    { id: 4, title: '람다 함수(lambda)는 언제 사용하나요?', author: '최민수', category: 'python', date: '2026-06-28', solved: true, views: 156, answers: 2, content: '일반 함수와 어떤 상황에서 다르게 사용되나요?', answersDetail: [{ author: '강사', content: '간단한 한 줄 함수를 정의할 때 사용합니다.' }] },
+    { id: 5, title: '파이썬 딕셔너리의 keys(), values() 차이', author: '황수정', category: 'python', date: '2026-06-25', solved: true, views: 234, answers: 2, content: '각각 어떤 데이터를 반환하나요?', answersDetail: [{ author: '강사', content: 'keys()는 키들, values()는 값들을 반환합니다.' }] },
+    { id: 6, title: '클래스 상속(inheritance)은 어떻게 사용하나요?', author: '정준혁', category: 'python', date: '2026-06-22', solved: false, views: 98, answers: 1, content: '자식 클래스에서 부모 클래스의 메서드를 사용하는 방법', answersDetail: [{ author: '강사', content: 'super()를 사용하거나 클래스명.메서드()로 접근합니다.' }] },
+    { id: 7, title: '파일 입출력에서 with 문의 장점은?', author: '유민아', category: 'python', date: '2026-06-20', solved: true, views: 167, answers: 2, content: 'with 문을 사용하지 않으면 뭐가 문제인가요?', answersDetail: [{ author: '강사', content: 'with 문은 자동으로 파일을 닫아주어 안전합니다.' }] },
 
-    // 웹 개발
-    {
-      id: 6,
-      title: 'HTML, CSS, JavaScript의 역할은?',
-      author: '정준혁',
-      category: 'web',
-      date: '2026-07-04',
-      solved: true,
-      views: 312,
-      answers: 3,
-      content: '웹 개발을 시작하려면 이 세 가지가 각각 무엇을 하는지 알아야 하나요?',
-      answersDetail: [
-        { author: '강사', content: 'HTML은 구조, CSS는 디자인, JavaScript는 동작을 담당합니다.' }
-      ]
-    },
-    {
-      id: 7,
-      title: '반응형 웹 디자인을 구현하려면?',
-      author: '유민아',
-      category: 'web',
-      date: '2026-07-02',
-      solved: true,
-      views: 189,
-      answers: 2,
-      content: '모바일, 태블릿, 데스크톱 모두에서 잘 보이도록 하려면?',
-      answersDetail: [
-        { author: '강사', content: 'CSS 미디어 쿼리(@media)를 사용하세요.' }
-      ]
-    },
-    {
-      id: 8,
-      title: 'React와 Vue 중 뭘 배워야 할까요?',
-      author: '한기호',
-      category: 'web',
-      date: '2026-06-30',
-      solved: false,
-      views: 267,
-      answers: 3,
-      content: '프론트엔드 프레임워크 선택이 고민됩니다.',
-      answersDetail: [
-        { author: '개발자', content: 'React가 더 많이 사용되고 취업에 유리합니다.' }
-      ]
-    },
-    {
-      id: 9,
-      title: '웹 서버와 웹 애플리케이션 서버의 차이?',
-      author: '송정은',
-      category: 'web',
-      date: '2026-06-27',
-      solved: true,
-      views: 145,
-      answers: 2,
-      content: 'Apache와 Tomcat은 뭐가 다른가요?',
-      answersDetail: [
-        { author: '강사', content: '웹 서버는 정적 파일, WAS는 동적 처리를 합니다.' }
-      ]
-    },
-    {
-      id: 10,
-      title: 'REST API 설계의 best practice는?',
-      author: '김태희',
-      category: 'web',
-      date: '2026-06-24',
-      solved: true,
-      views: 198,
-      answers: 3,
-      content: 'API 엔드포인트를 어떻게 설계해야 하나요?',
-      answersDetail: [
-        { author: '강사', content: 'URL은 리소스를, HTTP 메서드는 동작을 나타내야 합니다.' }
-      ]
-    },
+    // 자격증 취득 (7개)
+    { id: 8, title: 'ITQ 엑셀 자격증 취득 난이도는?', author: '한기호', category: 'cert', date: '2026-07-04', solved: true, views: 267, answers: 2, content: '공부 기간은 어느 정도 걸리나요?', answersDetail: [{ author: '강사', content: '3-4주 정도면 충분합니다. 기초부터 시작할 수 있습니다.' }] },
+    { id: 9, title: 'CompTIA A+ 자격증을 취득해야 하나요?', author: '송정은', category: 'cert', date: '2026-07-02', solved: true, views: 145, answers: 2, content: '취업에 도움이 되는지 궁금합니다.', answersDetail: [{ author: '강사', content: 'IT 산업에서 기초 자격증으로 인정받습니다.' }] },
+    { id: 10, title: 'ADSP 데이터분석 준전문가 자격증 준비법', author: '김태희', category: 'cert', date: '2026-06-29', solved: false, views: 189, answers: 1, content: '시험 범위와 시간 관리 팁을 알고 싶습니다.', answersDetail: [{ author: '선배', content: '통계와 SQL이 중요하니 깊이 있게 공부하세요.' }] },
+    { id: 11, title: '정보처리기사 필기시험 합격 팁', author: '이재훈', category: 'cert', date: '2026-06-26', solved: true, views: 276, answers: 2, content: '어떤 과목을 집중해서 공부해야 하나요?', answersDetail: [{ author: '강사', content: '데이터베이스와 네트워크 부분이 중요합니다.' }] },
+    { id: 12, title: 'SQLD SQL 전문가 자격증의 가치', author: '박소연', category: 'cert', date: '2026-06-23', solved: true, views: 154, answers: 2, content: '데이터베이스 개발자가 꼭 필요한 자격증인가요?', answersDetail: [{ author: '강사', content: '데이터베이스 관련 직무에서는 매우 도움이 됩니다.' }] },
+    { id: 13, title: '온라인 시험과 지필고사의 차이점', author: '최동욱', category: 'cert', date: '2026-06-20', solved: true, views: 112, answers: 2, content: '어떤 형식이 더 쉬운가요?', answersDetail: [{ author: '강사', content: '형식에 따라 장단점이 있습니다. 본인에게 맞는 방식을 선택하세요.' }] },
+    { id: 14, title: '자격증 시험 응시료는 어느 정도인가요?', author: '정수진', category: 'cert', date: '2026-06-17', solved: true, views: 203, answers: 2, content: '평균적인 자격증들의 가격대를 알고 싶습니다.', answersDetail: [{ author: '강사', content: '대부분 3-5만원 정도입니다. 자격증마다 다릅니다.' }] },
 
-    // 데이터 과학
-    {
-      id: 11,
-      title: 'SQL의 JOIN 종류별 차이점?',
-      author: '이재훈',
-      category: 'data',
-      date: '2026-07-06',
-      solved: true,
-      views: 276,
-      answers: 4,
-      content: 'INNER JOIN, LEFT JOIN, RIGHT JOIN의 차이를 모르겠어요.',
-      answersDetail: [
-        { author: '강사', content: 'INNER는 교집합, LEFT/RIGHT는 한쪽 기준의 합집합입니다.' }
-      ]
-    },
-    {
-      id: 12,
-      title: '정규화(Normalization)가 뭔가요?',
-      author: '박소연',
-      category: 'data',
-      date: '2026-07-01',
-      solved: true,
-      views: 154,
-      answers: 2,
-      content: '데이터베이스 설계에서 정규화가 중요한 이유는?',
-      answersDetail: [
-        { author: '강사', content: '데이터 중복을 줄이고 일관성을 유지하기 위함입니다.' }
-      ]
-    },
-    {
-      id: 13,
-      title: 'Pandas에서 데이터 정제하는 방법?',
-      author: '최동욱',
-      category: 'data',
-      date: '2026-06-29',
-      solved: false,
-      views: 112,
-      answers: 2,
-      content: '결측치와 이상치를 처리하는 방법이 궁금합니다.',
-      answersDetail: [
-        { author: '강사', content: 'dropna(), fillna() 등의 함수를 사용합니다.' }
-      ]
-    },
-    {
-      id: 14,
-      title: '데이터 시각화는 어떤 라이브러리 추천?',
-      author: '정수진',
-      category: 'data',
-      date: '2026-06-26',
-      solved: true,
-      views: 203,
-      answers: 3,
-      content: 'Matplotlib, Seaborn, Plotly 중 어떤 걸 배워야 할까요?',
-      answersDetail: [
-        { author: '강사', content: 'Matplotlib이 기본, Seaborn은 더 예쁜 그래프입니다.' }
-      ]
-    },
-    {
-      id: 15,
-      title: 'BigData를 다루기 위한 기술 스택?',
-      author: '이훈재',
-      category: 'data',
-      date: '2026-06-23',
-      solved: true,
-      views: 187,
-      answers: 3,
-      content: 'Hadoop, Spark, Hive의 역할이 뭔가요?',
-      answersDetail: [
-        { author: '강사', content: 'Hadoop은 분산 저장, Spark는 분산 처리, Hive는 쿼리입니다.' }
-      ]
-    },
-
-    // 인공지능
-    {
-      id: 16,
-      title: 'Deep Learning의 기본 개념은?',
-      author: '김준형',
-      category: 'ai',
-      date: '2026-07-05',
-      solved: true,
-      views: 298,
-      answers: 3,
-      content: 'Neural Network가 정확히 어떻게 작동하나요?',
-      answersDetail: [
-        { author: '강사', content: '노드들이 가중치를 통해 연결되어 패턴을 학습합니다.' }
-      ]
-    },
-    {
-      id: 17,
-      title: 'TensorFlow vs PyTorch 어떤 걸 배울까?',
-      author: '박준영',
-      category: 'ai',
-      date: '2026-06-30',
-      solved: true,
-      views: 245,
-      answers: 4,
-      content: '딥러닝 프레임워크 선택이 어렵습니다.',
-      answersDetail: [
-        { author: '강사', content: 'PyTorch가 배우기 쉽지만 TensorFlow도 좋습니다.' }
-      ]
-    },
-    {
-      id: 18,
-      title: '과적합(Overfitting) 문제 해결 방법?',
-      author: '유지호',
-      category: 'ai',
-      date: '2026-06-27',
-      solved: true,
-      views: 167,
-      answers: 2,
-      content: '모델이 훈련 데이터에만 잘 맞는 문제를 어떻게 해결할까요?',
-      answersDetail: [
-        { author: '강사', content: 'Dropout, Regularization, 더 많은 데이터 등을 사용합니다.' }
-      ]
-    },
-
-    // 정보보안
-    {
-      id: 19,
-      title: '암호화 방식 중 대칭/비대칭의 차이?',
-      author: '임아현',
-      category: 'security',
-      date: '2026-07-02',
-      solved: true,
-      views: 134,
-      answers: 3,
-      content: '개인키, 공개키가 정확히 뭐고 어떻게 다른가요?',
-      answersDetail: [
-        { author: '강사', content: '대칭은 같은 키로, 비대칭은 다른 키로 암복호화합니다.' }
-      ]
-    },
-    {
-      id: 20,
-      title: 'SQL Injection 공격을 방어하려면?',
-      author: '정현준',
-      category: 'security',
-      date: '2026-06-28',
-      solved: true,
-      views: 189,
-      answers: 2,
-      content: '웹 애플리케이션을 보안적으로 설계하려면?',
-      answersDetail: [
-        { author: '강사', content: 'Prepared Statement와 입력 검증을 사용하세요.' }
-      ]
-    }
+    // SW 학습 (6개)
+    { id: 15, title: 'Git과 GitHub 차이점이 뭐예요?', author: '이훈재', category: 'sw', date: '2026-07-06', solved: true, views: 298, answers: 2, content: '둘 다 버전 관리인데 어떤 차이가 있나요?', answersDetail: [{ author: '강사', content: 'Git은 소프트웨어, GitHub는 Git 호스팅 서비스입니다.' }] },
+    { id: 16, title: 'REST API 설계의 best practice는?', author: '김준형', category: 'sw', date: '2026-07-01', solved: true, views: 245, answers: 2, content: 'API 엔드포인트를 어떻게 설계해야 하나요?', answersDetail: [{ author: '강사', content: '리소스는 명사로, HTTP 메서드로 동작을 표현합니다.' }] },
+    { id: 17, title: '데이터베이스 인덱싱이 왜 중요한가요?', author: '박준영', category: 'sw', date: '2026-06-28', solved: true, views: 167, answers: 2, content: '인덱스를 무조건 많이 만들면 좋지 않나요?', answersDetail: [{ author: '강사', content: '인덱스는 조회 속도는 빠르지만 저장 공간과 업데이트 비용이 증가합니다.' }] },
+    { id: 18, title: '객체지향 프로그래밍의 4대 원칙', author: '유지호', category: 'sw', date: '2026-06-25', solved: false, views: 198, answers: 1, content: 'SOLID 원칙이 뭔가요?', answersDetail: [{ author: '강사', content: 'S: Single Responsibility, O: Open/Closed, L: Liskov, I: Interface Segregation, D: Dependency Inversion' }] },
+    { id: 19, title: '웹 개발에서 프론트엔드와 백엔드 역할', author: '임아현', category: 'sw', date: '2026-06-22', solved: true, views: 134, answers: 2, content: '각각 어떤 기술을 배워야 하나요?', answersDetail: [{ author: '강사', content: '프론트는 HTML/CSS/JS, 백은 서버 언어와 데이터베이스를 배웁니다.' }] },
+    { id: 20, title: 'DevOps는 정확히 무엇인가요?', author: '정현준', category: 'sw', date: '2026-06-19', solved: true, views: 189, answers: 2, content: '개발과 운영의 협업에 대해 알고 싶습니다.', answersDetail: [{ author: '강사', content: 'DevOps는 개발과 운영 팀이 함께 일하는 문화와 프로세스입니다.' }] }
   ];
 
-  let currentQna = null;
   let filteredQna = [...qnaData];
 
   function getCategoryLabel(cat) {
-    const labels = {
-      basic: '프로그래밍 기초',
-      web: '웹 개발',
-      data: '데이터 과학',
-      ai: '인공지능',
-      security: '정보보안'
-    };
+    const labels = { python: '파이썬 문법', cert: '자격증 취득', sw: 'SW 학습' };
     return labels[cat] || cat;
   }
 
   function getCategoryClass(cat) {
-    const classes = {
-      basic: 'cat-basic',
-      web: 'cat-web',
-      data: 'cat-data',
-      ai: 'cat-ai',
-      security: 'cat-security'
-    };
-    return classes[cat] || 'cat-basic';
+    const classes = { python: 'cat-python', cert: 'cat-cert', sw: 'cat-sw' };
+    return classes[cat] || 'cat-python';
   }
 
   function renderQnaList() {
     const list = document.getElementById('qnaList');
-
     if (filteredQna.length === 0) {
       list.innerHTML = '<div class="empty-state">해당하는 질문이 없습니다.</div>';
       return;
     }
-
     list.innerHTML = filteredQna.map(qna => `
-      <div class="qna-item" onclick="openDetail(${qna.id})">
+      <div class="qna-item" onclick="openDetailModal(${qna.id})">
         <div class="qna-header">
           <div class="qna-status">
             <span class="status-badge ${qna.solved ? 'status-solved' : 'status-unsolved'}">
@@ -881,32 +622,29 @@
         <p class="qna-content">${qna.content}</p>
         <div class="qna-footer">
           <div class="qna-stats">
-            <span class="stat">👁️ ${qna.views}</span>
-            <span class="stat">💬 ${qna.answers}</span>
+            <span>👁️ ${qna.views}</span>
+            <span>💬 ${qna.answers}</span>
           </div>
-          <button class="btn-small">보기</button>
+          <button class="qna-btn" onclick="event.stopPropagation()">보기</button>
         </div>
       </div>
     `).join('');
   }
 
-  function openDetail(id) {
-    currentQna = qnaData.find(q => q.id === id);
-    if (!currentQna) return;
+  function openDetailModal(id) {
+    const qna = qnaData.find(q => q.id === id);
+    if (!qna) return;
 
-    document.getElementById('modalCategory').className = `category-badge ${getCategoryClass(currentQna.category)}`;
-    document.getElementById('modalCategory').textContent = getCategoryLabel(currentQna.category);
+    document.getElementById('modalCategory').className = `category-badge ${getCategoryClass(qna.category)}`;
+    document.getElementById('modalCategory').textContent = getCategoryLabel(qna.category);
+    document.getElementById('modalStatus').className = `status-badge ${qna.solved ? 'status-solved' : 'status-unsolved'}`;
+    document.getElementById('modalStatus').textContent = qna.solved ? '✓ 해결됨' : '? 미해결';
+    document.getElementById('modalTitle').textContent = qna.title;
+    document.getElementById('modalAuthor').textContent = `${qna.author}`;
+    document.getElementById('modalDate').textContent = qna.date;
+    document.getElementById('modalBody').textContent = qna.content;
 
-    document.getElementById('modalStatus').className = `status-badge ${currentQna.solved ? 'status-solved' : 'status-unsolved'}`;
-    document.getElementById('modalStatus').textContent = currentQna.solved ? '✓ 해결됨' : '? 미해결';
-
-    document.getElementById('modalTitle').textContent = currentQna.title;
-    document.getElementById('modalAuthor').textContent = `${currentQna.author}`;
-    document.getElementById('modalDate').textContent = currentQna.date;
-    document.getElementById('modalBody').textContent = currentQna.content;
-
-    const answersList = document.getElementById('answersList');
-    answersList.innerHTML = currentQna.answersDetail.map(ans => `
+    document.getElementById('answersList').innerHTML = qna.answersDetail.map(ans => `
       <div class="answer-item">
         <div class="answer-header">${ans.author}</div>
         <div class="answer-content">${ans.content}</div>
@@ -916,36 +654,74 @@
     document.getElementById('detailModal').classList.add('active');
   }
 
-  function closeModal() {
+  function closeDetailModal() {
     document.getElementById('detailModal').classList.remove('active');
+  }
+
+  function openWriteModal() {
+    document.getElementById('writeModal').classList.add('active');
+  }
+
+  function closeWriteModal() {
+    document.getElementById('writeModal').classList.remove('active');
+    document.getElementById('authorInput').value = '';
+    document.getElementById('titleInput').value = '';
+    document.getElementById('contentInput').value = '';
+  }
+
+  function submitQuestion() {
+    const author = document.getElementById('authorInput').value.trim();
+    const title = document.getElementById('titleInput').value.trim();
+    const content = document.getElementById('contentInput').value.trim();
+    const category = document.getElementById('categoryInput').value;
+
+    if (!author || !title || !content) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    const newQuestion = {
+      id: Math.max(...qnaData.map(q => q.id)) + 1,
+      title,
+      author,
+      category,
+      date: new Date().toISOString().split('T')[0],
+      solved: false,
+      views: 0,
+      answers: 0,
+      content,
+      answersDetail: []
+    };
+
+    qnaData.unshift(newQuestion);
+    filteredQna = [...qnaData];
+    renderQnaList();
+    closeWriteModal();
+    alert('질문이 작성되었습니다!');
   }
 
   function filterQna() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
     const category = document.getElementById('filterCategory').value;
-    const solved = document.getElementById('filterSolved').value;
 
     filteredQna = qnaData.filter(qna => {
-      const matchSearch = qna.title.toLowerCase().includes(searchTerm) ||
-                         qna.content.toLowerCase().includes(searchTerm);
+      const matchSearch = qna.title.toLowerCase().includes(searchTerm) || qna.content.toLowerCase().includes(searchTerm);
       const matchCategory = category === 'all' || qna.category === category;
-      const matchSolved = solved === 'all' || (solved === 'solved' ? qna.solved : !qna.solved);
-
-      return matchSearch && matchCategory && matchSolved;
+      return matchSearch && matchCategory;
     });
 
     renderQnaList();
   }
 
-  // 이벤트 리스너
   document.getElementById('searchInput').addEventListener('input', filterQna);
   document.getElementById('filterCategory').addEventListener('change', filterQna);
-  document.getElementById('filterSolved').addEventListener('change', filterQna);
   document.getElementById('detailModal').addEventListener('click', (e) => {
-    if (e.target.id === 'detailModal') closeModal();
+    if (e.target.id === 'detailModal') closeDetailModal();
+  });
+  document.getElementById('writeModal').addEventListener('click', (e) => {
+    if (e.target.id === 'writeModal') closeWriteModal();
   });
 
-  // 초기 로드
   renderQnaList();
 </script>
 
