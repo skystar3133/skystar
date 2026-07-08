@@ -198,22 +198,15 @@
       background: #050D1E; /* 이미지 로드 전 폴백 색 */
     }
 
-    /* 배경 이미지 + rgba(0,0,0,0.7) 오버레이 + 움직이는 효과 */
+    /* 배경 이미지 + rgba(0,0,0,0.7) 오버레이 */
     .hnb-hero-bg {
       position: absolute;
       inset: 0;
       background-image:
         linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
         url('./images/hero-bg.png');
-      background-size: 110%;
+      background-size: cover;
       background-position: center;
-      animation: hnbBgMove 20s ease-in-out infinite;
-      will-change: background-position;
-    }
-
-    @keyframes hnbBgMove {
-      0%, 100% { background-position: center; background-size: 110%; }
-      50% { background-position: center bottom; background-size: 115%; }
     }
 
     /* 히어로 본문 */
@@ -2090,18 +2083,11 @@
 
   /* ── 헤더 스크롤 효과 ── */
   var header = document.getElementById('hnbHeader');
-  var heroBg = document.querySelector('.hnb-hero-bg');
   function onScroll() {
     if (window.scrollY > 50) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
-    }
-
-    // 패럴렉스 효과: 배경이 스크롤 속도의 50%로 움직임
-    if (heroBg && window.scrollY < 800) {
-      var yPos = -(window.scrollY * 0.5);
-      heroBg.style.transform = 'translateY(' + yPos + 'px)';
     }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
