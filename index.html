@@ -1844,22 +1844,50 @@
         </filter>
 
         <style>
-          .hnb-star { filter: url(#hnbGlowFire); }
-          .hnb-star-lg { animation: hnbStarGather 6s ease-in-out infinite; }
-          .hnb-star-md { animation: hnbStarGather 6.5s ease-in-out infinite; }
-          .hnb-star-sm { animation: hnbStarGather 7s ease-in-out infinite; }
+          .hnb-star {
+            filter: url(#hnbGlowFire);
+            transform-origin: 100px 100px;
+          }
+
+          .hnb-star-lg {
+            animation:
+              hnbStarGather 6s ease-in-out infinite,
+              hnbStarOrbit 12s linear infinite;
+          }
+
+          .hnb-star-md {
+            animation:
+              hnbStarGather 6.5s ease-in-out infinite,
+              hnbStarOrbit 14s linear infinite;
+          }
+
+          .hnb-star-sm {
+            animation:
+              hnbStarGather 7s ease-in-out infinite,
+              hnbStarOrbit 16s linear infinite;
+          }
 
           @keyframes hnbStarGather {
             0% {
               opacity: 0.3;
-              transform: translate(var(--tx), var(--ty)) scale(0.5);
+              transform: translate(var(--tx), var(--ty)) scale(0.5) rotate(0deg);
             }
             50% {
               opacity: 1;
             }
             100% {
               opacity: 0.3;
-              transform: translate(0, 0) scale(1);
+              transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+          }
+
+          @keyframes hnbStarOrbit {
+            0% {
+              filter: url(#hnbGlowFire) drop-shadow(0 0 2px rgba(255, 82, 82, 0.5));
+            }
+            100% {
+              filter: url(#hnbGlowFire) drop-shadow(0 0 2px rgba(255, 82, 82, 0.5));
+              transform: rotate(360deg);
             }
           }
         </style>
