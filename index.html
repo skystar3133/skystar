@@ -1970,17 +1970,31 @@
           @keyframes hnbStarFall {
             0% {
               opacity: 0;
-              transform: translateY(-150px) translateX(var(--tx));
+              transform: translateY(-150px) translateX(var(--tx)) scale(0.4) rotate(-30deg);
             }
             10% {
+              opacity: 0.8;
+              transform: translateY(-100px) translateX(calc(var(--tx) + 40px)) scale(0.6) rotate(15deg);
+            }
+            25% {
               opacity: 1;
+              transform: translateY(-50px) translateX(calc(var(--tx) - 30px)) scale(0.8) rotate(60deg);
+            }
+            50% {
+              opacity: 1;
+              transform: translateY(0px) translateX(calc(var(--tx) + 50px)) scale(1) rotate(180deg);
+            }
+            75% {
+              opacity: 0.9;
+              transform: translateY(50px) translateX(calc(var(--tx) - 40px)) scale(0.8) rotate(270deg);
             }
             90% {
-              opacity: 1;
+              opacity: 0.8;
+              transform: translateY(100px) translateX(var(--tx)) scale(0.6) rotate(330deg);
             }
             100% {
               opacity: 0;
-              transform: translateY(150px) translateX(var(--tx));
+              transform: translateY(150px) translateX(calc(var(--tx) + 20px)) scale(0.4) rotate(360deg);
             }
           }
 
