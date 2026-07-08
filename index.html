@@ -1931,20 +1931,17 @@
 
           .hnb-star-lg {
             animation:
-              hnbStarGather 6s ease-in-out infinite,
-              hnbStarOrbit 200s linear infinite;
+              hnbStarFall 5s ease-in infinite;
           }
 
           .hnb-star-md {
             animation:
-              hnbStarGather 6.5s ease-in-out infinite,
-              hnbStarOrbit 225s linear infinite;
+              hnbStarFall 6s ease-in infinite;
           }
 
           .hnb-star-sm {
             animation:
-              hnbStarGather 7s ease-in-out infinite,
-              hnbStarOrbit 250s linear infinite;
+              hnbStarFall 7s ease-in infinite;
           }
 
           /* 배경 먼지 입자 */
@@ -1964,11 +1961,28 @@
           .hnb-dust-9 { animation: hnbDustFloat9 3.75s ease-in-out infinite; }
           .hnb-dust-10 { animation: hnbDustFloat10 4.75s ease-in-out infinite; }
 
-          /* 파란별 움직임 - 각각 다른 속도 */
-          .hnb-blue-star:nth-of-type(1) { animation: hnbBlueDriftA 6s ease-in-out infinite, hnbStarOrbit 200s linear infinite !important; }
-          .hnb-blue-star:nth-of-type(2) { animation: hnbBlueDriftB 5.5s ease-in-out infinite, hnbStarOrbit 180s linear infinite !important; }
-          .hnb-blue-star:nth-of-type(3) { animation: hnbBlueDriftC 6.5s ease-in-out infinite, hnbStarOrbit 220s linear infinite !important; }
-          .hnb-blue-star:nth-of-type(4) { animation: hnbBlueDriftD 5s ease-in-out infinite, hnbStarOrbit 160s linear infinite !important; }
+          /* 파란별 움직임 - 떨어지는 효과 */
+          .hnb-blue-star:nth-of-type(1) { animation: hnbStarFall 4.5s ease-in infinite !important; }
+          .hnb-blue-star:nth-of-type(2) { animation: hnbStarFall 5.5s ease-in infinite !important; }
+          .hnb-blue-star:nth-of-type(3) { animation: hnbStarFall 6s ease-in infinite !important; }
+          .hnb-blue-star:nth-of-type(4) { animation: hnbStarFall 5s ease-in infinite !important; }
+
+          @keyframes hnbStarFall {
+            0% {
+              opacity: 0;
+              transform: translateY(-150px) translateX(var(--tx));
+            }
+            10% {
+              opacity: 1;
+            }
+            90% {
+              opacity: 1;
+            }
+            100% {
+              opacity: 0;
+              transform: translateY(150px) translateX(var(--tx));
+            }
+          }
 
           @keyframes hnbStarGather {
             0%, 100% {
