@@ -1352,6 +1352,30 @@
       z-index: 1;
     }
 
+    /* 왼쪽 별빛 장식 */
+    .hnb-speed-globe::after {
+      content: '';
+      position: absolute;
+      left: -80px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 200px;
+      background:
+        radial-gradient(circle, #FFFF33 0%, transparent 1%) 0 0,
+        radial-gradient(circle, #FF0000 0%, transparent 1%) 30px 40px,
+        radial-gradient(circle, #FFFF33 0%, transparent 1%) 60px 20px,
+        radial-gradient(circle, #FF0000 0%, transparent 1%) 80px 60px,
+        radial-gradient(circle, #FFFF00 0%, transparent 1%) 50px 80px,
+        radial-gradient(circle, #FFFF33 0%, transparent 1%) 25px 120px,
+        radial-gradient(circle, #FF0000 0%, transparent 1%) 70px 100px;
+      background-size: 8px 8px, 10px 10px, 7px 7px, 12px 12px, 9px 9px, 8px 8px, 11px 11px;
+      background-repeat: no-repeat;
+      animation: hnbStarsGlow 2s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 5;
+    }
+
     .hnb-speed-svg {
       width: 100%;
       height: 100%;
