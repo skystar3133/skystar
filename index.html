@@ -1964,6 +1964,12 @@
           .hnb-dust-9 { animation: hnbDustFloat9 3.75s ease-in-out infinite; }
           .hnb-dust-10 { animation: hnbDustFloat10 4.75s ease-in-out infinite; }
 
+          /* 파란별 움직임 */
+          .hnb-blue-star:nth-of-type(1) { animation: hnbBlueDriftA 6s ease-in-out infinite, hnbStarOrbit 200s linear infinite !important; }
+          .hnb-blue-star:nth-of-type(2) { animation: hnbBlueDriftB 5.5s ease-in-out infinite, hnbStarOrbit 200s linear infinite !important; }
+          .hnb-blue-star:nth-of-type(3) { animation: hnbBlueDriftC 6.5s ease-in-out infinite, hnbStarOrbit 200s linear infinite !important; }
+          .hnb-blue-star:nth-of-type(4) { animation: hnbBlueDriftD 5s ease-in-out infinite, hnbStarOrbit 200s linear infinite !important; }
+
           @keyframes hnbStarGather {
             0% {
               opacity: 0.3;
@@ -2001,6 +2007,12 @@
           @keyframes hnbDustFloat9 { 0% { transform: translate(20px, 55px) rotate(0deg) scale(0.8); } 50% { opacity: 0.6; transform: translate(0px, 0px) rotate(180deg) scale(1.2); } 100% { transform: translate(-20px, -55px) rotate(360deg) scale(0.8); } }
           @keyframes hnbDustFloat10 { 0% { transform: translate(-40px, -25px) rotate(0deg) scale(1); } 50% { opacity: 0.7; transform: translate(0px, 0px) rotate(180deg) scale(1.3); } 100% { transform: translate(40px, 25px) rotate(360deg) scale(1); } }
 
+          /* 파란별 드리프트 애니메이션 */
+          @keyframes hnbBlueDriftA { 0% { transform: translate(60px, -50px) rotate(0deg); } 25% { transform: translate(-50px, 60px) rotate(90deg); } 50% { transform: translate(-60px, -40px) rotate(180deg); } 75% { transform: translate(50px, -60px) rotate(270deg); } 100% { transform: translate(60px, -50px) rotate(360deg); } }
+          @keyframes hnbBlueDriftB { 0% { transform: translate(-70px, 40px) rotate(0deg); } 25% { transform: translate(60px, -50px) rotate(90deg); } 50% { transform: translate(50px, 70px) rotate(180deg); } 75% { transform: translate(-60px, 40px) rotate(270deg); } 100% { transform: translate(-70px, 40px) rotate(360deg); } }
+          @keyframes hnbBlueDriftC { 0% { transform: translate(50px, 60px) rotate(0deg); } 25% { transform: translate(-60px, -50px) rotate(90deg); } 50% { transform: translate(-50px, 60px) rotate(180deg); } 75% { transform: translate(70px, -40px) rotate(270deg); } 100% { transform: translate(50px, 60px) rotate(360deg); } }
+          @keyframes hnbBlueDriftD { 0% { transform: translate(-50px, -60px) rotate(0deg); } 25% { transform: translate(50px, 70px) rotate(90deg); } 50% { transform: translate(60px, -50px) rotate(180deg); } 75% { transform: translate(-70px, -50px) rotate(270deg); } 100% { transform: translate(-50px, -60px) rotate(360deg); } }
+
           @keyframes hnbStarTwinkle {
             0%, 100% { opacity: 0.3; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.1); }
@@ -2028,16 +2040,16 @@
       <!-- 환상적으로 모이는 별빛 (지구 모양) - 매우 작은 별들 -->
 
       <!-- 맨 바깥쪽 별들 -->
-      <use href="#star5" x="100" y="20" width="7.5" height="7.5" class="hnb-star hnb-star-lg" fill="#6BB6FF" style="--tx: 120px; --ty: -90px; animation-delay: 0s" />
+      <use href="#star5" x="100" y="20" width="7.5" height="7.5" class="hnb-star hnb-star-lg hnb-blue-star" fill="#6BB6FF" style="--tx: 120px; --ty: -90px; animation-delay: 0s" />
       <use href="#star5" x="160" y="35" width="6" height="6" class="hnb-star hnb-star-md" fill="#FF0000" style="--tx: 105px; --ty: -75px; animation-delay: 0.2s" />
       <use href="#star5" x="205" y="65" width="4.5" height="4.5" class="hnb-star hnb-star-sm" fill="#FF0000" style="--tx: 90px; --ty: -45px; animation-delay: 0.4s" />
-      <use href="#star5" x="230" y="100" width="6.9" height="6.9" class="hnb-star hnb-star-lg" fill="#6BB6FF" style="--tx: 75px; --ty: 0px; animation-delay: 0.6s" />
+      <use href="#star5" x="230" y="100" width="6.9" height="6.9" class="hnb-star hnb-star-lg hnb-blue-star" fill="#6BB6FF" style="--tx: 75px; --ty: 0px; animation-delay: 0.6s" />
       <use href="#star5" x="205" y="135" width="6" height="6" class="hnb-star hnb-star-md" fill="#FF0000" style="--tx: 60px; --ty: 60px; animation-delay: 0.8s" />
       <use href="#star5" x="160" y="160" width="5.4" height="5.4" class="hnb-star hnb-star-sm" fill="#FF0000" style="--tx: 30px; --ty: 90px; animation-delay: 1s" />
       <use href="#star5" x="100" y="175" width="7.5" height="7.5" class="hnb-star hnb-star-lg" fill="#FF0000" style="--tx: -30px; --ty: 105px; animation-delay: 1.2s" />
       <use href="#star5" x="40" y="160" width="6" height="6" class="hnb-star hnb-star-md" fill="#FF0000" style="--tx: -60px; --ty: 75px; animation-delay: 1.4s" />
       <use href="#star5" x="-5" y="135" width="4.8" height="4.8" class="hnb-star hnb-star-sm" fill="#FF0000" style="--tx: -90px; --ty: 45px; animation-delay: 1.6s" />
-      <use href="#star5" x="-30" y="100" width="6.6" height="6.6" class="hnb-star hnb-star-lg" fill="#6BB6FF" style="--tx: -105px; --ty: 0px; animation-delay: 1.8s" />
+      <use href="#star5" x="-30" y="100" width="6.6" height="6.6" class="hnb-star hnb-star-lg hnb-blue-star" fill="#6BB6FF" style="--tx: -105px; --ty: 0px; animation-delay: 1.8s" />
       <use href="#star5" x="-5" y="65" width="5.7" height="5.7" class="hnb-star hnb-star-md" fill="#FF0000" style="--tx: -90px; --ty: -60px; animation-delay: 2s" />
       <use href="#star5" x="40" y="40" width="1.7" height="1.7" class="hnb-star hnb-star-sm" fill="#FF0000" style="--tx: -75px; --ty: -90px; animation-delay: 2.2s" />
 
@@ -2059,7 +2071,7 @@
       <use href="#star5" x="105" y="140" width="5.4" height="5.4" class="hnb-star hnb-star-md" fill="#FF0000" style="--tx: -22px; --ty: 37px; animation-delay: 0.85s" />
       <use href="#star5" x="40" y="115" width="4.8" height="4.8" class="hnb-star hnb-star-sm" fill="#FF0000" style="--tx: -37px; --ty: 7px; animation-delay: 1.05s" />
       <use href="#star5" x="30" y="80" width="6.3" height="6.3" class="hnb-star hnb-star-lg" fill="#FF0000" style="--tx: -30px; --ty: -22px; animation-delay: 1.25s" />
-      <use href="#star5" x="100" y="100" width="5.7" height="5.7" class="hnb-star hnb-star-md" fill="#6BB6FF" style="--tx: 0px; --ty: 0px; animation-delay: 0.5s" />
+      <use href="#star5" x="100" y="100" width="5.7" height="5.7" class="hnb-star hnb-star-md hnb-blue-star" fill="#6BB6FF" style="--tx: 0px; --ty: 0px; animation-delay: 0.5s" />
     </svg>
   </div>
 
