@@ -1844,9 +1844,9 @@
   <div class="hnb-speed-globe">
     <svg
       class="hnb-speed-svg"
-      viewBox="0 0 200 200"
+      viewBox="0 0 500 200"
       xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMid meet"
+      preserveAspectRatio="none"
     >
       <defs>
         <filter id="hnbGlowFire">
@@ -1932,6 +1932,11 @@
           @keyframes hnbDustFloat8 { 0% { transform: translate(-60px, 20px); } 50% { opacity: 0.5; } 100% { transform: translate(60px, -20px); } }
           @keyframes hnbDustFloat9 { 0% { transform: translate(20px, 55px); } 50% { opacity: 0.6; } 100% { transform: translate(-20px, -55px); } }
           @keyframes hnbDustFloat10 { 0% { transform: translate(-40px, -25px); } 50% { opacity: 0.7; } 100% { transform: translate(40px, 25px); } }
+
+          @keyframes hnbStarTwinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+          }
         </style>
 
         <!-- 별 모양 정의 (5각별) -->
@@ -1987,6 +1992,13 @@
       <use href="#star5" x="50" y="115" width="1.6" height="1.6" class="hnb-star hnb-star-sm" fill="#FFFF00" style="--tx: -25px; --ty: 5px; animation-delay: 1.05s" />
       <use href="#star5" x="60" y="80" width="2.1" height="2.1" class="hnb-star hnb-star-lg" fill="#FF0000" style="--tx: -20px; --ty: -15px; animation-delay: 1.25s" />
       <use href="#star5" x="100" y="100" width="1.9" height="1.9" class="hnb-star hnb-star-md" fill="#FFFF33" style="--tx: 0px; --ty: 0px; animation-delay: 0.5s" />
+
+      <!-- 오른쪽 영역 큰 별빛들 -->
+      <use href="#star5" x="300" y="50" width="6" height="6" fill="#FFFF33" style="animation: hnbStarTwinkle 2.5s ease-in-out infinite; animation-delay: 0s" />
+      <use href="#star5" x="380" y="80" width="5" height="5" fill="#FF0000" style="animation: hnbStarTwinkle 3s ease-in-out infinite; animation-delay: 0.5s" />
+      <use href="#star5" x="420" y="140" width="5.5" height="5.5" fill="#FFFF33" style="animation: hnbStarTwinkle 2.8s ease-in-out infinite; animation-delay: 1s" />
+      <use href="#star5" x="320" y="160" width="4.5" height="4.5" fill="#FF0000" style="animation: hnbStarTwinkle 3.2s ease-in-out infinite; animation-delay: 0.3s" />
+      <use href="#star5" x="360" y="100" width="4" height="4" fill="#FFFF00" style="animation: hnbStarTwinkle 2.6s ease-in-out infinite; animation-delay: 0.8s" />
     </svg>
   </div>
 
