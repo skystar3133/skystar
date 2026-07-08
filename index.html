@@ -441,6 +441,18 @@
 
     /* 캐릭터 애니메이션 */
     .hnb-character-box {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hnb-character {
+      position: relative;
+      width: 280px;
+      height: 280px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -448,43 +460,37 @@
       gap: 0;
     }
 
-    .hnb-character {
-      position: relative;
-      font-size: 8rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-    }
-
     .hnb-wave {
-      display: inline-block;
-      font-size: 6rem;
-      position: relative;
-      top: -20px;
-      right: -30px;
-      animation: hnbWaveHand 1.2s ease-in-out infinite;
-      transform-origin: 70% 70%;
-      will-change: transform;
+      position: absolute;
+      font-size: 5rem;
+      top: 20px;
+      right: 40px;
+      animation: hnbWaveHand 0.8s ease-in-out infinite;
+      transform-origin: bottom right;
+      display: block;
     }
 
     .hnb-face {
-      display: inline-block;
-      font-size: 8rem;
+      display: block;
+      font-size: 10rem;
+      line-height: 1;
     }
 
     @keyframes hnbWaveHand {
-      0%, 100% {
+      0% {
         transform: rotate(0deg);
       }
       25% {
-        transform: rotate(20deg);
+        transform: rotate(25deg);
       }
       50% {
-        transform: rotate(-5deg);
+        transform: rotate(-10deg);
       }
       75% {
-        transform: rotate(20deg);
+        transform: rotate(25deg);
+      }
+      100% {
+        transform: rotate(0deg);
       }
     }
 
