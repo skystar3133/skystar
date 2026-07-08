@@ -428,6 +428,10 @@
     .hnb-about-img-wrap {
       border-radius: 0;
       overflow: visible;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
     }
     .hnb-about-img-wrap img {
       width: 100%;
@@ -435,33 +439,39 @@
       display: block;
     }
 
-    /* 손 흔드는 애니메이션 */
-    .hnb-wave-hand {
-      position: absolute;
-      top: 15%;
-      right: 10%;
-      font-size: 4rem;
-      animation: hnbWaveHand 0.8s ease-in-out infinite;
-      transform-origin: 70% 70%;
-      display: inline-block;
-      z-index: 10;
+    /* 캐릭터 컨테이너 */
+    .hnb-character-container {
+      position: relative;
+      width: 200px;
+      height: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    @keyframes hnbWaveHand {
-      0% {
+    /* 손 애니메이션 */
+    .hnb-character-wave {
+      position: absolute;
+      font-size: 4.5rem;
+      top: -10px;
+      right: 20px;
+      animation: waveAnimation 0.6s ease-in-out infinite;
+      transform-origin: 85% 85%;
+    }
+
+    /* 얼굴 */
+    .hnb-character-face {
+      font-size: 8rem;
+      line-height: 1;
+    }
+
+    @keyframes waveAnimation {
+      0%, 100% {
         transform: rotate(0deg);
-      }
-      25% {
-        transform: rotate(25deg);
       }
       50% {
-        transform: rotate(-10deg);
-      }
-      75% {
-        transform: rotate(25deg);
-      }
-      100% {
-        transform: rotate(0deg);
+        transform: rotate(30deg);
       }
     }
 
@@ -1469,14 +1479,12 @@
     <!-- 2단: 이미지 + 텍스트 -->
     <div class="hnb-about-grid">
 
-      <!-- 강사 프로필 이미지 (손 흔드는 애니메이션) -->
-      <div class="hnb-about-img-wrap hnb-fade" style="position: relative; display: inline-block; width: 100%;">
-        <img
-          src="./images/profile.png"
-          alt="하늘별컴퓨터교습소 강사"
-          loading="lazy"
-        />
-        <span class="hnb-wave-hand">👋</span>
+      <!-- 강사 프로필 캐릭터 (손 흔드는 애니메이션) -->
+      <div class="hnb-about-img-wrap hnb-fade">
+        <div class="hnb-character-container">
+          <span class="hnb-character-wave">👋</span>
+          <span class="hnb-character-face">😊</span>
+        </div>
       </div>
 
       <!-- 텍스트 -->
