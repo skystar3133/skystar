@@ -733,8 +733,9 @@
       if (qna.answers.length > 0) {
         qna.solved = true;
       }
-      openDetailModal(currentQnaId);
       alert('답변이 등록되었습니다!');
+      closeDetailModal();
+      filterQna();
     }
   }
 
