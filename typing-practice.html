@@ -729,8 +729,8 @@
     }
     const accuracy = Math.round((correctChars / currentTest.text.length) * 100);
 
-    // 타자속도 계산 (초당 타자수 = 정확한 글자 수 / 경과 시간)
-    const speed = elapsed > 0 ? Math.round((correctChars / elapsed) * 10) / 10 : 0;
+    // 타자속도 계산 (분당 타자수 = 정확한 글자 수 / 경과 시간(초) × 60)
+    const speed = elapsed > 0 ? Math.round((correctChars / elapsed) * 60) : 0;
 
     // 결과 표시
     document.getElementById('testArea').style.display = 'none';
