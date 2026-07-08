@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="하늘별컴퓨터교습소 – 커뮤니티 게시판" />
+  <title>커뮤니티 게시판 – 하늘별컴퓨터교습소</title>
+
+  <!-- Pretendard 폰트 -->
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #3A7BD5;
+      --primary-dark: #1E57B8;
+      --dark: #1B2A4A;
+      --text: #2D3748;
+      --muted: #64748B;
+      --white: #FFFFFF;
+      --bg-light: #F7F9FD;
+      --border: #E2E8F0;
+      --green: #28a745;
+      --red: #dc3545;
+      --shadow-sm: 0 2px 12px rgba(58,123,213,.08);
+      --shadow-md: 0 8px 32px rgba(58,123,213,.14);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* 헤더 */
+    .header {
+      background: #0D1B2A;
+      color: var(--white);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .header-nav a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      margin-left: 24px;
+      transition: color .2s;
+    }
+
+    .header-nav a:hover {
+      color: var(--white);
+    }
+
+    /* 메인 섹션 */
+    .section {
+      padding: 60px 28px;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #034AA6;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 액션 바 */
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #034AA6;
+      box-shadow: 0 0 0 3px rgba(3, 74, 166, 0.1);
+    }
+
+    .btn {
+      background: #034AA6;
+      color: var(--white);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all .2s;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      background: #025199;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(3, 74, 166, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+
+    .btn-danger {
+      background: var(--red);
+    }
+
+    .btn-danger:hover {
+      background: #c82333;
+    }
+
+    /* 게시판 */
+    .posts-container {
+      background: var(--white);
+    }
+
+    .post-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: all .2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .post-item:hover {
+      border-color: #034AA6;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .post-content {
+      flex: 1;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .post-author {
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .post-date {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .post-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: color .2s;
+    }
+
+    .post-title:hover {
+      color: #034AA6;
+    }
+
+    .post-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .post-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+      margin-left: 16px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--border);
+      border-top-color: #034AA6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    /* 모달 */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,.4);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .modal-close:hover {
+      color: var(--dark);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: #034AA6;
+      box-shadow: 0 0 0 3px rgba(3, 74, 166, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    .alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .alert-error {
+      background: rgba(220, 53, 69, 0.1);
+      color: #c82333;
+      border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    .alert-success {
+      background: rgba(40, 167, 69, 0.1);
+      color: #1e7e34;
+      border: 1px solid rgba(40, 167, 69, 0.3);
+    }
+
+    /* 푸터 */
+    .footer {
+      background: #0D1B2A;
+      color: var(--white);
+      padding: 44px 28px;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 40px 20px;
+      }
+
+      .post-item {
+        flex-direction: column;
+      }
+
+      .post-actions {
+        flex-direction: row;
+        margin-left: 0;
+        margin-top: 12px;
+      }
+
+      .action-bar {
+        flex-direction: column;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .modal-content {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="header">
+  <div class="header-inner container">
+    <div class="header-title">💬 커뮤니티 게시판</div>
+    <nav class="header-nav">
+      <a href="index.html">← 홈으로</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 메인 섹션 -->
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">커뮤니티 게시판</h1>
+    <p class="section-desc">학원 소식, 학생 이야기, 자유로운 의견을 나누는 공간입니다.</p>
+
+    <!-- 알림 메시지 -->
+    <div id="alertBox"></div>
+
+    <!-- 액션 바 -->
+    <div class="action-bar">
+      <div class="search-box">
+        <input type="text" class="search-input" id="searchInput" placeholder="게시글 검색...">
+        <button class="btn btn-small" onclick="searchPosts()">검색</button>
+      </div>
+      <button class="btn" onclick="openWriteModal()">새 글 작성</button>
+    </div>
+
+    <!-- 게시판 -->
+    <div class="posts-container">
+      <div id="postsLoader" class="loading">
+        <div class="spinner"></div>
+        <p style="margin-top: 12px;">게시글을 불러오는 중...</p>
+      </div>
+      <div id="postsList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 게시글 작성 모달 -->
+<div class="modal" id="writeModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">새 글 작성</h2>
+      <button class="modal-close" onclick="closeWriteModal()">×</button>
+    </div>
+    <form onsubmit="submitPost(event)">
+      <div class="form-group">
+        <label class="form-label">작성자</label>
+        <input type="text" class="form-input" id="authorInput" placeholder="이름" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">제목</label>
+        <input type="text" class="form-input" id="titleInput" placeholder="제목을 입력하세요" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">내용</label>
+        <textarea class="form-textarea" id="contentInput" placeholder="내용을 입력하세요" required></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeWriteModal()">취소</button>
+        <button type="submit" class="btn">작성</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 게시글 상세보기 모달 -->
+<div class="modal" id="viewModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title" id="viewTitle"></h2>
+      <button class="modal-close" onclick="closeViewModal()">×</button>
+    </div>
+    <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+      <p style="font-size: 0.9rem; color: var(--muted);">
+        <strong id="viewAuthor"></strong> · <span id="viewDate"></span>
+      </p>
+    </div>
+    <div id="viewContent" style="line-height: 1.8; margin-bottom: 24px;"></div>
+    <div style="display: flex; gap: 8px;">
+      <button class="btn btn-danger btn-small" onclick="deletePost()">삭제</button>
+      <button class="btn btn-secondary btn-small" onclick="closeViewModal()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<footer class="footer">
+  <p class="footer-text">© 2026 하늘별컴퓨터교습소. All rights reserved.</p>
+</footer>
+
+<script>
+  // API 설정
+  const SUPABASE_URL = 'https://rvpgzokhscyrndnfwnqu.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2cGd6b2toc2N5cm5kbmZ3bnF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0ODAwMTIsImV4cCI6MjA5OTA1NjAxMn0.5bBpf5Gp1wd9M5ETjizJ9DhRtkAb_sUUyLk6xJTd1WY';
+  const TABLE_NAME = 'community_posts';
+
+  let currentPosts = [];
+  let currentViewPostId = null;
+
+  // API 호출 함수
+  async function apiCall(method, endpoint, body = null) {
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'apikey': SUPABASE_KEY
+      }
+    };
+
+    if (body) {
+      options.body = JSON.stringify(body);
+    }
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1${endpoint}`, options);
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.statusText}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('API 오류:', error);
+      showAlert('오류가 발생했습니다. 나중에 다시 시도해주세요.', 'error');
+      throw error;
+    }
+  }
+
+  // 게시글 불러오기
+  async function loadPosts() {
+    try {
+      document.getElementById('postsLoader').style.display = 'block';
+      document.getElementById('postsList').innerHTML = '';
+
+      const posts = await apiCall('GET', `/${TABLE_NAME}?order=created_at.desc`);
+      currentPosts = posts;
+      renderPosts(posts);
+    } catch (error) {
+      document.getElementById('postsList').innerHTML = '<div class="empty-state">게시글을 불러올 수 없습니다.</div>';
+    } finally {
+      document.getElementById('postsLoader').style.display = 'none';
+    }
+  }
+
+  // 게시글 렌더링
+  function renderPosts(posts) {
+    const list = document.getElementById('postsList');
+
+    if (posts.length === 0) {
+      list.innerHTML = '<div class="empty-state">아직 게시글이 없습니다. 첫 글을 작성해보세요!</div>';
+      return;
+    }
+
+    list.innerHTML = posts.map(post => `
+      <div class="post-item">
+        <div class="post-content">
+          <div class="post-header">
+            <span class="post-author">${post.author}</span>
+            <span class="post-date">${new Date(post.created_at).toLocaleDateString('ko-KR')}</span>
+          </div>
+          <h3 class="post-title" onclick="openViewModal(${post.id})">${post.title}</h3>
+          <p class="post-desc">${post.content.substring(0, 100)}...</p>
+          <div class="post-meta">
+            <span>조회 수: ${post.views || 0}</span>
+          </div>
+        </div>
+        <div class="post-actions">
+          <button class="btn btn-secondary btn-small" onclick="openViewModal(${post.id})">보기</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // 게시글 검색
+  function searchPosts() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = currentPosts.filter(post =>
+      post.title.toLowerCase().includes(query) ||
+      post.content.toLowerCase().includes(query) ||
+      post.author.toLowerCase().includes(query)
+    );
+    renderPosts(filtered);
+  }
+
+  // 게시글 작성
+  async function submitPost(event) {
+    event.preventDefault();
+
+    const author = document.getElementById('authorInput').value;
+    const title = document.getElementById('titleInput').value;
+    const content = document.getElementById('contentInput').value;
+
+    try {
+      await apiCall('POST', `/${TABLE_NAME}`, {
+        author,
+        title,
+        content,
+        views: 0
+      });
+
+      showAlert('게시글이 작성되었습니다!', 'success');
+      closeWriteModal();
+      loadPosts();
+    } catch (error) {
+      console.error('작성 오류:', error);
+    }
+  }
+
+  // 게시글 삭제
+  async function deletePost() {
+    if (!confirm('정말 삭제하시겠습니까?')) return;
+
+    try {
+      await apiCall('DELETE', `/${TABLE_NAME}?id=eq.${currentViewPostId}`);
+      showAlert('게시글이 삭제되었습니다.', 'success');
+      closeViewModal();
+      loadPosts();
+    } catch (error) {
+      console.error('삭제 오류:', error);
+    }
+  }
+
+  // 모달 열기/닫기
+  function openWriteModal() {
+    document.getElementById('writeModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeWriteModal() {
+    document.getElementById('writeModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+    document.getElementById('authorInput').value = '';
+    document.getElementById('titleInput').value = '';
+    document.getElementById('contentInput').value = '';
+  }
+
+  async function openViewModal(postId) {
+    const post = currentPosts.find(p => p.id === postId);
+    if (!post) return;
+
+    currentViewPostId = postId;
+    document.getElementById('viewTitle').textContent = post.title;
+    document.getElementById('viewAuthor').textContent = post.author;
+    document.getElementById('viewDate').textContent = new Date(post.created_at).toLocaleDateString('ko-KR');
+    document.getElementById('viewContent').innerHTML = post.content.replace(/\n/g, '<br>');
+
+    // 조회 수 증가
+    try {
+      await apiCall('PATCH', `/${TABLE_NAME}?id=eq.${postId}`, {
+        views: (post.views || 0) + 1
+      });
+    } catch (error) {
+      console.error('조회 수 업데이트 오류:', error);
+    }
+
+    document.getElementById('viewModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeViewModal() {
+    document.getElementById('viewModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+    currentViewPostId = null;
+  }
+
+  // 알림 표시
+  function showAlert(message, type) {
+    const alertBox = document.getElementById('alertBox');
+    alertBox.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+    setTimeout(() => {
+      alertBox.innerHTML = '';
+    }, 3000);
+  }
+
+  // 모달 외부 클릭 시 닫기
+  document.getElementById('writeModal').addEventListener('click', (e) => {
+    if (e.target.id === 'writeModal') closeWriteModal();
+  });
+
+  document.getElementById('viewModal').addEventListener('click', (e) => {
+    if (e.target.id === 'viewModal') closeViewModal();
+  });
+
+  // 초기 로드
+  window.addEventListener('load', loadPosts);
+</script>
+
+</body>
+</html>
