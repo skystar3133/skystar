@@ -599,16 +599,12 @@
           </p>
           <div class="result-metrics">
             <div class="metric">
-              <div class="metric-label">정확도(%)</div>
+              <div class="metric-label">타자속도</div>
+              <div class="metric-value" id="resultSpeed">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">정확도</div>
               <div class="metric-value" id="resultAccuracy">0%</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">CPS(초당타자)</div>
-              <div class="metric-value" id="resultCPS">0</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">WPM</div>
-              <div class="metric-value" id="resultWPM">0</div>
             </div>
             <div class="metric">
               <div class="metric-label">소요 시간</div>
@@ -733,30 +729,24 @@
     }
     const accuracy = Math.round((correctChars / currentTest.text.length) * 100);
 
-    // CPS 계산 (초당 타자수 = 정확한 글자 수 / 경과 시간)
-    const cps = elapsed > 0 ? Math.round((correctChars / elapsed) * 10) / 10 : 0;
-
-    // WPM 계산 (한컴 기준: CPS를 영어 단어 환산, 1단어=5글자)
-    const wpm = elapsed > 0 ? Math.round((correctChars / 5 / (elapsed / 60))) : 0;
+    // 타자속도 계산 (초당 타자수 = 정확한 글자 수 / 경과 시간)
+    const speed = elapsed > 0 ? Math.round((correctChars / elapsed) * 10) / 10 : 0;
 
     // 결과 표시
     document.getElementById('testArea').style.display = 'none';
     document.getElementById('resultArea').style.display = 'block';
 
     document.getElementById('resultName').textContent = currentTest.name;
+    document.getElementById('resultSpeed').textContent = speed;
     document.getElementById('resultAccuracy').textContent = accuracy + '%';
     document.getElementById('resultAccuracy').className =
       `metric-value ${accuracy >= 90 ? 'excellent' : accuracy >= 80 ? 'good' : 'fair'}`;
-    document.getElementById('resultCPS').textContent = cps;
     document.getElementById('resultTime').textContent = elapsed + '초';
-    document.getElementById('resultWPM').textContent = wpm;
 
     // 결과 임시 저장
     currentTest.accuracy = accuracy;
     currentTest.time = elapsed;
-    currentTest.cps = cps;
-    currentTest.wpm = wpm;
-    currentTest.inputLength = input.length;
+    currentTest.speed = speed;
     currentTest.correctChars = correctChars;
   }
 
@@ -766,12 +756,9 @@
     const record = {
       id: Date.now(),
       name: currentTest.name,
+      speed: currentTest.speed,
       accuracy: currentTest.accuracy,
-      cps: currentTest.cps,
-      wpm: currentTest.wpm,
       time: currentTest.time,
-      correctChars: currentTest.correctChars,
-      textLength: currentTest.text.length,
       timestamp: new Date().toLocaleString('ko-KR')
     };
 
@@ -808,9 +795,8 @@
         <thead>
           <tr>
             <th>학생명</th>
-            <th>정확도(%)</th>
-            <th>CPS</th>
-            <th>WPM</th>
+            <th>타자속도</th>
+            <th>정확도</th>
             <th>소요시간</th>
             <th>날짜</th>
             <th>삭제</th>
@@ -828,9 +814,8 @@
       html += `
         <tr>
           <td><strong>${record.name}</strong></td>
+          <td>${record.speed || 0}</td>
           <td class="${accuracyClass}">${record.accuracy}%</td>
-          <td>${record.cps || 0}</td>
-          <td>${record.wpm || 0}</td>
           <td>${record.time}초</td>
           <td style="font-size: 0.9rem; color: var(--muted);">${record.timestamp}</td>
           <td><button class="action-btn" onclick="deleteRecord(${record.id})">삭제</button></td>
