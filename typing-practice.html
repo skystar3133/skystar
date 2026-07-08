@@ -599,20 +599,20 @@
           </p>
           <div class="result-metrics">
             <div class="metric">
-              <div class="metric-label">정확도</div>
+              <div class="metric-label">정확도(%)</div>
               <div class="metric-value" id="resultAccuracy">0%</div>
             </div>
             <div class="metric">
-              <div class="metric-label">소요 시간</div>
-              <div class="metric-value" id="resultTime">0초</div>
+              <div class="metric-label">CPS(초당타자)</div>
+              <div class="metric-value" id="resultCPS">0</div>
             </div>
             <div class="metric">
               <div class="metric-label">WPM</div>
               <div class="metric-value" id="resultWPM">0</div>
             </div>
             <div class="metric">
-              <div class="metric-label">입력/전체</div>
-              <div class="metric-value" id="resultRatio">0/0</div>
+              <div class="metric-label">소요 시간</div>
+              <div class="metric-value" id="resultTime">0초</div>
             </div>
           </div>
         </div>
@@ -640,11 +640,10 @@
 
 <script>
   const testTexts = [
-    '안녕하세요. 하늘별컴퓨터교습소입니다. 저희는 기초부터 코딩까지 단계별 맞춤형 교육을 제공합니다.',
-    '컴퓨터 기초, 워드 프로세싱, 스프레드시트, 프로그래밍 언어 등 다양한 교과목을 배울 수 있습니다.',
-    '타자연습은 컴퓨터 사용의 기본입니다. 규칙적인 연습으로 타자 속도와 정확도를 높일 수 있습니다.',
-    '온라인 수업과 오프라인 수업을 병행하여 유연한 학습 환경을 제공합니다.',
-    '자격증 시험 준비부터 취업까지 완벽한 지원 시스템을 갖추고 있습니다.'
+    '동해물과 백두산이 마르고 닳도록 하느님 보우하사 우리나라 만세.',
+    '남산 위에 저 소나무 철갑을 두른 듯 바람서리 불변함은 우리 기상일세.',
+    '가을 하늘 공활한데 높고 구름 없이 밝은 달은 우리 가슴 일편단심일세.',
+    '이 기상과 이 맘으로 충성을 다하여서 괴로우나 즐거우나 나라 사랑하세.'
   ];
 
   let currentTest = null;
@@ -734,10 +733,11 @@
     }
     const accuracy = Math.round((correctChars / currentTest.text.length) * 100);
 
-    // WPM 계산 (단어 수 / 분)
-    const wordCount = input.trim().split(/\s+/).length;
-    const minutes = Math.max(elapsed / 60, 0.016);
-    const wpm = Math.round(wordCount / minutes);
+    // CPS 계산 (초당 타자수 = 정확한 글자 수 / 경과 시간)
+    const cps = elapsed > 0 ? Math.round((correctChars / elapsed) * 10) / 10 : 0;
+
+    // WPM 계산 (한컴 기준: CPS를 영어 단어 환산, 1단어=5글자)
+    const wpm = elapsed > 0 ? Math.round((correctChars / 5 / (elapsed / 60))) : 0;
 
     // 결과 표시
     document.getElementById('testArea').style.display = 'none';
@@ -747,15 +747,17 @@
     document.getElementById('resultAccuracy').textContent = accuracy + '%';
     document.getElementById('resultAccuracy').className =
       `metric-value ${accuracy >= 90 ? 'excellent' : accuracy >= 80 ? 'good' : 'fair'}`;
+    document.getElementById('resultCPS').textContent = cps;
     document.getElementById('resultTime').textContent = elapsed + '초';
     document.getElementById('resultWPM').textContent = wpm;
-    document.getElementById('resultRatio').textContent = `${input.length}/${currentTest.text.length}`;
 
     // 결과 임시 저장
     currentTest.accuracy = accuracy;
     currentTest.time = elapsed;
+    currentTest.cps = cps;
     currentTest.wpm = wpm;
     currentTest.inputLength = input.length;
+    currentTest.correctChars = correctChars;
   }
 
   function saveResult() {
@@ -765,9 +767,10 @@
       id: Date.now(),
       name: currentTest.name,
       accuracy: currentTest.accuracy,
-      time: currentTest.time,
+      cps: currentTest.cps,
       wpm: currentTest.wpm,
-      inputLength: currentTest.inputLength,
+      time: currentTest.time,
+      correctChars: currentTest.correctChars,
       textLength: currentTest.text.length,
       timestamp: new Date().toLocaleString('ko-KR')
     };
@@ -805,10 +808,10 @@
         <thead>
           <tr>
             <th>학생명</th>
-            <th>정확도</th>
-            <th>소요시간</th>
+            <th>정확도(%)</th>
+            <th>CPS</th>
             <th>WPM</th>
-            <th>입력/전체</th>
+            <th>소요시간</th>
             <th>날짜</th>
             <th>삭제</th>
           </tr>
@@ -826,11 +829,11 @@
         <tr>
           <td><strong>${record.name}</strong></td>
           <td class="${accuracyClass}">${record.accuracy}%</td>
+          <td>${record.cps || 0}</td>
+          <td>${record.wpm || 0}</td>
           <td>${record.time}초</td>
-          <td>${record.wpm}</td>
-          <td>${record.inputLength}/${record.textLength}</td>
           <td style="font-size: 0.9rem; color: var(--muted);">${record.timestamp}</td>
-          <td><button class="action-btn" onclick="deleteRecord(${record.id})">✕</button></td>
+          <td><button class="action-btn" onclick="deleteRecord(${record.id})">삭제</button></td>
         </tr>
       `;
     });
@@ -844,10 +847,17 @@
   }
 
   function deleteRecord(id) {
-    if (!confirm('정말 삭제하시겠습니까?')) return;
+    const password = prompt('기록을 삭제하려면 비밀번호를 입력하세요:');
+    if (password === null) return;
+
+    if (password !== '0983') {
+      alert('비밀번호가 틀렸습니다.');
+      return;
+    }
 
     records = records.filter(r => r.id !== id);
     localStorage.setItem('typingRecords', JSON.stringify(records));
+    alert('기록이 삭제되었습니다.');
     displayRecords();
   }
 
