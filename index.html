@@ -1867,6 +1867,23 @@
               hnbStarOrbit 16s linear infinite;
           }
 
+          /* 배경 먼지 입자 */
+          .hnb-dust {
+            opacity: 0.4;
+            fill: #FFEB3B;
+          }
+
+          .hnb-dust-1 { animation: hnbDustFloat1 8s ease-in-out infinite; }
+          .hnb-dust-2 { animation: hnbDustFloat2 9s ease-in-out infinite; }
+          .hnb-dust-3 { animation: hnbDustFloat3 10s ease-in-out infinite; }
+          .hnb-dust-4 { animation: hnbDustFloat4 7s ease-in-out infinite; }
+          .hnb-dust-5 { animation: hnbDustFloat5 11s ease-in-out infinite; }
+          .hnb-dust-6 { animation: hnbDustFloat6 9.5s ease-in-out infinite; }
+          .hnb-dust-7 { animation: hnbDustFloat7 8.5s ease-in-out infinite; }
+          .hnb-dust-8 { animation: hnbDustFloat8 10.5s ease-in-out infinite; }
+          .hnb-dust-9 { animation: hnbDustFloat9 7.5s ease-in-out infinite; }
+          .hnb-dust-10 { animation: hnbDustFloat10 9.5s ease-in-out infinite; }
+
           @keyframes hnbStarGather {
             0% {
               opacity: 0.3;
@@ -1890,6 +1907,17 @@
               transform: rotate(360deg);
             }
           }
+
+          @keyframes hnbDustFloat1 { 0% { transform: translate(40px, 30px); } 50% { opacity: 0.6; } 100% { transform: translate(-40px, -30px); } }
+          @keyframes hnbDustFloat2 { 0% { transform: translate(-50px, 25px); } 50% { opacity: 0.5; } 100% { transform: translate(50px, -25px); } }
+          @keyframes hnbDustFloat3 { 0% { transform: translate(30px, -45px); } 50% { opacity: 0.7; } 100% { transform: translate(-30px, 45px); } }
+          @keyframes hnbDustFloat4 { 0% { transform: translate(-35px, -40px); } 50% { opacity: 0.6; } 100% { transform: translate(35px, 40px); } }
+          @keyframes hnbDustFloat5 { 0% { transform: translate(55px, 15px); } 50% { opacity: 0.5; } 100% { transform: translate(-55px, -15px); } }
+          @keyframes hnbDustFloat6 { 0% { transform: translate(-25px, 50px); } 50% { opacity: 0.6; } 100% { transform: translate(25px, -50px); } }
+          @keyframes hnbDustFloat7 { 0% { transform: translate(45px, -35px); } 50% { opacity: 0.7; } 100% { transform: translate(-45px, 35px); } }
+          @keyframes hnbDustFloat8 { 0% { transform: translate(-60px, 20px); } 50% { opacity: 0.5; } 100% { transform: translate(60px, -20px); } }
+          @keyframes hnbDustFloat9 { 0% { transform: translate(20px, 55px); } 50% { opacity: 0.6; } 100% { transform: translate(-20px, -55px); } }
+          @keyframes hnbDustFloat10 { 0% { transform: translate(-40px, -25px); } 50% { opacity: 0.7; } 100% { transform: translate(40px, 25px); } }
         </style>
 
         <!-- 별 모양 정의 (5각별) -->
@@ -1910,6 +1938,18 @@
 
       <!-- 수직선 (3D 원근감) -->
       <ellipse cx="100" cy="100" rx="15" ry="85" fill="none" stroke="rgba(100, 181, 246, 0.15)" stroke-width="0.8" opacity="0.4" />
+
+      <!-- 배경 먼지 입자들 (투명한 구 안에서 떠다니는 효과) -->
+      <circle cx="100" cy="100" r="0.6" class="hnb-dust hnb-dust-1" />
+      <circle cx="100" cy="100" r="0.4" class="hnb-dust hnb-dust-2" />
+      <circle cx="100" cy="100" r="0.5" class="hnb-dust hnb-dust-3" />
+      <circle cx="100" cy="100" r="0.7" class="hnb-dust hnb-dust-4" />
+      <circle cx="100" cy="100" r="0.45" class="hnb-dust hnb-dust-5" />
+      <circle cx="100" cy="100" r="0.55" class="hnb-dust hnb-dust-6" />
+      <circle cx="100" cy="100" r="0.5" class="hnb-dust hnb-dust-7" />
+      <circle cx="100" cy="100" r="0.65" class="hnb-dust hnb-dust-8" />
+      <circle cx="100" cy="100" r="0.42" class="hnb-dust hnb-dust-9" />
+      <circle cx="100" cy="100" r="0.58" class="hnb-dust hnb-dust-10" />
 
       <!-- 환상적으로 모이는 별빛 (지구 모양) - 매우 작은 별들 -->
 
