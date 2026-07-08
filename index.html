@@ -1971,17 +1971,21 @@
           .hnb-blue-star:nth-of-type(4) { animation: hnbBlueDriftD 5s ease-in-out infinite, hnbStarOrbit 160s linear infinite !important; }
 
           @keyframes hnbStarGather {
-            0% {
+            0%, 100% {
               opacity: 0.3;
               transform: translate(var(--tx), var(--ty)) scale(0.5) rotate(0deg);
+            }
+            25% {
+              opacity: 0.6;
+              transform: translate(calc(var(--tx) * 0.9), calc(var(--ty) * 0.9)) scale(0.6) rotate(90deg);
             }
             50% {
               opacity: 1;
-              transform: translate(calc(var(--tx) * 0.5), calc(var(--ty) * 0.5)) scale(0.8) rotate(0deg);
+              transform: translate(calc(var(--tx) * 0.7), calc(var(--ty) * 0.7)) scale(0.7) rotate(180deg);
             }
-            100% {
-              opacity: 0.3;
-              transform: translate(var(--tx), var(--ty)) scale(0.5) rotate(0deg);
+            75% {
+              opacity: 0.6;
+              transform: translate(calc(var(--tx) * 0.8), calc(var(--ty) * 0.8)) scale(0.6) rotate(270deg);
             }
           }
 
