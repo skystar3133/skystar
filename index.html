@@ -428,10 +428,6 @@
     .hnb-about-img-wrap {
       border-radius: 0;
       overflow: visible;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 300px;
     }
     .hnb-about-img-wrap img {
       width: 100%;
@@ -439,41 +435,16 @@
       display: block;
     }
 
-    /* 캐릭터 애니메이션 */
-    .hnb-character-box {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hnb-character {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-    }
-
-    .hnb-wave {
+    /* 손 흔드는 애니메이션 */
+    .hnb-wave-hand {
       position: absolute;
-      font-size: 5rem;
-      top: 20px;
-      right: 40px;
+      top: 15%;
+      right: 10%;
+      font-size: 4rem;
       animation: hnbWaveHand 0.8s ease-in-out infinite;
-      transform-origin: bottom right;
-      display: block;
-    }
-
-    .hnb-face {
-      display: block;
-      font-size: 10rem;
-      line-height: 1;
+      transform-origin: 70% 70%;
+      display: inline-block;
+      z-index: 10;
     }
 
     @keyframes hnbWaveHand {
@@ -1498,14 +1469,14 @@
     <!-- 2단: 이미지 + 텍스트 -->
     <div class="hnb-about-grid">
 
-      <!-- 강사 프로필 이미지 (손 흔드는 캐릭터) -->
-      <div class="hnb-about-img-wrap hnb-fade">
-        <div class="hnb-character-box">
-          <div class="hnb-character">
-            <span class="hnb-wave">👋</span>
-            <span class="hnb-face">😊</span>
-          </div>
-        </div>
+      <!-- 강사 프로필 이미지 (손 흔드는 애니메이션) -->
+      <div class="hnb-about-img-wrap hnb-fade" style="position: relative; display: inline-block; width: 100%;">
+        <img
+          src="./images/profile.png"
+          alt="하늘별컴퓨터교습소 강사"
+          loading="lazy"
+        />
+        <span class="hnb-wave-hand">👋</span>
       </div>
 
       <!-- 텍스트 -->
