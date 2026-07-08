@@ -160,21 +160,42 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: var(--white);
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
       z-index: 999;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 36px;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: opacity .35s ease, transform .35s ease;
+      overflow-y: auto;
     }
-    .hnb-mobile-menu.open { display: flex; }
+    .hnb-mobile-menu.open {
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
+    }
     .hnb-mobile-menu a {
       font-size: 1.4rem;
       font-weight: 700;
       color: var(--dark);
-      transition: color .2s;
+      transition: color .2s, transform .2s;
+      opacity: 0;
+      animation: hnbMenuSlideIn .5s ease both;
     }
-    .hnb-mobile-menu a:hover { color: var(--primary); }
+    .hnb-mobile-menu.open a:nth-child(2) { animation-delay: .1s; }
+    .hnb-mobile-menu.open a:nth-child(3) { animation-delay: .15s; }
+    .hnb-mobile-menu.open a:nth-child(4) { animation-delay: .2s; }
+    .hnb-mobile-menu.open a:nth-child(5) { animation-delay: .25s; }
+    .hnb-mobile-menu.open a:nth-child(6) { animation-delay: .3s; }
+    .hnb-mobile-menu.open a:nth-child(7) { animation-delay: .35s; }
+    .hnb-mobile-menu.open a:nth-child(8) { animation-delay: .4s; }
+    .hnb-mobile-menu a:hover {
+      color: var(--primary);
+      transform: translateX(8px);
+    }
     .hnb-mobile-close {
       position: absolute;
       top: 22px; right: 28px;
@@ -184,6 +205,22 @@
       background: none;
       border: none;
       font-family: inherit;
+      transition: color .2s, transform .2s;
+    }
+    .hnb-mobile-close:hover {
+      color: var(--primary);
+      transform: rotate(90deg);
+    }
+
+    @keyframes hnbMenuSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* ================================================
