@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="하늘별컴퓨터교습소 – 자격증 취득 현황" />
+  <title>자격증 현황 – 하늘별컴퓨터교습소</title>
+
+  <!-- Pretendard 폰트 -->
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #3A7BD5;
+      --dark: #1B2A4A;
+      --text: #2D3748;
+      --muted: #64748B;
+      --white: #FFFFFF;
+      --bg-light: #F7F9FD;
+      --border: #E2E8F0;
+      --success: #28a745;
+      --info: #0070CC;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* 헤더 */
+    .header {
+      background: #0D1B2A;
+      color: var(--white);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .header-nav a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      margin-left: 24px;
+      transition: color .2s;
+    }
+
+    .header-nav a:hover {
+      color: var(--white);
+    }
+
+    /* 섹션 */
+    .section {
+      padding: 80px 28px;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #034AA6;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 컨트롤 바 */
+    .controls {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #034AA6;
+      box-shadow: 0 0 0 3px rgba(3, 74, 166, 0.1);
+    }
+
+    .btn {
+      background: #034AA6;
+      color: var(--white);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all .2s;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      background: #025199;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(3, 74, 166, 0.3);
+    }
+
+    /* 학생 목록 */
+    .cert-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .cert-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all .3s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cert-card:hover {
+      border-color: #034AA6;
+      box-shadow: 0 8px 32px rgba(58,123,213,.14);
+      transform: translateY(-4px);
+    }
+
+    .cert-info {
+      flex: 1;
+    }
+
+    .student-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .cert-name {
+      font-size: 1rem;
+      color: var(--info);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .cert-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .cert-badge {
+      display: inline-block;
+      background: rgba(40, 167, 69, 0.1);
+      color: #1e7e34;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .cert-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-delete {
+      background: #dc3545;
+      color: var(--white);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all .2s;
+      font-family: inherit;
+    }
+
+    .btn-delete:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    /* 모달 */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 30px 80px rgba(0,0,0,.4);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: #034AA6;
+      box-shadow: 0 0 0 3px rgba(3, 74, 166, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #CBD5E1;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(3, 74, 166, 0.1) 0%, rgba(255,255,255) 100%);
+      padding: 24px;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #034AA6;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    /* 푸터 */
+    .footer {
+      background: #0D1B2A;
+      color: var(--white);
+      padding: 44px 28px;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 60px 20px;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .cert-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cert-actions {
+        width: 100%;
+        margin-top: 16px;
+      }
+
+      .modal-content {
+        padding: 24px;
+      }
+
+      .modal-footer {
+        flex-direction: column;
+      }
+
+      .modal-footer .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="header">
+  <div class="header-inner container">
+    <div class="header-title">🏆 자격증 현황</div>
+    <nav class="header-nav">
+      <a href="index.html">← 홈으로</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 메인 섹션 -->
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">자격증 취득 현황</h1>
+    <p class="section-desc">하늘별컴퓨터교습소 학생들의 자격증 취득 현황을 확인하세요. 여러분의 성취를 자랑해주세요!</p>
+
+    <!-- 통계 -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number" id="totalStudents">0</div>
+        <div class="stat-label">총 학생 수</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="totalCerts">0</div>
+        <div class="stat-label">총 자격증 수</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="avgCerts">0</div>
+        <div class="stat-label">학생당 평균</div>
+      </div>
+    </div>
+
+    <!-- 컨트롤 바 -->
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" class="search-input" id="searchInput" placeholder="학생 이름 또는 자격증으로 검색...">
+      </div>
+      <button class="btn" onclick="openAddModal()">➕ 자격증 등록</button>
+    </div>
+
+    <!-- 학생 목록 -->
+    <div class="cert-list" id="certList"></div>
+  </div>
+</section>
+
+<!-- 자격증 등록 모달 -->
+<div class="modal" id="addModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">자격증 등록</h2>
+      <button class="modal-close" onclick="closeAddModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">학생 이름</label>
+        <input type="text" class="form-input" id="studentName" placeholder="예) 김민지">
+      </div>
+      <div class="form-group">
+        <label class="form-label">자격증 이름</label>
+        <input type="text" class="form-input" id="certName" placeholder="예) 정보처리기사">
+      </div>
+      <div class="form-group">
+        <label class="form-label">취득 날짜 (선택사항)</label>
+        <input type="date" class="form-input" id="certDate">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeAddModal()">취소</button>
+      <button class="btn" onclick="submitCertificate()">등록</button>
+    </div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<footer class="footer">
+  <p class="footer-text">© 2026 하늘별컴퓨터교습소. All rights reserved.</p>
+</footer>
+
+<script>
+  let certificates = [];
+
+  function loadCertificates() {
+    const saved = localStorage.getItem('certificates');
+    if (saved) {
+      certificates = JSON.parse(saved);
+    }
+    renderCertificates();
+    updateStats();
+  }
+
+  function saveCertificates() {
+    localStorage.setItem('certificates', JSON.stringify(certificates));
+    updateStats();
+  }
+
+  function updateStats() {
+    const uniqueStudents = new Set(certificates.map(c => c.studentName)).size;
+    const totalCerts = certificates.length;
+    const avgCerts = uniqueStudents > 0 ? (totalCerts / uniqueStudents).toFixed(1) : 0;
+
+    document.getElementById('totalStudents').textContent = uniqueStudents;
+    document.getElementById('totalCerts').textContent = totalCerts;
+    document.getElementById('avgCerts').textContent = avgCerts;
+  }
+
+  function renderCertificates() {
+    const list = document.getElementById('certList');
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+    const filtered = certificates.filter(cert =>
+      cert.studentName.toLowerCase().includes(searchTerm) ||
+      cert.certName.toLowerCase().includes(searchTerm)
+    );
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="empty-state">등록된 자격증이 없습니다. 첫 번째 자격증을 등록해주세요! 🎉</div>';
+      return;
+    }
+
+    // 학생 이름별로 그룹화
+    const grouped = {};
+    filtered.forEach(cert => {
+      if (!grouped[cert.studentName]) {
+        grouped[cert.studentName] = [];
+      }
+      grouped[cert.studentName].push(cert);
+    });
+
+    list.innerHTML = Object.entries(grouped).map(([studentName, certs]) => `
+      <div class="cert-card">
+        <div class="cert-info">
+          <div class="student-name">👤 ${studentName}</div>
+          <div style="margin-bottom: 12px;">
+            ${certs.map(cert => `
+              <div class="cert-name">🏅 ${cert.certName}</div>
+            `).join('')}
+          </div>
+          <div class="cert-meta">
+            <span class="cert-badge">자격증 ${certs.length}개</span>
+            ${certs[0].certDate ? `<span>📅 ${certs[0].certDate}</span>` : ''}
+          </div>
+        </div>
+        <div class="cert-actions">
+          ${certs.map(cert => `
+            <button class="btn-delete" onclick="deleteCertificate(${cert.id})">삭제</button>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openAddModal() {
+    document.getElementById('addModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeAddModal() {
+    document.getElementById('addModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+    document.getElementById('studentName').value = '';
+    document.getElementById('certName').value = '';
+    document.getElementById('certDate').value = '';
+  }
+
+  function submitCertificate() {
+    const studentName = document.getElementById('studentName').value.trim();
+    const certName = document.getElementById('certName').value.trim();
+    const certDate = document.getElementById('certDate').value;
+
+    if (!studentName || !certName) {
+      alert('학생 이름과 자격증 이름을 입력해주세요.');
+      return;
+    }
+
+    const newCert = {
+      id: Date.now(),
+      studentName,
+      certName,
+      certDate: certDate || new Date().toISOString().split('T')[0]
+    };
+
+    certificates.unshift(newCert);
+    saveCertificates();
+    renderCertificates();
+    closeAddModal();
+    alert('자격증이 등록되었습니다! 🎉');
+  }
+
+  function deleteCertificate(id) {
+    if (confirm('이 자격증을 삭제하시겠습니까?')) {
+      certificates = certificates.filter(c => c.id !== id);
+      saveCertificates();
+      renderCertificates();
+      alert('삭제되었습니다.');
+    }
+  }
+
+  // 검색 기능
+  document.getElementById('searchInput').addEventListener('input', renderCertificates);
+
+  // 모달 외부 클릭 시 닫기
+  document.getElementById('addModal').addEventListener('click', (e) => {
+    if (e.target.id === 'addModal') closeAddModal();
+  });
+
+  // 초기 로드
+  window.addEventListener('load', loadCertificates);
+</script>
+
+</body>
+</html>
