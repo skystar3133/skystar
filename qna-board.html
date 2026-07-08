@@ -607,7 +607,7 @@
 <script>
   let currentQnaId = null;
 
-  let qnaData = [
+  const defaultQnaData = [
     // 파이썬 문법 (7개)
     { id: 1, title: '파이썬에서 변수의 자료형을 확인하는 방법은?', author: '김민지', category: 'python', date: '2026-07-05', solved: true, views: 145, answers: [{ author: '강사', content: 'type() 함수를 사용합니다. 예: type(x)' }], content: '파이썬에서 변수의 자료형을 알아내려면 어떤 함수를 사용해야 하나요?' },
     { id: 2, title: 'for 루프와 while 루프의 차이점은?', author: '이준호', category: 'python', date: '2026-07-03', solved: true, views: 203, answers: [{ author: '강사', content: 'for는 횟수가 정해졌을 때, while은 조건이 변할 때 사용합니다.' }], content: '두 루프 방식이 언제 사용되고 어떤 차이가 있나요?' },
@@ -635,6 +635,19 @@
     { id: 20, title: 'DevOps는 정확히 무엇인가요?', author: '정현준', category: 'sw', date: '2026-06-19', solved: true, views: 189, answers: [{ author: '강사', content: 'DevOps는 개발과 운영 팀이 함께 일하는 문화와 프로세스입니다.' }], content: '개발과 운영의 협업에 대해 알고 싶습니다.' }
   ];
 
+  function loadQnaData() {
+    const saved = localStorage.getItem('qnaData');
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return [...defaultQnaData];
+  }
+
+  function saveQnaData(data) {
+    localStorage.setItem('qnaData', JSON.stringify(data));
+  }
+
+  let qnaData = loadQnaData();
   let filteredQna = [...qnaData];
 
   function getCategoryLabel(cat) {
@@ -733,6 +746,7 @@
       if (qna.answers.length > 0) {
         qna.solved = true;
       }
+      saveQnaData(qnaData);
       alert('답변이 등록되었습니다!');
       closeDetailModal();
       filterQna();
@@ -774,6 +788,7 @@
     };
 
     qnaData.unshift(newQuestion);
+    saveQnaData(qnaData);
     filteredQna = [...qnaData];
     renderQnaList();
     closeWriteModal();
