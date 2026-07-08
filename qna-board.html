@@ -154,6 +154,20 @@
       box-shadow: 0 4px 12px rgba(3, 74, 166, 0.3);
     }
 
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #CBD5E1;
+    }
+
     /* Q&A 리스트 */
     .qna-list {
       display: grid;
@@ -330,6 +344,13 @@
       border-top: 2px solid var(--border);
     }
 
+    .answers-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--dark);
+    }
+
     .answer-item {
       background: var(--bg-light);
       border: 1px solid var(--border);
@@ -347,6 +368,20 @@
     .answer-content {
       color: var(--text);
       line-height: 1.6;
+    }
+
+    .answer-form {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .answer-form-title {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--dark);
     }
 
     /* 폼 */
@@ -394,11 +429,6 @@
       border-top: 1px solid var(--border);
     }
 
-    .btn-secondary {
-      background: var(--border);
-      color: var(--text);
-    }
-
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -406,6 +436,11 @@
       background: var(--white);
       border-radius: 12px;
       border: 1px solid var(--border);
+    }
+
+    .empty-answers {
+      color: var(--muted);
+      font-style: italic;
     }
 
     /* 푸터 */
@@ -508,8 +543,22 @@
     </div>
     <div class="modal-body" id="modalBody"></div>
     <div class="answers-section">
-      <h3 style="margin-bottom: 16px;">답변</h3>
+      <h3 class="answers-title">💬 답변 (<span id="answerCount">0</span>)</h3>
       <div id="answersList"></div>
+
+      <!-- 답변 작성 폼 -->
+      <div class="answer-form">
+        <div class="answer-form-title">답변 작성</div>
+        <div class="form-group">
+          <label class="form-label">이름</label>
+          <input type="text" class="form-input" id="answerAuthor" placeholder="성명을 입력하세요">
+        </div>
+        <div class="form-group">
+          <label class="form-label">답변</label>
+          <textarea class="form-textarea" id="answerContent" placeholder="도움이 될 답변을 작성해주세요" style="min-height: 80px;"></textarea>
+        </div>
+        <button class="btn btn-small" onclick="submitAnswer()">💾 답변 저장</button>
+      </div>
     </div>
   </div>
 </div>
@@ -556,32 +605,34 @@
 </footer>
 
 <script>
+  let currentQnaId = null;
+
   let qnaData = [
     // 파이썬 문법 (7개)
-    { id: 1, title: '파이썬에서 변수의 자료형을 확인하는 방법은?', author: '김민지', category: 'python', date: '2026-07-05', solved: true, views: 145, answers: 2, content: '파이썬에서 변수의 자료형을 알아내려면 어떤 함수를 사용해야 하나요?', answersDetail: [{ author: '강사', content: 'type() 함수를 사용합니다. 예: type(x)' }] },
-    { id: 2, title: 'for 루프와 while 루프의 차이점은?', author: '이준호', category: 'python', date: '2026-07-03', solved: true, views: 203, answers: 2, content: '두 루프 방식이 언제 사용되고 어떤 차이가 있나요?', answersDetail: [{ author: '강사', content: 'for는 횟수가 정해졌을 때, while은 조건이 변할 때 사용합니다.' }] },
-    { id: 3, title: '파이썬의 리스트와 튜플 차이점', author: '박지은', category: 'python', date: '2026-07-01', solved: true, views: 87, answers: 2, content: '불변성 외에 어떤 차이가 있나요?', answersDetail: [{ author: '강사', content: '리스트는 수정 가능, 튜플은 수정 불가능합니다.' }] },
-    { id: 4, title: '람다 함수(lambda)는 언제 사용하나요?', author: '최민수', category: 'python', date: '2026-06-28', solved: true, views: 156, answers: 2, content: '일반 함수와 어떤 상황에서 다르게 사용되나요?', answersDetail: [{ author: '강사', content: '간단한 한 줄 함수를 정의할 때 사용합니다.' }] },
-    { id: 5, title: '파이썬 딕셔너리의 keys(), values() 차이', author: '황수정', category: 'python', date: '2026-06-25', solved: true, views: 234, answers: 2, content: '각각 어떤 데이터를 반환하나요?', answersDetail: [{ author: '강사', content: 'keys()는 키들, values()는 값들을 반환합니다.' }] },
-    { id: 6, title: '클래스 상속(inheritance)은 어떻게 사용하나요?', author: '정준혁', category: 'python', date: '2026-06-22', solved: false, views: 98, answers: 1, content: '자식 클래스에서 부모 클래스의 메서드를 사용하는 방법', answersDetail: [{ author: '강사', content: 'super()를 사용하거나 클래스명.메서드()로 접근합니다.' }] },
-    { id: 7, title: '파일 입출력에서 with 문의 장점은?', author: '유민아', category: 'python', date: '2026-06-20', solved: true, views: 167, answers: 2, content: 'with 문을 사용하지 않으면 뭐가 문제인가요?', answersDetail: [{ author: '강사', content: 'with 문은 자동으로 파일을 닫아주어 안전합니다.' }] },
+    { id: 1, title: '파이썬에서 변수의 자료형을 확인하는 방법은?', author: '김민지', category: 'python', date: '2026-07-05', solved: true, views: 145, answers: [{ author: '강사', content: 'type() 함수를 사용합니다. 예: type(x)' }], content: '파이썬에서 변수의 자료형을 알아내려면 어떤 함수를 사용해야 하나요?' },
+    { id: 2, title: 'for 루프와 while 루프의 차이점은?', author: '이준호', category: 'python', date: '2026-07-03', solved: true, views: 203, answers: [{ author: '강사', content: 'for는 횟수가 정해졌을 때, while은 조건이 변할 때 사용합니다.' }], content: '두 루프 방식이 언제 사용되고 어떤 차이가 있나요?' },
+    { id: 3, title: '파이썬의 리스트와 튜플 차이점', author: '박지은', category: 'python', date: '2026-07-01', solved: true, views: 87, answers: [{ author: '강사', content: '리스트는 수정 가능, 튜플은 수정 불가능합니다.' }], content: '불변성 외에 어떤 차이가 있나요?' },
+    { id: 4, title: '람다 함수(lambda)는 언제 사용하나요?', author: '최민수', category: 'python', date: '2026-06-28', solved: true, views: 156, answers: [{ author: '강사', content: '간단한 한 줄 함수를 정의할 때 사용합니다.' }], content: '일반 함수와 어떤 상황에서 다르게 사용되나요?' },
+    { id: 5, title: '파이썬 딕셔너리의 keys(), values() 차이', author: '황수정', category: 'python', date: '2026-06-25', solved: true, views: 234, answers: [{ author: '강사', content: 'keys()는 키들, values()는 값들을 반환합니다.' }], content: '각각 어떤 데이터를 반환하나요?' },
+    { id: 6, title: '클래스 상속(inheritance)은 어떻게 사용하나요?', author: '정준혁', category: 'python', date: '2026-06-22', solved: false, views: 98, answers: [{ author: '강사', content: 'super()를 사용하거나 클래스명.메서드()로 접근합니다.' }], content: '자식 클래스에서 부모 클래스의 메서드를 사용하는 방법' },
+    { id: 7, title: '파일 입출력에서 with 문의 장점은?', author: '유민아', category: 'python', date: '2026-06-20', solved: true, views: 167, answers: [{ author: '강사', content: 'with 문은 자동으로 파일을 닫아주어 안전합니다.' }], content: 'with 문을 사용하지 않으면 뭐가 문제인가요?' },
 
     // 자격증 취득 (7개)
-    { id: 8, title: 'ITQ 엑셀 자격증 취득 난이도는?', author: '한기호', category: 'cert', date: '2026-07-04', solved: true, views: 267, answers: 2, content: '공부 기간은 어느 정도 걸리나요?', answersDetail: [{ author: '강사', content: '3-4주 정도면 충분합니다. 기초부터 시작할 수 있습니다.' }] },
-    { id: 9, title: 'CompTIA A+ 자격증을 취득해야 하나요?', author: '송정은', category: 'cert', date: '2026-07-02', solved: true, views: 145, answers: 2, content: '취업에 도움이 되는지 궁금합니다.', answersDetail: [{ author: '강사', content: 'IT 산업에서 기초 자격증으로 인정받습니다.' }] },
-    { id: 10, title: 'ADSP 데이터분석 준전문가 자격증 준비법', author: '김태희', category: 'cert', date: '2026-06-29', solved: false, views: 189, answers: 1, content: '시험 범위와 시간 관리 팁을 알고 싶습니다.', answersDetail: [{ author: '선배', content: '통계와 SQL이 중요하니 깊이 있게 공부하세요.' }] },
-    { id: 11, title: '정보처리기사 필기시험 합격 팁', author: '이재훈', category: 'cert', date: '2026-06-26', solved: true, views: 276, answers: 2, content: '어떤 과목을 집중해서 공부해야 하나요?', answersDetail: [{ author: '강사', content: '데이터베이스와 네트워크 부분이 중요합니다.' }] },
-    { id: 12, title: 'SQLD SQL 전문가 자격증의 가치', author: '박소연', category: 'cert', date: '2026-06-23', solved: true, views: 154, answers: 2, content: '데이터베이스 개발자가 꼭 필요한 자격증인가요?', answersDetail: [{ author: '강사', content: '데이터베이스 관련 직무에서는 매우 도움이 됩니다.' }] },
-    { id: 13, title: '온라인 시험과 지필고사의 차이점', author: '최동욱', category: 'cert', date: '2026-06-20', solved: true, views: 112, answers: 2, content: '어떤 형식이 더 쉬운가요?', answersDetail: [{ author: '강사', content: '형식에 따라 장단점이 있습니다. 본인에게 맞는 방식을 선택하세요.' }] },
-    { id: 14, title: '자격증 시험 응시료는 어느 정도인가요?', author: '정수진', category: 'cert', date: '2026-06-17', solved: true, views: 203, answers: 2, content: '평균적인 자격증들의 가격대를 알고 싶습니다.', answersDetail: [{ author: '강사', content: '대부분 3-5만원 정도입니다. 자격증마다 다릅니다.' }] },
+    { id: 8, title: 'ITQ 엑셀 자격증 취득 난이도는?', author: '한기호', category: 'cert', date: '2026-07-04', solved: true, views: 267, answers: [{ author: '강사', content: '3-4주 정도면 충분합니다. 기초부터 시작할 수 있습니다.' }], content: '공부 기간은 어느 정도 걸리나요?' },
+    { id: 9, title: 'CompTIA A+ 자격증을 취득해야 하나요?', author: '송정은', category: 'cert', date: '2026-07-02', solved: true, views: 145, answers: [{ author: '강사', content: 'IT 산업에서 기초 자격증으로 인정받습니다.' }], content: '취업에 도움이 되는지 궁금합니다.' },
+    { id: 10, title: 'ADSP 데이터분석 준전문가 자격증 준비법', author: '김태희', category: 'cert', date: '2026-06-29', solved: false, views: 189, answers: [{ author: '선배', content: '통계와 SQL이 중요하니 깊이 있게 공부하세요.' }], content: '시험 범위와 시간 관리 팁을 알고 싶습니다.' },
+    { id: 11, title: '정보처리기사 필기시험 합격 팁', author: '이재훈', category: 'cert', date: '2026-06-26', solved: true, views: 276, answers: [{ author: '강사', content: '데이터베이스와 네트워크 부분이 중요합니다.' }], content: '어떤 과목을 집중해서 공부해야 하나요?' },
+    { id: 12, title: 'SQLD SQL 전문가 자격증의 가치', author: '박소연', category: 'cert', date: '2026-06-23', solved: true, views: 154, answers: [{ author: '강사', content: '데이터베이스 관련 직무에서는 매우 도움이 됩니다.' }], content: '데이터베이스 개발자가 꼭 필요한 자격증인가요?' },
+    { id: 13, title: '온라인 시험과 지필고사의 차이점', author: '최동욱', category: 'cert', date: '2026-06-20', solved: true, views: 112, answers: [{ author: '강사', content: '형식에 따라 장단점이 있습니다. 본인에게 맞는 방식을 선택하세요.' }], content: '어떤 형식이 더 쉬운가요?' },
+    { id: 14, title: '자격증 시험 응시료는 어느 정도인가요?', author: '정수진', category: 'cert', date: '2026-06-17', solved: true, views: 203, answers: [{ author: '강사', content: '대부분 3-5만원 정도입니다. 자격증마다 다릅니다.' }], content: '평균적인 자격증들의 가격대를 알고 싶습니다.' },
 
     // SW 학습 (6개)
-    { id: 15, title: 'Git과 GitHub 차이점이 뭐예요?', author: '이훈재', category: 'sw', date: '2026-07-06', solved: true, views: 298, answers: 2, content: '둘 다 버전 관리인데 어떤 차이가 있나요?', answersDetail: [{ author: '강사', content: 'Git은 소프트웨어, GitHub는 Git 호스팅 서비스입니다.' }] },
-    { id: 16, title: 'REST API 설계의 best practice는?', author: '김준형', category: 'sw', date: '2026-07-01', solved: true, views: 245, answers: 2, content: 'API 엔드포인트를 어떻게 설계해야 하나요?', answersDetail: [{ author: '강사', content: '리소스는 명사로, HTTP 메서드로 동작을 표현합니다.' }] },
-    { id: 17, title: '데이터베이스 인덱싱이 왜 중요한가요?', author: '박준영', category: 'sw', date: '2026-06-28', solved: true, views: 167, answers: 2, content: '인덱스를 무조건 많이 만들면 좋지 않나요?', answersDetail: [{ author: '강사', content: '인덱스는 조회 속도는 빠르지만 저장 공간과 업데이트 비용이 증가합니다.' }] },
-    { id: 18, title: '객체지향 프로그래밍의 4대 원칙', author: '유지호', category: 'sw', date: '2026-06-25', solved: false, views: 198, answers: 1, content: 'SOLID 원칙이 뭔가요?', answersDetail: [{ author: '강사', content: 'S: Single Responsibility, O: Open/Closed, L: Liskov, I: Interface Segregation, D: Dependency Inversion' }] },
-    { id: 19, title: '웹 개발에서 프론트엔드와 백엔드 역할', author: '임아현', category: 'sw', date: '2026-06-22', solved: true, views: 134, answers: 2, content: '각각 어떤 기술을 배워야 하나요?', answersDetail: [{ author: '강사', content: '프론트는 HTML/CSS/JS, 백은 서버 언어와 데이터베이스를 배웁니다.' }] },
-    { id: 20, title: 'DevOps는 정확히 무엇인가요?', author: '정현준', category: 'sw', date: '2026-06-19', solved: true, views: 189, answers: 2, content: '개발과 운영의 협업에 대해 알고 싶습니다.', answersDetail: [{ author: '강사', content: 'DevOps는 개발과 운영 팀이 함께 일하는 문화와 프로세스입니다.' }] }
+    { id: 15, title: 'Git과 GitHub 차이점이 뭐예요?', author: '이훈재', category: 'sw', date: '2026-07-06', solved: true, views: 298, answers: [{ author: '강사', content: 'Git은 소프트웨어, GitHub는 Git 호스팅 서비스입니다.' }], content: '둘 다 버전 관리인데 어떤 차이가 있나요?' },
+    { id: 16, title: 'REST API 설계의 best practice는?', author: '김준형', category: 'sw', date: '2026-07-01', solved: true, views: 245, answers: [{ author: '강사', content: '리소스는 명사로, HTTP 메서드로 동작을 표현합니다.' }], content: 'API 엔드포인트를 어떻게 설계해야 하나요?' },
+    { id: 17, title: '데이터베이스 인덱싱이 왜 중요한가요?', author: '박준영', category: 'sw', date: '2026-06-28', solved: true, views: 167, answers: [{ author: '강사', content: '인덱스는 조회 속도는 빠르지만 저장 공간과 업데이트 비용이 증가합니다.' }], content: '인덱스를 무조건 많이 만들면 좋지 않나요?' },
+    { id: 18, title: '객체지향 프로그래밍의 4대 원칙', author: '유지호', category: 'sw', date: '2026-06-25', solved: false, views: 198, answers: [], content: 'SOLID 원칙이 뭔가요?' },
+    { id: 19, title: '웹 개발에서 프론트엔드와 백엔드 역할', author: '임아현', category: 'sw', date: '2026-06-22', solved: true, views: 134, answers: [{ author: '강사', content: '프론트는 HTML/CSS/JS, 백은 서버 언어와 데이터베이스를 배웁니다.' }], content: '각각 어떤 기술을 배워야 하나요?' },
+    { id: 20, title: 'DevOps는 정확히 무엇인가요?', author: '정현준', category: 'sw', date: '2026-06-19', solved: true, views: 189, answers: [{ author: '강사', content: 'DevOps는 개발과 운영 팀이 함께 일하는 문화와 프로세스입니다.' }], content: '개발과 운영의 협업에 대해 알고 싶습니다.' }
   ];
 
   let filteredQna = [...qnaData];
@@ -623,15 +674,15 @@
         <div class="qna-footer">
           <div class="qna-stats">
             <span>👁️ ${qna.views}</span>
-            <span>💬 ${qna.answers}</span>
+            <span>💬 ${qna.answers.length}</span>
           </div>
-          <button class="qna-btn" onclick="event.stopPropagation()">보기</button>
         </div>
       </div>
     `).join('');
   }
 
   function openDetailModal(id) {
+    currentQnaId = id;
     const qna = qnaData.find(q => q.id === id);
     if (!qna) return;
 
@@ -640,22 +691,51 @@
     document.getElementById('modalStatus').className = `status-badge ${qna.solved ? 'status-solved' : 'status-unsolved'}`;
     document.getElementById('modalStatus').textContent = qna.solved ? '✓ 해결됨' : '? 미해결';
     document.getElementById('modalTitle').textContent = qna.title;
-    document.getElementById('modalAuthor').textContent = `${qna.author}`;
+    document.getElementById('modalAuthor').textContent = `글쓴이: ${qna.author}`;
     document.getElementById('modalDate').textContent = qna.date;
     document.getElementById('modalBody').textContent = qna.content;
+    document.getElementById('answerCount').textContent = qna.answers.length;
 
-    document.getElementById('answersList').innerHTML = qna.answersDetail.map(ans => `
-      <div class="answer-item">
-        <div class="answer-header">${ans.author}</div>
-        <div class="answer-content">${ans.content}</div>
-      </div>
-    `).join('');
+    document.getElementById('answersList').innerHTML = qna.answers.length > 0
+      ? qna.answers.map(ans => `
+        <div class="answer-item">
+          <div class="answer-header">${ans.author}</div>
+          <div class="answer-content">${ans.content}</div>
+        </div>
+      `).join('')
+      : '<p class="empty-answers">아직 답변이 없습니다. 첫 번째 답변을 남겨주세요!</p>';
+
+    document.getElementById('answerAuthor').value = '';
+    document.getElementById('answerContent').value = '';
 
     document.getElementById('detailModal').classList.add('active');
   }
 
   function closeDetailModal() {
     document.getElementById('detailModal').classList.remove('active');
+    currentQnaId = null;
+  }
+
+  function submitAnswer() {
+    if (!currentQnaId) return;
+
+    const author = document.getElementById('answerAuthor').value.trim();
+    const content = document.getElementById('answerContent').value.trim();
+
+    if (!author || !content) {
+      alert('이름과 답변을 입력해주세요.');
+      return;
+    }
+
+    const qna = qnaData.find(q => q.id === currentQnaId);
+    if (qna) {
+      qna.answers.push({ author, content });
+      if (qna.answers.length > 0) {
+        qna.solved = true;
+      }
+      openDetailModal(currentQnaId);
+      alert('답변이 등록되었습니다!');
+    }
   }
 
   function openWriteModal() {
@@ -688,9 +768,8 @@
       date: new Date().toISOString().split('T')[0],
       solved: false,
       views: 0,
-      answers: 0,
-      content,
-      answersDetail: []
+      answers: [],
+      content
     };
 
     qnaData.unshift(newQuestion);
