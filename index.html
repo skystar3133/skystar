@@ -428,50 +428,11 @@
     .hnb-about-img-wrap {
       border-radius: 0;
       overflow: visible;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 300px;
     }
     .hnb-about-img-wrap img {
       width: 100%;
       height: auto;
       display: block;
-    }
-
-    /* 캐릭터 컨테이너 */
-    .hnb-character-container {
-      position: relative;
-      width: 200px;
-      height: 250px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* 얼굴 */
-    .hnb-character-face {
-      font-size: 8rem;
-      line-height: 1;
-    }
-
-    /* 상담문의 옆 손 애니메이션 */
-    .hnb-contact-wave {
-      display: inline-block;
-      font-size: 2.5rem;
-      margin-left: 12px;
-      animation: waveAnimation 0.6s ease-in-out infinite;
-      transform-origin: 85% 85%;
-    }
-
-    @keyframes waveAnimation {
-      0%, 100% {
-        transform: rotate(0deg);
-      }
-      50% {
-        transform: rotate(30deg);
-      }
     }
 
     /* 타이틀 (파란색 — 하이라이트 유지) */
@@ -1478,11 +1439,13 @@
     <!-- 2단: 이미지 + 텍스트 -->
     <div class="hnb-about-grid">
 
-      <!-- 강사 프로필 캐릭터 -->
+      <!-- 강사 프로필 이미지 -->
       <div class="hnb-about-img-wrap hnb-fade">
-        <div class="hnb-character-container">
-          <span class="hnb-character-face">😊</span>
-        </div>
+        <img
+          src="./images/profile.png"
+          alt="하늘별컴퓨터교습소 강사"
+          loading="lazy"
+        />
       </div>
 
       <!-- 텍스트 -->
@@ -1955,7 +1918,7 @@
     <!-- ── 왼쪽: 상담문의 ── -->
     <div class="hnb-fade">
       <p class="hnb-contact-col-label">Contact</p>
-      <h2 class="hnb-contact-title">상담문의 <span class="hnb-contact-wave">👋</span></h2>
+      <h2 class="hnb-contact-title">상담문의</h2>
 
       <!-- 카카오톡 문의 -->
       <div class="hnb-contact-block">
