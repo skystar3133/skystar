@@ -450,20 +450,19 @@
       justify-content: center;
     }
 
-    /* 손 애니메이션 */
-    .hnb-character-wave {
-      position: absolute;
-      font-size: 4.5rem;
-      top: -10px;
-      right: 20px;
-      animation: waveAnimation 0.6s ease-in-out infinite;
-      transform-origin: 85% 85%;
-    }
-
     /* 얼굴 */
     .hnb-character-face {
       font-size: 8rem;
       line-height: 1;
+    }
+
+    /* 상담문의 옆 손 애니메이션 */
+    .hnb-contact-wave {
+      display: inline-block;
+      font-size: 2.5rem;
+      margin-left: 12px;
+      animation: waveAnimation 0.6s ease-in-out infinite;
+      transform-origin: 85% 85%;
     }
 
     @keyframes waveAnimation {
@@ -1479,10 +1478,9 @@
     <!-- 2단: 이미지 + 텍스트 -->
     <div class="hnb-about-grid">
 
-      <!-- 강사 프로필 캐릭터 (손 흔드는 애니메이션) -->
+      <!-- 강사 프로필 캐릭터 -->
       <div class="hnb-about-img-wrap hnb-fade">
         <div class="hnb-character-container">
-          <span class="hnb-character-wave">👋</span>
           <span class="hnb-character-face">😊</span>
         </div>
       </div>
@@ -1957,7 +1955,7 @@
     <!-- ── 왼쪽: 상담문의 ── -->
     <div class="hnb-fade">
       <p class="hnb-contact-col-label">Contact</p>
-      <h2 class="hnb-contact-title">상담문의</h2>
+      <h2 class="hnb-contact-title">상담문의 <span class="hnb-contact-wave">👋</span></h2>
 
       <!-- 카카오톡 문의 -->
       <div class="hnb-contact-block">
