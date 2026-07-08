@@ -1835,50 +1835,55 @@
       preserveAspectRatio="xMidYMid meet"
     >
       <defs>
-        <style>
-          .hnb-star { animation: hnbStarTwinkle 3s ease-in-out infinite; }
-          @keyframes hnbStarTwinkle {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-          }
-        </style>
+        <filter id="hnbGlowFire">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+          <feMerge>
+            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+
+        <!-- 지구 윤곽 경로 -->
+        <path id="globePath" d="M 100 10 Q 140 30 150 70 Q 155 100 140 130 Q 100 155 60 140 Q 30 125 25 85 Q 20 50 50 25 Q 75 10 100 10" fill="none" stroke="none"/>
       </defs>
 
-      <!-- 지구 테두리 별들 -->
-      <!-- 상단 호 -->
-      <circle cx="100" cy="15" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0s" />
-      <circle cx="115" cy="20" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0.1s" />
-      <circle cx="128" cy="32" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0.2s" />
-      <circle cx="138" cy="48" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0.3s" />
+      <!-- 지구 윤곽선 (흐릿한 파란색) -->
+      <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(100, 181, 246, 0.15)" stroke-width="1.5" opacity="0.4" />
 
-      <!-- 우측 호 -->
-      <circle cx="145" cy="65" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0.4s" />
-      <circle cx="148" cy="85" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0.5s" />
-      <circle cx="145" cy="105" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0.6s" />
-      <circle cx="138" cy="122" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0.7s" />
+      <!-- 불빛 1 -->
+      <circle r="4" fill="#FFB74D" filter="url(#hnbGlowFire)">
+        <animateMotion dur="8s" repeatCount="indefinite">
+          <mpath href="#globePath"/>
+        </animateMotion>
+      </circle>
 
-      <!-- 하단 호 -->
-      <circle cx="125" cy="138" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0.8s" />
-      <circle cx="105" cy="148" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 0.9s" />
-      <circle cx="80" cy="150" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 1s" />
-      <circle cx="60" cy="142" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 1.1s" />
+      <!-- 불빛 2 (약간 뒤따라옴) -->
+      <circle r="3.5" fill="#FFA726" filter="url(#hnbGlowFire)">
+        <animateMotion dur="8s" repeatCount="indefinite">
+          <mpath href="#globePath"/>
+        </animateMotion>
+        <animateMotion dur="8s" repeatCount="indefinite" keyPoints="0.35;1;1" keyTimes="0;0.35;1">
+          <mpath href="#globePath"/>
+        </animateMotion>
+      </circle>
 
-      <!-- 좌측 호 -->
-      <circle cx="45" cy="122" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 1.2s" />
-      <circle cx="35" cy="100" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 1.3s" />
-      <circle cx="32" cy="75" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 1.4s" />
-      <circle cx="38" cy="52" r="2.5" fill="#FFD700" class="hnb-star" style="animation-delay: 1.5s" />
+      <!-- 불빛 3 (더 뒤따라옴) -->
+      <circle r="3" fill="#FF9800" filter="url(#hnbGlowFire)" opacity="0.8">
+        <animateMotion dur="8s" repeatCount="indefinite">
+          <mpath href="#globePath"/>
+        </animateMotion>
+        <animateMotion dur="8s" repeatCount="indefinite" keyPoints="0.65;1;1" keyTimes="0;0.65;1">
+          <mpath href="#globePath"/>
+        </animateMotion>
+      </circle>
 
-      <!-- 내부 별들 (대륙 모양) -->
-      <circle cx="75" cy="70" r="2" fill="#FFEB3B" class="hnb-star" style="animation-delay: 0.5s" />
-      <circle cx="85" cy="65" r="2" fill="#FFEB3B" class="hnb-star" style="animation-delay: 0.7s" />
-      <circle cx="70" cy="85" r="2" fill="#FFEB3B" class="hnb-star" style="animation-delay: 0.9s" />
-      <circle cx="80" cy="95" r="2" fill="#FFEB3B" class="hnb-star" style="animation-delay: 1.1s" />
-      <circle cx="115" cy="75" r="2" fill="#FFEB3B" class="hnb-star" style="animation-delay: 0.6s" />
-      <circle cx="125" cy="90" r="2" fill="#FFEB3B" class="hnb-star" style="animation-delay: 0.8s" />
-      <circle cx="100" cy="100" r="2" fill="#FFEB3B" class="hnb-star" style="animation-delay: 1s" />
-      <circle cx="110" cy="110" r="2" fill="#FFEB3B" class="hnb-star" style="animation-delay: 1.2s" />
+      <!-- 별들 (배경 장식) -->
+      <circle cx="30" cy="40" r="1.5" fill="#FFD700" opacity="0.6" />
+      <circle cx="160" cy="50" r="1" fill="#FFEB3B" opacity="0.5" />
+      <circle cx="170" cy="120" r="1.2" fill="#FFD700" opacity="0.6" />
+      <circle cx="25" cy="110" r="1" fill="#FFEB3B" opacity="0.5" />
+      <circle cx="55" cy="165" r="1.3" fill="#FFD700" opacity="0.6" />
+      <circle cx="140" cy="175" r="1" fill="#FFEB3B" opacity="0.5" />
     </svg>
   </div>
 
