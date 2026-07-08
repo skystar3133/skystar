@@ -1334,7 +1334,7 @@
       position: relative;
       min-height: 500px;
       background: #000000;
-      overflow: hidden;
+      overflow: visible;
       padding: 60px 28px;
       display: flex;
       align-items: center;
@@ -1399,32 +1399,78 @@
       flex: 1;
     }
 
-    /* 오른쪽 별빛 장식 */
-    .hnb-speed-content::after {
-      content: '';
+    /* 왼쪽 별빛 장식 */
+    .hnb-speed-stars-left {
       position: absolute;
-      right: -80px;
+      left: 20px;
       top: 50%;
       transform: translateY(-50%);
-      width: 200px;
-      height: 200px;
-      background:
-        radial-gradient(circle, #FFFF33 0%, transparent 1%) 0 0,
-        radial-gradient(circle, #FF0000 0%, transparent 1%) 30px 40px,
-        radial-gradient(circle, #FFFF33 0%, transparent 1%) 60px 20px,
-        radial-gradient(circle, #FF0000 0%, transparent 1%) 80px 60px,
-        radial-gradient(circle, #FFFF00 0%, transparent 1%) 50px 80px,
-        radial-gradient(circle, #FFFF33 0%, transparent 1%) 25px 120px,
-        radial-gradient(circle, #FF0000 0%, transparent 1%) 70px 100px;
-      background-size: 8px 8px, 10px 10px, 7px 7px, 12px 12px, 9px 9px, 8px 8px, 11px 11px;
-      background-repeat: no-repeat;
-      animation: hnbStarsGlow 2s ease-in-out infinite;
-      pointer-events: none;
+      width: 150px;
+      height: 280px;
       z-index: 5;
+      animation: hnbStarsGlow 2s ease-in-out infinite;
+    }
+
+    .hnb-speed-stars-left::before,
+    .hnb-speed-stars-left::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .hnb-speed-stars-left::before {
+      width: 16px;
+      height: 16px;
+      background: #FFFF33;
+      left: 10px;
+      top: 20px;
+      box-shadow:
+        40px 50px 0 8px #FF0000,
+        70px 30px 0 7px #FFFF33,
+        100px 80px 0 10px #FF0000,
+        20px 120px 0 9px #FFFF00,
+        60px 140px 0 8px #FFFF33,
+        90px 180px 0 9px #FF0000,
+        30px 200px 0 7px #FFFF33;
+    }
+
+    /* 오른쪽 별빛 장식 */
+    .hnb-speed-stars-right {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 150px;
+      height: 280px;
+      z-index: 5;
+      animation: hnbStarsGlow 2s ease-in-out infinite;
+    }
+
+    .hnb-speed-stars-right::before,
+    .hnb-speed-stars-right::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .hnb-speed-stars-right::before {
+      width: 16px;
+      height: 16px;
+      background: #FFFF33;
+      right: 10px;
+      top: 20px;
+      box-shadow:
+        -40px 50px 0 8px #FF0000,
+        -70px 30px 0 7px #FFFF33,
+        -100px 80px 0 10px #FF0000,
+        -20px 120px 0 9px #FFFF00,
+        -60px 140px 0 8px #FFFF33,
+        -90px 180px 0 9px #FF0000,
+        -30px 200px 0 7px #FFFF33;
     }
 
     @keyframes hnbStarsGlow {
-      0%, 100% { opacity: 0.5; }
+      0%, 100% { opacity: 0.6; }
       50% { opacity: 1; }
     }
 
@@ -2048,6 +2094,8 @@
     </svg>
   </div>
 
+  <div class="hnb-speed-stars-left"></div>
+
   <div class="hnb-speed-content">
     <h2 class="hnb-speed-title">20년 경험의 전문가, 하늘별과 함께하세요</h2>
     <p class="hnb-speed-subtitle">
@@ -2057,6 +2105,8 @@
       지금 상담받기
     </button>
   </div>
+
+  <div class="hnb-speed-stars-right"></div>
 </section>
 
 
