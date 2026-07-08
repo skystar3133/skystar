@@ -1327,6 +1327,126 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ================================================
+       속도 섹션 (비즈니스 CTA)
+    ================================================ */
+    .hnb-speed {
+      position: relative;
+      min-height: 500px;
+      background: linear-gradient(135deg, #0d47a1 0%, #1976d2 50%, #1e88e5 100%);
+      overflow: hidden;
+      padding: 100px 28px;
+    }
+
+    .hnb-speed-globe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hnb-speed-svg {
+      width: 600px;
+      height: 600px;
+      animation: hnbRotateGlobe 20s linear infinite;
+      filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.2));
+    }
+
+    @keyframes hnbRotateGlobe {
+      0% {
+        transform: rotateZ(0deg) rotateX(20deg);
+      }
+      100% {
+        transform: rotateZ(360deg) rotateX(20deg);
+      }
+    }
+
+    .hnb-speed-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hnb-speed-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      color: white;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      line-height: 1.3;
+      letter-spacing: -.02em;
+    }
+
+    .hnb-speed-subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255, 255, 255, 0.95);
+      margin-bottom: 40px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      line-height: 1.6;
+    }
+
+    .hnb-speed-btn {
+      background: white;
+      color: #1976d2;
+      border: none;
+      padding: 14px 40px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .hnb-speed-btn:hover {
+      background: #f5f5f5;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .hnb-speed {
+        min-height: 400px;
+        padding: 60px 20px;
+      }
+
+      .hnb-speed-svg {
+        width: 400px;
+        height: 400px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hnb-speed {
+        min-height: 300px;
+        padding: 40px 16px;
+      }
+
+      .hnb-speed-svg {
+        width: 300px;
+        height: 300px;
+      }
+
+      .hnb-speed-globe {
+        opacity: 0.15;
+      }
+
+      .hnb-speed-title {
+        font-size: 1.5rem;
+      }
+
+      .hnb-speed-subtitle {
+        font-size: 0.95rem;
+      }
+    }
+
     @media (max-width: 480px) {
       .hnb-float-stack { right: 16px; bottom: 16px; gap: 10px; }
       .hnb-float-btn { width: 68px; height: 68px; }
@@ -1699,6 +1819,76 @@
     <!-- 문의 버튼 -->
 
 
+  </div>
+</section>
+
+
+<!-- ====================================================
+     속도 섹션 (비즈니스 CTA + 움직이는 지구)
+==================================================== -->
+<section class="hnb-speed" id="hnbSpeed">
+  <div class="hnb-speed-globe">
+    <svg
+      class="hnb-speed-svg"
+      viewBox="0 0 200 200"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <defs>
+        <radialGradient id="hnbGlobeGradient" cx="35%" cy="35%">
+          <stop offset="0%" style="stop-color:#64B5F6;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#1976D2;stop-opacity:1" />
+        </radialGradient>
+        <filter id="hnbGlowFilter">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+          <feMerge>
+            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- 지구 기본 구 -->
+      <circle cx="100" cy="100" r="95" fill="url(#hnbGlobeGradient)" filter="url(#hnbGlowFilter)" />
+
+      <!-- 대륙 (북미) -->
+      <path
+        d="M 60 70 Q 70 60 85 65 Q 90 75 80 85 Q 65 90 55 80 Z"
+        fill="#4CAF50"
+        opacity="0.8"
+      />
+
+      <!-- 대륙 (남미) -->
+      <path
+        d="M 70 95 Q 75 105 80 115 Q 70 120 65 110 Z"
+        fill="#4CAF50"
+        opacity="0.8"
+      />
+
+      <!-- 대륙 (유럽/아프리카) -->
+      <path
+        d="M 110 60 Q 125 70 130 85 Q 125 100 110 105 Q 100 95 105 75 Z"
+        fill="#4CAF50"
+        opacity="0.8"
+      />
+
+      <!-- 대륙 (아시아) -->
+      <path
+        d="M 130 90 Q 150 95 155 110 Q 145 125 125 120 Q 120 105 130 90 Z"
+        fill="#4CAF50"
+        opacity="0.8"
+      />
+    </svg>
+  </div>
+
+  <div class="hnb-speed-content">
+    <h2 class="hnb-speed-title">비즈니스의 속도를 높일 준비가 되셨나요?</h2>
+    <p class="hnb-speed-subtitle">
+      코드스타와 함께 디지털 시대의 최고 전문가가 되어보세요
+    </p>
+    <button class="hnb-speed-btn" onclick="document.querySelector('.hnb-nav .hnb-nav-cta')?.click()">
+      지금 상담받기
+    </button>
   </div>
 </section>
 
