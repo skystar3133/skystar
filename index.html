@@ -1335,26 +1335,28 @@
       min-height: 500px;
       background: #000000;
       overflow: hidden;
-      padding: 100px 28px;
+      padding: 60px 28px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
     }
 
     .hnb-speed-globe {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      position: relative;
+      width: 350px;
+      height: 350px;
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: 0.25;
-      pointer-events: none;
+      flex-shrink: 0;
       z-index: 1;
     }
 
     .hnb-speed-svg {
-      width: 600px;
-      height: 600px;
+      width: 100%;
+      height: 100%;
       animation: hnbRotateGlobe 20s linear infinite;
-      filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.2));
+      filter: drop-shadow(0 0 40px rgba(255, 255, 33, 0.4));
     }
 
     @keyframes hnbRotateGlobe {
@@ -1369,9 +1371,8 @@
     .hnb-speed-content {
       position: relative;
       z-index: 10;
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto;
+      text-align: left;
+      flex: 1;
     }
 
     .hnb-speed-title {
@@ -1411,31 +1412,44 @@
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       .hnb-speed {
-        min-height: 400px;
-        padding: 60px 20px;
+        gap: 20px;
       }
 
-      .hnb-speed-svg {
-        width: 400px;
-        height: 400px;
+      .hnb-speed-globe {
+        width: 280px;
+        height: 280px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hnb-speed {
+        min-height: auto;
+        flex-direction: column;
+        padding: 60px 20px;
+        gap: 40px;
+      }
+
+      .hnb-speed-globe {
+        width: 250px;
+        height: 250px;
+      }
+
+      .hnb-speed-content {
+        text-align: center;
       }
     }
 
     @media (max-width: 480px) {
       .hnb-speed {
-        min-height: 300px;
         padding: 40px 16px;
-      }
-
-      .hnb-speed-svg {
-        width: 300px;
-        height: 300px;
+        gap: 30px;
       }
 
       .hnb-speed-globe {
-        opacity: 0.15;
+        width: 200px;
+        height: 200px;
       }
 
       .hnb-speed-title {
