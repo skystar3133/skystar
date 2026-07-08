@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="하늘별컴퓨터교습소 – 학생별 타자연습 기록" />
+  <title>타자연습 기록 – 하늘별컴퓨터교습소</title>
+
+  <!-- Pretendard 폰트 -->
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet" />
+
+  <style>
+    /* 색상 및 기본 스타일 */
+    :root {
+      --primary: #3A7BD5;
+      --primary-dark: #1E57B8;
+      --dark: #1B2A4A;
+      --text: #2D3748;
+      --muted: #64748B;
+      --white: #FFFFFF;
+      --bg-light: #F7F9FD;
+      --border: #E2E8F0;
+      --green: #28a745;
+      --gold: #F5A623;
+      --red: #dc3545;
+      --shadow-sm: 0 2px 12px rgba(58,123,213,.08);
+      --shadow-md: 0 8px 32px rgba(58,123,213,.14);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* 헤더 */
+    .header {
+      background: #0D1B2A;
+      color: var(--white);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .header-nav a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      margin-left: 24px;
+      transition: color .2s;
+    }
+
+    .header-nav a:hover {
+      color: var(--white);
+    }
+
+    /* 메인 섹션 */
+    .section {
+      padding: 80px 28px;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #034AA6;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 탭 네비게이션 */
+    .tabs {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 40px;
+      border-bottom: 2px solid var(--border);
+      justify-content: center;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 16px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color .2s, border-color .2s;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .tab-btn.active {
+      color: #034AA6;
+      border-bottom-color: #034AA6;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* 입력 폼 */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color .2s;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: #034AA6;
+      box-shadow: 0 0 0 3px rgba(3, 74, 166, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* 버튼 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      text-decoration: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: #034AA6;
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: #025199;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(3, 74, 166, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+
+    .btn-danger {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .btn-danger:hover {
+      background: #c82333;
+    }
+
+    /* 타이핑 테스트 영역 */
+    .typing-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .test-setup {
+      background: var(--bg-light);
+      border: 2px solid #034AA6;
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .test-setup h3 {
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+      color: var(--dark);
+    }
+
+    .student-name-input {
+      max-width: 400px;
+      margin: 0 auto 24px;
+    }
+
+    .test-area {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .test-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .test-header h3 {
+      font-size: 1.2rem;
+      color: var(--dark);
+    }
+
+    .student-info {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #034AA6;
+    }
+
+    .text-display {
+      background: #f8f9fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      min-height: 100px;
+      line-height: 1.8;
+      font-size: 1rem;
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+    }
+
+    .char {
+      position: relative;
+      padding: 0 1px;
+    }
+
+    .char.correct {
+      color: var(--green);
+      background: rgba(40, 167, 69, 0.1);
+    }
+
+    .char.incorrect {
+      color: var(--red);
+      background: rgba(220, 53, 69, 0.1);
+    }
+
+    .input-area {
+      width: 100%;
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+      min-height: 120px;
+      transition: border-color .2s;
+    }
+
+    .input-area:focus {
+      outline: none;
+      border-color: #034AA6;
+    }
+
+    .input-area:disabled {
+      background: var(--bg-light);
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .stat-item {
+      background: rgba(3, 74, 166, 0.05);
+      border-left: 4px solid #034AA6;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #034AA6;
+    }
+
+    /* 결과 카드 */
+    .result-card {
+      background: linear-gradient(135deg, rgba(3, 74, 166, 0.05) 0%, rgba(255,255,255) 100%);
+      border: 2px solid #034AA6;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .result-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .metric {
+      padding: 16px;
+      background: var(--white);
+      border-radius: 8px;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #034AA6;
+    }
+
+    .metric-value.excellent {
+      color: var(--green);
+    }
+
+    .metric-value.good {
+      color: var(--gold);
+    }
+
+    .metric-value.fair {
+      color: var(--red);
+    }
+
+    /* 기록 테이블 */
+    .records-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow-x: auto;
+    }
+
+    .records-table thead {
+      background: rgba(3, 74, 166, 0.05);
+      border-bottom: 2px solid #034AA6;
+    }
+
+    .records-table th {
+      padding: 16px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 0.9rem;
+    }
+
+    .records-table td {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .records-table tbody tr:hover {
+      background: rgba(3, 74, 166, 0.02);
+    }
+
+    .accuracy-excellent {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .accuracy-good {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .accuracy-fair {
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--red);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: opacity .2s;
+    }
+
+    .action-btn:hover {
+      opacity: 0.7;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      .section {
+        padding: 60px 20px;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .header-nav {
+        display: none;
+      }
+
+      .tabs {
+        flex-wrap: wrap;
+      }
+
+      .records-table {
+        font-size: 0.85rem;
+      }
+
+      .records-table th,
+      .records-table td {
+        padding: 12px;
+      }
+
+      .test-setup {
+        padding: 24px;
+      }
+
+      .result-metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 푸터 */
+    .footer {
+      background: #0D1B2A;
+      color: var(--white);
+      padding: 44px 28px;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="header">
+  <div class="header-inner container">
+    <div class="header-title">📝 타자연습 기록</div>
+    <nav class="header-nav">
+      <a href="index.html">← 홈으로</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 메인 섹션 -->
+<section class="section">
+  <div class="container typing-container">
+    <h1 class="section-title">학생별 타자연습 기록</h1>
+    <p class="section-desc">학생 이름을 입력하고 타자연습을 진행한 후 결과를 기록하세요.</p>
+
+    <!-- 탭 네비게이션 -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('practice')">📚 연습하기</button>
+      <button class="tab-btn" onclick="switchTab('records')">📊 기록보기</button>
+    </div>
+
+    <!-- 연습하기 탭 -->
+    <div id="practice" class="tab-content active">
+      <div id="setupForm" class="test-setup">
+        <h3>학생 정보</h3>
+        <div class="form-group student-name-input">
+          <input
+            type="text"
+            class="form-input"
+            id="studentName"
+            placeholder="학생 이름을 입력하세요"
+            onkeypress="if(event.key === 'Enter') startTest()"
+          />
+        </div>
+        <button class="btn btn-primary" onclick="startTest()">연습 시작</button>
+      </div>
+
+      <div id="testArea" class="test-area" style="display: none;">
+        <div class="test-header">
+          <h3>타자연습</h3>
+          <div class="student-info" id="studentDisplay"></div>
+        </div>
+
+        <div class="text-display" id="textDisplay"></div>
+
+        <textarea
+          class="input-area"
+          id="userInput"
+          placeholder="위의 텍스트를 여기에 입력하세요..."
+          disabled
+        ></textarea>
+
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-label">입력 글자</div>
+            <div class="stat-value"><span id="charCount">0</span>/100</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">진행률</div>
+            <div class="stat-value"><span id="progress">0</span>%</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">경과 시간</div>
+            <div class="stat-value"><span id="timer">0</span>초</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; text-align: right;">
+          <button class="btn btn-primary" onclick="finishTest()">연습 완료</button>
+          <button class="btn btn-secondary btn-small" onclick="cancelTest()" style="margin-left: 12px;">취소</button>
+        </div>
+      </div>
+
+      <div id="resultArea" style="display: none;">
+        <div class="result-card">
+          <h3 style="color: var(--dark); margin-bottom: 16px;">연습 결과</h3>
+          <p style="font-size: 1.1rem; margin-bottom: 16px;">
+            <strong id="resultName"></strong> 학생
+          </p>
+          <div class="result-metrics">
+            <div class="metric">
+              <div class="metric-label">정확도</div>
+              <div class="metric-value" id="resultAccuracy">0%</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">소요 시간</div>
+              <div class="metric-value" id="resultTime">0초</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">WPM</div>
+              <div class="metric-value" id="resultWPM">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">입력/전체</div>
+              <div class="metric-value" id="resultRatio">0/0</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center;">
+          <button class="btn btn-primary" onclick="saveResult()">결과 저장</button>
+          <button class="btn btn-secondary btn-small" onclick="resetTest()" style="margin-left: 12px;">다시 연습</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 기록보기 탭 -->
+    <div id="records" class="tab-content">
+      <div id="recordsContainer">
+        <p class="empty-state">아직 저장된 기록이 없습니다. 연습을 시작하세요!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 푸터 -->
+<footer class="footer">
+  <p class="footer-text">© 2026 하늘별컴퓨터교습소. All rights reserved.</p>
+</footer>
+
+<script>
+  const testTexts = [
+    '안녕하세요. 하늘별컴퓨터교습소입니다. 저희는 기초부터 코딩까지 단계별 맞춤형 교육을 제공합니다.',
+    '컴퓨터 기초, 워드 프로세싱, 스프레드시트, 프로그래밍 언어 등 다양한 교과목을 배울 수 있습니다.',
+    '타자연습은 컴퓨터 사용의 기본입니다. 규칙적인 연습으로 타자 속도와 정확도를 높일 수 있습니다.',
+    '온라인 수업과 오프라인 수업을 병행하여 유연한 학습 환경을 제공합니다.',
+    '자격증 시험 준비부터 취업까지 완벽한 지원 시스템을 갖추고 있습니다.'
+  ];
+
+  let currentTest = null;
+  let startTime = null;
+  let timerInterval = null;
+  let records = JSON.parse(localStorage.getItem('typingRecords')) || [];
+
+  function switchTab(tab) {
+    // 탭 버튼 활성화
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // 탭 콘텐츠 활성화
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+
+    if (tab === 'records') {
+      displayRecords();
+    }
+  }
+
+  function startTest() {
+    const name = document.getElementById('studentName').value.trim();
+    if (!name) {
+      alert('학생 이름을 입력하세요.');
+      return;
+    }
+
+    currentTest = {
+      name: name,
+      text: testTexts[Math.floor(Math.random() * testTexts.length)]
+    };
+
+    document.getElementById('setupForm').style.display = 'none';
+    document.getElementById('testArea').style.display = 'block';
+    document.getElementById('resultArea').style.display = 'none';
+    document.getElementById('studentDisplay').textContent = name;
+    document.getElementById('textDisplay').innerHTML = renderText(currentTest.text, '');
+
+    const textarea = document.getElementById('userInput');
+    textarea.disabled = false;
+    textarea.value = '';
+    textarea.focus();
+
+    startTime = Date.now();
+    startTimer();
+
+    textarea.addEventListener('input', updateProgress);
+  }
+
+  function renderText(original, input) {
+    return original.split('').map((char, i) => {
+      let className = 'char';
+      if (i < input.length) {
+        className += input[i] === char ? ' correct' : ' incorrect';
+      }
+      return `<span class="${className}">${char}</span>`;
+    }).join('');
+  }
+
+  function updateProgress() {
+    const input = document.getElementById('userInput').value;
+    document.getElementById('textDisplay').innerHTML = renderText(currentTest.text, input);
+    document.getElementById('charCount').textContent = input.length;
+    const progress = Math.round((input.length / currentTest.text.length) * 100);
+    document.getElementById('progress').textContent = Math.min(progress, 100);
+  }
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      document.getElementById('timer').textContent = elapsed;
+    }, 1000);
+  }
+
+  function finishTest() {
+    clearInterval(timerInterval);
+
+    const input = document.getElementById('userInput').value;
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+
+    // 정확도 계산
+    let correctChars = 0;
+    const minLen = Math.min(currentTest.text.length, input.length);
+    for (let i = 0; i < minLen; i++) {
+      if (currentTest.text[i] === input[i]) correctChars++;
+    }
+    const accuracy = Math.round((correctChars / currentTest.text.length) * 100);
+
+    // WPM 계산 (단어 수 / 분)
+    const wordCount = input.trim().split(/\s+/).length;
+    const minutes = Math.max(elapsed / 60, 0.016);
+    const wpm = Math.round(wordCount / minutes);
+
+    // 결과 표시
+    document.getElementById('testArea').style.display = 'none';
+    document.getElementById('resultArea').style.display = 'block';
+
+    document.getElementById('resultName').textContent = currentTest.name;
+    document.getElementById('resultAccuracy').textContent = accuracy + '%';
+    document.getElementById('resultAccuracy').className =
+      `metric-value ${accuracy >= 90 ? 'excellent' : accuracy >= 80 ? 'good' : 'fair'}`;
+    document.getElementById('resultTime').textContent = elapsed + '초';
+    document.getElementById('resultWPM').textContent = wpm;
+    document.getElementById('resultRatio').textContent = `${input.length}/${currentTest.text.length}`;
+
+    // 결과 임시 저장
+    currentTest.accuracy = accuracy;
+    currentTest.time = elapsed;
+    currentTest.wpm = wpm;
+    currentTest.inputLength = input.length;
+  }
+
+  function saveResult() {
+    if (!currentTest) return;
+
+    const record = {
+      id: Date.now(),
+      name: currentTest.name,
+      accuracy: currentTest.accuracy,
+      time: currentTest.time,
+      wpm: currentTest.wpm,
+      inputLength: currentTest.inputLength,
+      textLength: currentTest.text.length,
+      timestamp: new Date().toLocaleString('ko-KR')
+    };
+
+    records.unshift(record);
+    localStorage.setItem('typingRecords', JSON.stringify(records));
+    alert('결과가 저장되었습니다!');
+    resetTest();
+  }
+
+  function cancelTest() {
+    clearInterval(timerInterval);
+    resetTest();
+  }
+
+  function resetTest() {
+    document.getElementById('setupForm').style.display = 'block';
+    document.getElementById('testArea').style.display = 'none';
+    document.getElementById('resultArea').style.display = 'none';
+    document.getElementById('studentName').value = '';
+    document.getElementById('studentName').focus();
+    currentTest = null;
+  }
+
+  function displayRecords() {
+    const container = document.getElementById('recordsContainer');
+
+    if (records.length === 0) {
+      container.innerHTML = '<p class="empty-state">아직 저장된 기록이 없습니다. 연습을 시작하세요!</p>';
+      return;
+    }
+
+    let html = `
+      <table class="records-table">
+        <thead>
+          <tr>
+            <th>학생명</th>
+            <th>정확도</th>
+            <th>소요시간</th>
+            <th>WPM</th>
+            <th>입력/전체</th>
+            <th>날짜</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    records.forEach(record => {
+      const accuracyClass =
+        record.accuracy >= 90 ? 'accuracy-excellent' :
+        record.accuracy >= 80 ? 'accuracy-good' :
+        'accuracy-fair';
+
+      html += `
+        <tr>
+          <td><strong>${record.name}</strong></td>
+          <td class="${accuracyClass}">${record.accuracy}%</td>
+          <td>${record.time}초</td>
+          <td>${record.wpm}</td>
+          <td>${record.inputLength}/${record.textLength}</td>
+          <td style="font-size: 0.9rem; color: var(--muted);">${record.timestamp}</td>
+          <td><button class="action-btn" onclick="deleteRecord(${record.id})">✕</button></td>
+        </tr>
+      `;
+    });
+
+    html += `
+        </tbody>
+      </table>
+    `;
+
+    container.innerHTML = html;
+  }
+
+  function deleteRecord(id) {
+    if (!confirm('정말 삭제하시겠습니까?')) return;
+
+    records = records.filter(r => r.id !== id);
+    localStorage.setItem('typingRecords', JSON.stringify(records));
+    displayRecords();
+  }
+
+  // 초기 로드
+  window.addEventListener('load', () => {
+    displayRecords();
+  });
+</script>
+
+</body>
+</html>
