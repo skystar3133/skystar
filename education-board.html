@@ -1169,14 +1169,14 @@
     }
 
     grid.innerHTML = postsToRender.map(post => `
-      <div class="post-card" onclick="openModal(${post.id})">
+      <div class="post-card" onclick="openModal(${post.id}); return false;">
         <span class="post-badge">${post.categoryLabel}</span>
         <span class="post-date">${post.date}</span>
         <h3 class="post-title">${post.title}</h3>
         <p class="post-desc">${post.desc}</p>
         <div class="post-footer">
-          <span>${post.source}</span>
-          <a href="#" class="read-more" onclick="event.stopPropagation()">읽기</a>
+          <span>📌 ${post.source}</span>
+          <span class="read-more" style="cursor: pointer; user-select: none;">읽기 →</span>
         </div>
       </div>
     `).join('');
@@ -1199,32 +1199,63 @@
 
   function openModal(postId) {
     const post = posts.find(p => p.id === postId);
-    if (!post) return;
+    if (!post) {
+      console.error('Post not found:', postId);
+      return;
+    }
 
-    document.getElementById('modalBadge').textContent = post.categoryLabel;
+    const badge = document.getElementById('modalBadge');
+    badge.textContent = post.categoryLabel;
+    badge.className = 'post-badge';
+
     document.getElementById('modalTitle').textContent = post.title;
-    document.getElementById('modalDate').innerHTML = `📅 ${post.date}`;
-    document.getElementById('modalSource').innerHTML = `📌 ${post.source}`;
+    document.getElementById('modalDate').innerHTML = `📅 <strong>${post.date}</strong>`;
+    document.getElementById('modalSource').innerHTML = `📌 <strong>${post.source}</strong>`;
     document.getElementById('modalBody').innerHTML = post.content;
 
-    document.getElementById('postModal').classList.add('active');
+    const modal = document.getElementById('postModal');
+    modal.classList.add('active');
+    modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+
+    console.log('Modal opened for post:', post.title);
   }
 
   function closeModal() {
-    document.getElementById('postModal').classList.remove('active');
+    const modal = document.getElementById('postModal');
+    modal.classList.remove('active');
+    modal.style.display = 'none';
     document.body.style.overflow = 'auto';
+    console.log('Modal closed');
   }
 
-  // 모달 외부 클릭 시 닫기
-  document.getElementById('postModal').addEventListener('click', (e) => {
-    if (e.target.id === 'postModal') closeModal();
-  });
-
-  // 초기 로드
-  window.addEventListener('load', () => {
+  // 초기 렌더링
+  function init() {
     renderPosts(posts);
-  });
+
+    // 모달 외부 클릭 시 닫기
+    const modal = document.getElementById('postModal');
+    modal.addEventListener('click', (e) => {
+      if (e.target.id === 'postModal') {
+        closeModal();
+      }
+    });
+
+    // 필터 버튼 초기 활성화
+    const allBtn = document.querySelector('.filter-btn');
+    if (allBtn) {
+      allBtn.classList.add('active');
+    }
+
+    console.log('Education board initialized with', posts.length, 'posts');
+  }
+
+  // 페이지 로드 시 초기화
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 </script>
 
 </body>
