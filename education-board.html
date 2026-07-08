@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="하늘별컴퓨터교습소 – 최신 초중고 SW 교육정책" />
+  <title>교육게시판 – 하늘별컴퓨터교습소</title>
+
+  <!-- Pretendard 폰트 -->
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #3A7BD5;
+      --primary-dark: #1E57B8;
+      --dark: #1B2A4A;
+      --text: #2D3748;
+      --muted: #64748B;
+      --white: #FFFFFF;
+      --bg-light: #F7F9FD;
+      --border: #E2E8F0;
+      --green: #28a745;
+      --blue: #0070CC;
+      --shadow-sm: 0 2px 12px rgba(58,123,213,.08);
+      --shadow-md: 0 8px 32px rgba(58,123,213,.14);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* 헤더 */
+    .header {
+      background: #0D1B2A;
+      color: var(--white);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .header-nav a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      margin-left: 24px;
+      transition: color .2s;
+    }
+
+    .header-nav a:hover {
+      color: var(--white);
+    }
+
+    /* 메인 섹션 */
+    .section {
+      padding: 80px 28px;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #034AA6;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 필터 */
+    .filter-container {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      background: var(--bg-light);
+      border: 2px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: all .2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #034AA6;
+      color: var(--white);
+      border-color: #034AA6;
+    }
+
+    /* 게시판 */
+    .board-container {
+      background: var(--white);
+    }
+
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .post-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all .3s;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .post-card:hover {
+      border-color: #034AA6;
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .post-badge {
+      display: inline-block;
+      background: rgba(3, 74, 166, 0.1);
+      color: #034AA6;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .post-date {
+      display: inline-block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-left: 8px;
+    }
+
+    .post-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 12px 0;
+      line-height: 1.4;
+    }
+
+    .post-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .post-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .read-more {
+      color: #034AA6;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .read-more:hover {
+      color: #025199;
+    }
+
+    /* 모달 */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,.4);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .modal-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--dark);
+      max-width: 85%;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: color .2s;
+    }
+
+    .modal-close:hover {
+      color: var(--dark);
+    }
+
+    .modal-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .modal-body {
+      color: var(--text);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .modal-body h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 24px 0 12px;
+    }
+
+    .modal-body ul {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      margin-bottom: 8px;
+    }
+
+    .modal-body p {
+      margin-bottom: 12px;
+    }
+
+    /* 푸터 */
+    .footer {
+      background: #0D1B2A;
+      color: var(--white);
+      padding: 44px 28px;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      .section {
+        padding: 60px 20px;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .header-nav {
+        display: none;
+      }
+
+      .post-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-content {
+        padding: 24px;
+      }
+
+      .modal-title {
+        font-size: 1.3rem;
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="header">
+  <div class="header-inner container">
+    <div class="header-title">📚 교육게시판</div>
+    <nav class="header-nav">
+      <a href="index.html">← 홈으로</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 메인 섹션 -->
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">최신 초중고 SW 교육정책</h1>
+    <p class="section-desc">2024년 최신 초등학교, 중학교, 고등학교 소프트웨어 교육정책 및 교육과정 정보를 제공합니다.</p>
+
+    <!-- 필터 -->
+    <div class="filter-container">
+      <button class="filter-btn active" onclick="filterPosts('all')">전체</button>
+      <button class="filter-btn" onclick="filterPosts('elementary')">초등학교</button>
+      <button class="filter-btn" onclick="filterPosts('middle')">중학교</button>
+      <button class="filter-btn" onclick="filterPosts('high')">고등학교</button>
+      <button class="filter-btn" onclick="filterPosts('policy')">정책</button>
+    </div>
+
+    <!-- 게시판 -->
+    <div class="board-container">
+      <div class="post-grid" id="postGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 상세보기 모달 -->
+<div class="modal" id="postModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div>
+        <div id="modalBadge" class="post-badge"></div>
+        <h2 class="modal-title" id="modalTitle"></h2>
+      </div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-meta">
+      <span id="modalDate"></span>
+      <span id="modalSource"></span>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<footer class="footer">
+  <p class="footer-text">© 2026 하늘별컴퓨터교습소. All rights reserved.</p>
+</footer>
+
+<script>
+  const posts = [
+    {
+      id: 1,
+      category: 'elementary',
+      categoryLabel: '초등학교',
+      title: '2024 초등학교 교육과정 개정 – 디지털 리터러시 강화',
+      date: '2024-09-15',
+      source: '교육부',
+      desc: '초등학교 3~6학년 대상 소프트웨어 필수과목 강화 및 디지털 리터러시 교육과정 개정안이 발표되었습니다.',
+      content: `
+        <h3>개정 내용</h3>
+        <ul>
+          <li>SW 교육 시간 확대: 연 34시간 → 68시간</li>
+          <li>인공지능(AI) 기초 교육 신설</li>
+          <li>디지털 윤리 교육 강화</li>
+          <li>블록 기반 프로그래밍에서 텍스트 코딩으로 단계적 전환</li>
+        </ul>
+        <h3>추진 일정</h3>
+        <ul>
+          <li>2024년 9월: 교육과정 개정안 발표</li>
+          <li>2024년 10월~12월: 교과서 개발</li>
+          <li>2025년 3월: 현장 적용</li>
+        </ul>
+      `
+    },
+    {
+      id: 2,
+      category: 'middle',
+      categoryLabel: '중학교',
+      title: '중학교 정보 교과 선택과목 도입 – 2024학년도 시행',
+      date: '2024-08-20',
+      source: '교육부',
+      desc: '중학교에서 정보 과목을 선택과목으로 지정하여 학생 맞춤형 교육을 강화합니다.',
+      content: `
+        <h3>주요 내용</h3>
+        <ul>
+          <li>정보 교과 필수 → 선택과목 변경</li>
+          <li>학교별 자율적 시간 편성 가능</li>
+          <li>데이터 분석, 보안, 알고리즘 등 심화 내용 추가</li>
+          <li>실습 중심 교육과정 강화</li>
+        </ul>
+        <h3>선택과목 구성</h3>
+        <ul>
+          <li>정보(기초): 1학년</li>
+          <li>정보(심화): 2~3학년 (선택)</li>
+          <li>인공지능 기초: 창의적 체험활동</li>
+        </ul>
+      `
+    },
+    {
+      id: 3,
+      category: 'high',
+      categoryLabel: '고등학교',
+      title: '고교 정보과학 신규과목 도입 – 2025 대입 반영',
+      date: '2024-07-10',
+      source: '교육부',
+      desc: '고등학교에 정보과학이라는 새로운 필수과목이 도입되며 대학입시에 반영됩니다.',
+      content: `
+        <h3>신규과목 내용</h3>
+        <ul>
+          <li>정보과학 (필수과목)</li>
+          <li>인공지능과 데이터과학</li>
+          <li>컴퓨터과학과 사회</li>
+          <li>소프트웨어개발</li>
+        </ul>
+        <h3>대입 반영</h3>
+        <ul>
+          <li>2025학년도 수능에서 정보 과목 재지정</li>
+          <li>수능 선택과목으로 공식 인정</li>
+          <li>일반계/전문계 모두 적용</li>
+        </ul>
+        <h3>학습 내용</h3>
+        <ul>
+          <li>자료구조 및 알고리즘</li>
+          <li>데이터베이스</li>
+          <li>웹 프로그래밍</li>
+          <li>정보보안</li>
+        </ul>
+      `
+    },
+    {
+      id: 4,
+      category: 'policy',
+      categoryLabel: '정책',
+      title: '2024 AI 교육 추진 기본계획 – 전 국민 AI 리터러시',
+      date: '2024-06-30',
+      source: '교육부',
+      desc: '전국 초중고 모든 학교에서 AI 교육을 필수적으로 추진하는 정책입니다.',
+      content: `
+        <h3>추진 목표</h3>
+        <ul>
+          <li>모든 학생의 AI 기초 이해도 향상</li>
+          <li>AI 윤리 교육 의무화</li>
+          <li>AI 인재 양성 강화</li>
+          <li>디지털 격차 해소</li>
+        </ul>
+        <h3>세부 과제</h3>
+        <ul>
+          <li>초등학교: AI 이해 및 활용 중심</li>
+          <li>중학교: AI 원리 및 기초 프로그래밍</li>
+          <li>고등학교: AI 심화 및 진로 연계</li>
+        </ul>
+        <h3>지원 사항</h3>
+        <ul>
+          <li>교사 연수비 지원</li>
+          <li>AI 교재 개발 및 배포</li>
+          <li>실습 기자재 지원</li>
+        </ul>
+      `
+    },
+    {
+      id: 5,
+      category: 'elementary',
+      categoryLabel: '초등학교',
+      title: '초등 정보교육 확대 – 1~2학년 대상 신설',
+      date: '2024-05-15',
+      source: '교육부',
+      desc: '기존 3학년부터 시작하던 정보교육이 1학년부터 확대됩니다.',
+      content: `
+        <h3>확대 내용</h3>
+        <ul>
+          <li>1~2학년: 컴퓨터 기초 리터러시 교육</li>
+          <li>3~4학년: 디지털 도구 활용 및 기초 코딩</li>
+          <li>5~6학년: 알고리즘 및 심화 프로그래밍</li>
+        </ul>
+        <h3>교육 방법</h3>
+        <ul>
+          <li>게임 기반 학습 (Unplugged)</li>
+          <li>보드게임을 통한 알고리즘 이해</li>
+          <li>실생활 문제 해결 중심</li>
+        </ul>
+        <h3>교육 시수</h3>
+        <ul>
+          <li>1~2학년: 주 1시간</li>
+          <li>3~6학년: 주 2시간</li>
+        </ul>
+      `
+    },
+    {
+      id: 6,
+      category: 'middle',
+      categoryLabel: '중학교',
+      title: '중학교 정보과 교과서 개정 – 2024년 9월 고시',
+      date: '2024-04-20',
+      source: '교육부',
+      desc: '중학교 정보 교과의 새로운 교과서가 개정되어 더욱 실용적이고 최신 기술을 반영합니다.',
+      content: `
+        <h3>개정 주요 사항</h3>
+        <ul>
+          <li>클라우드 컴퓨팅 내용 추가</li>
+          <li>사이버 보안 교육 강화</li>
+          <li>데이터 분석 입문 포함</li>
+          <li>IoT와 센서 기술 소개</li>
+        </ul>
+        <h3>실습 환경</h3>
+        <ul>
+          <li>Python 프로그래밍 중심</li>
+          <li>마이크로비트, 아두이노 활용</li>
+          <li>온라인 협업 도구 활용</li>
+        </ul>
+        <h3>평가 방식</h3>
+        <ul>
+          <li>포트폴리오 평가 확대</li>
+          <li>프로젝트 기반 학습 강조</li>
+          <li>실습 결과물 평가</li>
+        </ul>
+      `
+    },
+    {
+      id: 7,
+      category: 'high',
+      categoryLabel: '고등학교',
+      title: '2025 대입 수능 정보과목 완전 개편',
+      date: '2024-03-10',
+      source: '대학수학능력시험위원회',
+      desc: '2025학년도부터 수능 정보과목이 완전히 개편되며 새로운 출제 범위가 적용됩니다.',
+      content: `
+        <h3>개편 내용</h3>
+        <ul>
+          <li>문제 수 감소: 20문 → 17문</li>
+          <li>객관식 문제 중심 유지</li>
+          <li>난이도 조정: 중상 수준으로 조정</li>
+        </ul>
+        <h3>출제 범위</h3>
+        <ul>
+          <li>자료 표현 및 처리</li>
+          <li>알고리즘과 프로그래밍</li>
+          <li>데이터베이스</li>
+          <li>네트워크와 정보보안</li>
+        </ul>
+        <h3>준비 방법</h3>
+        <ul>
+          <li>기본 개념 이해에 집중</li>
+          <li>실제 프로그래밍 실습</li>
+          <li>기출문제 분석</li>
+        </ul>
+      `
+    },
+    {
+      id: 8,
+      category: 'policy',
+      categoryLabel: '정책',
+      title: '디지털 교육 혁신방안 – 2024~2028',
+      date: '2024-02-28',
+      source: '교육부',
+      desc: '디지털 교육 5개년 혁신 계획이 발표되어 향후 5년간 추진될 교육 정책의 방향을 제시합니다.',
+      content: `
+        <h3>5대 전략</h3>
+        <ul>
+          <li>1. SW·AI 교육 기반 조성</li>
+          <li>2. 디지털 학습 인프라 구축</li>
+          <li>3. 교사 디지털 역량 강화</li>
+          <li>4. 디지털 격차 해소</li>
+          <li>5. 교육 데이터 활용 확대</li>
+        </ul>
+        <h3>투자 규모</h3>
+        <ul>
+          <li>총 2조 원 규모 투자</li>
+          <li>학교 ICT 인프라 현대화</li>
+          <li>디지털 교재 개발</li>
+        </ul>
+      `
+    },
+    {
+      id: 9,
+      category: 'elementary',
+      categoryLabel: '초등학교',
+      title: '초등학교 정보교육 표준 교육과정 고시',
+      date: '2024-01-15',
+      source: '교육부',
+      desc: '전국 모든 초등학교가 따를 표준 정보교육과정이 공시되었습니다.',
+      content: `
+        <h3>학년별 교육 내용</h3>
+        <ul>
+          <li>1~2학년: 컴퓨터 이해 및 기초 사용</li>
+          <li>3~4학년: 알고리즘, 블록 프로그래밍</li>
+          <li>5~6학년: 텍스트 프로그래밍, 정보보안</li>
+        </ul>
+        <h3>성취 기준</h3>
+        <ul>
+          <li>컴퓨터 과학의 기본 개념 이해</li>
+          <li>문제 해결을 위한 프로그래밍 능력</li>
+          <li>디지털 윤리 이해</li>
+        </ul>
+      `
+    },
+    {
+      id: 10,
+      category: 'policy',
+      categoryLabel: '정책',
+      title: '2024 학교 정보통신기술(ICT) 투자 확대 계획',
+      date: '2024-01-01',
+      source: '교육부',
+      desc: '2024년 전국 학교의 정보통신 기술 인프라 투자 계획이 발표되었습니다.',
+      content: `
+        <h3>투자 내용</h3>
+        <ul>
+          <li>무선 인터넷(WiFi 6) 설치</li>
+          <li>스마트 교실 환경 구축</li>
+          <li>프로그래밍 실습실 확대</li>
+          <li>고사양 컴퓨터 교체</li>
+        </ul>
+        <h3>투자 대상</h3>
+        <ul>
+          <li>초등학교: 1,500개교</li>
+          <li>중학교: 1,200개교</li>
+          <li>고등학교: 800개교</li>
+        </ul>
+        <h3>예산</h3>
+        <ul>
+          <li>총 5,000억 원 규모</li>
+          <li>학교당 평균 1.5억 원</li>
+        </ul>
+      `
+    }
+  ];
+
+  let filteredPosts = posts;
+
+  function renderPosts(postsToRender) {
+    const grid = document.getElementById('postGrid');
+
+    if (postsToRender.length === 0) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">해당하는 게시물이 없습니다.</div>';
+      return;
+    }
+
+    grid.innerHTML = postsToRender.map(post => `
+      <div class="post-card" onclick="openModal(${post.id})">
+        <span class="post-badge">${post.categoryLabel}</span>
+        <span class="post-date">${post.date}</span>
+        <h3 class="post-title">${post.title}</h3>
+        <p class="post-desc">${post.desc}</p>
+        <div class="post-footer">
+          <span>${post.source}</span>
+          <a href="#" class="read-more" onclick="event.stopPropagation()">읽기</a>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filterPosts(category) {
+    // 버튼 활성화 표시
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // 게시물 필터링
+    if (category === 'all') {
+      filteredPosts = posts;
+    } else {
+      filteredPosts = posts.filter(post => post.category === category);
+    }
+
+    renderPosts(filteredPosts);
+  }
+
+  function openModal(postId) {
+    const post = posts.find(p => p.id === postId);
+    if (!post) return;
+
+    document.getElementById('modalBadge').textContent = post.categoryLabel;
+    document.getElementById('modalTitle').textContent = post.title;
+    document.getElementById('modalDate').innerHTML = `📅 ${post.date}`;
+    document.getElementById('modalSource').innerHTML = `📌 ${post.source}`;
+    document.getElementById('modalBody').innerHTML = post.content;
+
+    document.getElementById('postModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('postModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+
+  // 모달 외부 클릭 시 닫기
+  document.getElementById('postModal').addEventListener('click', (e) => {
+    if (e.target.id === 'postModal') closeModal();
+  });
+
+  // 초기 로드
+  window.addEventListener('load', () => {
+    renderPosts(posts);
+  });
+</script>
+
+</body>
+</html>
