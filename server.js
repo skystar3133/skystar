@@ -244,6 +244,53 @@ app.post('/api/kakao-click-notify', async (req, res) => {
 const MATERIALS_PASSWORD = '0983';
 const MATERIALS_PREFIX = 'materials/';
 
+// GitHub 이중 백업 설정
+// - 이미지/PPT/워드/PDF처럼 작은 파일만 백업 (동영상 등 큰 파일은 GitHub API/함수 실행시간 한계로 제외)
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_OWNER = 'skystar3133';
+const GITHUB_REPO = 'skystar';
+const GITHUB_BRANCH = 'main';
+const MATERIALS_BACKUP_MAX_BYTES = 20 * 1024 * 1024; // 20MB
+
+async function backupMaterialToGitHub(pathname, fileUrl) {
+  if (!GITHUB_TOKEN) {
+    console.error('❌ GITHUB_TOKEN이 설정되지 않아 GitHub 백업을 건너뜁니다.');
+    return;
+  }
+
+  try {
+    const head = await axios.head(fileUrl);
+    const size = parseInt(head.headers['content-length'] || '0', 10);
+    if (size > MATERIALS_BACKUP_MAX_BYTES) {
+      console.log(`⏭️ 파일이 커서(${size}바이트) GitHub 백업을 건너뜁니다: ${pathname}`);
+      return;
+    }
+
+    const fileResponse = await axios.get(fileUrl, { responseType: 'arraybuffer' });
+    const content = Buffer.from(fileResponse.data).toString('base64');
+    const backupPath = `materials-backup/${pathname.replace(/^materials\//, '')}`;
+
+    await axios.put(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURI(backupPath)}`,
+      {
+        message: `수업자료 백업: ${backupPath}`,
+        content,
+        branch: GITHUB_BRANCH,
+      },
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+          Accept: 'application/vnd.github+json',
+        },
+      }
+    );
+
+    console.log('✅ GitHub 백업 완료:', backupPath);
+  } catch (error) {
+    console.error('❌ GitHub 백업 실패:', error.response?.data || error.message);
+  }
+}
+
 // 자료 목록 조회
 app.post('/api/materials/list', async (req, res) => {
   try {
@@ -290,6 +337,7 @@ app.post('/api/materials/upload', async (req, res) => {
       },
       onUploadCompleted: async ({ blob }) => {
         console.log('✅ 수업자료 업로드 완료:', blob.pathname);
+        await backupMaterialToGitHub(blob.pathname, blob.url);
       },
     });
 
