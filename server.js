@@ -311,7 +311,8 @@ app.post('/api/materials/drive-folder', async (req, res) => {
       return res.status(500).json({ error: 'DRIVE_FOLDER_ID가 설정되지 않았습니다' });
     }
 
-    res.json({ embedUrl: `https://drive.google.com/embeddedfolderview?id=${DRIVE_FOLDER_ID}#grid` });
+    // 특정 계정 전용(제한됨) 공유는 iframe 임베드가 구글 정책상 막혀 있어, 실제 드라이브 폴더 페이지로 이동시킨다
+    res.json({ driveUrl: `https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}` });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

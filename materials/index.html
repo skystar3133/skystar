@@ -60,23 +60,7 @@
     }
     #gate button:hover { background: #023a85; }
     #gateError { color: #E53E3E; font-size: 0.85rem; margin-top: 10px; min-height: 1.2em; }
-
-    /* 드라이브 폴더 */
-    #app { display: none; }
-    .drive-box {
-      background: #fff;
-      border: 1px solid #E2E8F0;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    #driveFrame {
-      width: 100%;
-      height: 80vh;
-      min-height: 500px;
-      border: none;
-      display: block;
-    }
-    .loading { color: #64748B; text-align: center; padding: 40px 0; }
+    #gateStatus { color: #64748B; font-size: 0.85rem; margin-top: 10px; min-height: 1.2em; }
   </style>
 </head>
 <body>
@@ -96,14 +80,7 @@
       <button type="submit">입장</button>
     </form>
     <div id="gateError"></div>
-  </div>
-
-  <!-- 구글 드라이브 폴더 -->
-  <div id="app">
-    <div class="drive-box">
-      <div id="driveLoading" class="loading">불러오는 중...</div>
-      <iframe id="driveFrame" style="display:none;"></iframe>
-    </div>
+    <div id="gateStatus"></div>
   </div>
 
 </div>
@@ -111,14 +88,12 @@
 <script>
   const API_BASE = 'https://skystar-backend.vercel.app';
 
-  const gateEl = document.getElementById('gate');
-  const appEl = document.getElementById('app');
   const gateError = document.getElementById('gateError');
-  const driveFrame = document.getElementById('driveFrame');
-  const driveLoading = document.getElementById('driveLoading');
+  const gateStatus = document.getElementById('gateStatus');
 
   async function tryEnter(password) {
     gateError.textContent = '';
+    gateStatus.textContent = '';
     try {
       const res = await fetch(`${API_BASE}/api/materials/drive-folder`, {
         method: 'POST',
@@ -130,14 +105,8 @@
         return;
       }
       const data = await res.json();
-      gateEl.style.display = 'none';
-      appEl.style.display = 'block';
-
-      driveFrame.addEventListener('load', () => {
-        driveLoading.style.display = 'none';
-        driveFrame.style.display = 'block';
-      }, { once: true });
-      driveFrame.src = data.embedUrl;
+      gateStatus.textContent = '구글 드라이브로 이동합니다... (본인 계정으로 로그인해주세요)';
+      window.location.href = data.driveUrl;
     } catch (error) {
       gateError.textContent = '확인 중 오류가 발생했습니다: ' + error.message;
     }
