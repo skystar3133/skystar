@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const axios = require('axios');
+const { list: listBlobs, del: delBlob } = require('@vercel/blob');
+const { handleUpload } = require('@vercel/blob/client');
 
 dotenv.config();
 
@@ -228,6 +230,88 @@ app.post('/api/kakao-click-notify', async (req, res) => {
   try {
     await sendTelegramMessage('💬 카카오톡 오픈채팅 문의 버튼을 클릭한 방문자가 있어요');
     res.status(201).json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ─────────────────────────────────────────
+// 수업자료 (materials.html)
+// - 비밀번호(0983)는 서버에서 확인 — 클라이언트 코드에 노출되지 않음
+// - 큰 동영상 파일도 올릴 수 있도록 브라우저 → Vercel Blob 직접 업로드 방식 사용
+//   (서버리스 함수의 요청 본문 4.5MB 제한을 피하기 위함)
+// ─────────────────────────────────────────
+const MATERIALS_PASSWORD = '0983';
+const MATERIALS_PREFIX = 'materials/';
+
+// 자료 목록 조회
+app.post('/api/materials/list', async (req, res) => {
+  try {
+    const { password } = req.body;
+    if (password !== MATERIALS_PASSWORD) {
+      return res.status(401).json({ error: '비밀번호가 올바르지 않습니다' });
+    }
+
+    const { blobs } = await listBlobs({ prefix: MATERIALS_PREFIX });
+    const materials = blobs
+      .map(b => ({
+        url: b.url,
+        pathname: b.pathname,
+        name: decodeURIComponent(b.pathname.slice(MATERIALS_PREFIX.length).replace(/^\d+-/, '')),
+        size: b.size,
+        uploadedAt: b.uploadedAt,
+      }))
+      .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+
+    res.json({ materials });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 업로드용 토큰 발급 (Vercel Blob의 클라이언트 직접 업로드 프로토콜)
+app.post('/api/materials/upload', async (req, res) => {
+  try {
+    const jsonResponse = await handleUpload({
+      body: req.body,
+      request: req,
+      onBeforeGenerateToken: async (pathname, clientPayload) => {
+        let payload = {};
+        try { payload = JSON.parse(clientPayload || '{}'); } catch (e) { /* ignore */ }
+
+        if (payload.password !== MATERIALS_PASSWORD) {
+          throw new Error('비밀번호가 올바르지 않습니다');
+        }
+
+        return {
+          addRandomSuffix: true,
+          maximumSizeInBytes: 300 * 1024 * 1024, // 300MB
+        };
+      },
+      onUploadCompleted: async ({ blob }) => {
+        console.log('✅ 수업자료 업로드 완료:', blob.pathname);
+      },
+    });
+
+    res.json(jsonResponse);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// 자료 삭제
+app.post('/api/materials/delete', async (req, res) => {
+  try {
+    const { password, url } = req.body;
+    if (password !== MATERIALS_PASSWORD) {
+      return res.status(401).json({ error: '비밀번호가 올바르지 않습니다' });
+    }
+    if (!url) {
+      return res.status(400).json({ error: 'url이 필요합니다' });
+    }
+
+    await delBlob(url);
+    res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
