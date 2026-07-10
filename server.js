@@ -236,13 +236,20 @@ app.post('/api/kakao-click-notify', async (req, res) => {
 });
 
 // ─────────────────────────────────────────
-// 수업자료 (materials.html)
-// - 비밀번호(0983)는 서버에서 확인 — 클라이언트 코드에 노출되지 않음
-// - 큰 동영상 파일도 올릴 수 있도록 브라우저 → Vercel Blob 직접 업로드 방식 사용
-//   (서버리스 함수의 요청 본문 4.5MB 제한을 피하기 위함)
+// 수업자료 (materials/index.html)
+// - 비밀번호는 환경변수(MATERIALS_PASSWORD)로 관리 — 공개 저장소 코드에 노출되지 않음
 // ─────────────────────────────────────────
-const MATERIALS_PASSWORD = '0983';
+const MATERIALS_PASSWORD = process.env.MATERIALS_PASSWORD;
 const MATERIALS_PREFIX = 'materials/';
+
+if (!MATERIALS_PASSWORD) {
+  console.error('❌ MATERIALS_PASSWORD 환경변수가 설정되지 않았습니다. 수업자료 페이지가 동작하지 않습니다.');
+}
+
+// 환경변수가 비어있으면 어떤 값도 통과시키지 않는다 (fail-closed)
+function isValidMaterialsPassword(candidate) {
+  return Boolean(MATERIALS_PASSWORD) && candidate === MATERIALS_PASSWORD;
+}
 
 // GitHub 이중 백업 설정
 // - 이미지/PPT/워드/PDF처럼 작은 파일만 백업 (동영상 등 큰 파일은 GitHub API/함수 실행시간 한계로 제외)
@@ -297,7 +304,7 @@ const DRIVE_FOLDER_ID = process.env.DRIVE_FOLDER_ID;
 app.post('/api/materials/drive-folder', async (req, res) => {
   try {
     const { password } = req.body;
-    if (password !== MATERIALS_PASSWORD) {
+    if (!isValidMaterialsPassword(password)) {
       return res.status(401).json({ error: '비밀번호가 올바르지 않습니다' });
     }
     if (!DRIVE_FOLDER_ID) {
@@ -314,7 +321,7 @@ app.post('/api/materials/drive-folder', async (req, res) => {
 app.post('/api/materials/list', async (req, res) => {
   try {
     const { password } = req.body;
-    if (password !== MATERIALS_PASSWORD) {
+    if (!isValidMaterialsPassword(password)) {
       return res.status(401).json({ error: '비밀번호가 올바르지 않습니다' });
     }
 
@@ -345,7 +352,7 @@ app.post('/api/materials/upload', async (req, res) => {
         let payload = {};
         try { payload = JSON.parse(clientPayload || '{}'); } catch (e) { /* ignore */ }
 
-        if (payload.password !== MATERIALS_PASSWORD) {
+        if (!isValidMaterialsPassword(payload.password)) {
           throw new Error('비밀번호가 올바르지 않습니다');
         }
 
@@ -370,7 +377,7 @@ app.post('/api/materials/upload', async (req, res) => {
 app.post('/api/materials/delete', async (req, res) => {
   try {
     const { password, url } = req.body;
-    if (password !== MATERIALS_PASSWORD) {
+    if (!isValidMaterialsPassword(password)) {
       return res.status(401).json({ error: '비밀번호가 올바르지 않습니다' });
     }
     if (!url) {
