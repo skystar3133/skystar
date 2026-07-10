@@ -28,7 +28,7 @@
     .header a:hover { color: #fff; }
     .header h1 { font-size: 1.1rem; font-weight: 800; }
 
-    .container { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px 80px; }
 
     /* 비밀번호 게이트 */
     #gate {
@@ -61,62 +61,22 @@
     #gate button:hover { background: #023a85; }
     #gateError { color: #E53E3E; font-size: 0.85rem; margin-top: 10px; min-height: 1.2em; }
 
-    /* 업로드 */
+    /* 드라이브 폴더 */
     #app { display: none; }
-    .upload-box {
+    .drive-box {
       background: #fff;
       border: 1px solid #E2E8F0;
       border-radius: 10px;
-      padding: 24px;
-      margin-bottom: 32px;
+      overflow: hidden;
     }
-    .upload-box h2 { font-size: 1rem; margin-bottom: 14px; }
-    .upload-row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .upload-row input[type="file"] { flex: 1; min-width: 200px; }
-    .upload-row button {
-      background: #034AA6;
-      color: #fff;
+    #driveFrame {
+      width: 100%;
+      height: 80vh;
+      min-height: 500px;
       border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: 700;
-      cursor: pointer;
+      display: block;
     }
-    .upload-row button:hover { background: #023a85; }
-    #uploadStatus { margin-top: 10px; font-size: 0.85rem; color: #64748B; }
-
-    /* 자료 목록 */
-    .material-card {
-      background: #fff;
-      border: 1px solid #E2E8F0;
-      border-radius: 10px;
-      padding: 18px;
-      margin-bottom: 20px;
-    }
-    .material-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .material-name { font-weight: 700; word-break: break-all; }
-    .material-delete {
-      background: none;
-      border: 1px solid #E2E8F0;
-      color: #64748B;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      flex-shrink: 0;
-      margin-left: 12px;
-    }
-    .material-delete:hover { color: #E53E3E; border-color: #E53E3E; }
-
-    .preview-img { max-width: 100%; border-radius: 6px; display: block; }
-    .preview-video { width: 100%; border-radius: 6px; display: block; background: #000; }
-    .preview-office { width: 100%; height: 500px; border: none; border-radius: 6px; }
-    .empty { color: #64748B; text-align: center; padding: 40px 0; }
+    .loading { color: #64748B; text-align: center; padding: 40px 0; }
   </style>
 </head>
 <body>
@@ -138,27 +98,17 @@
     <div id="gateError"></div>
   </div>
 
-  <!-- 자료 업로드 + 목록 -->
+  <!-- 구글 드라이브 폴더 -->
   <div id="app">
-    <div class="upload-box">
-      <h2>새 자료 올리기</h2>
-      <form id="uploadForm">
-        <div class="upload-row">
-          <input type="file" id="fileInput" required>
-          <button type="submit">업로드</button>
-        </div>
-      </form>
-      <div id="uploadStatus"></div>
+    <div class="drive-box">
+      <div id="driveLoading" class="loading">불러오는 중...</div>
+      <iframe id="driveFrame" style="display:none;"></iframe>
     </div>
-
-    <div id="materialsList"></div>
   </div>
 
 </div>
 
-<script type="module">
-  import { upload } from 'https://esm.sh/@vercel/blob@2.6.1/client';
-
+<script>
   const API_BASE = 'https://skystar-backend.vercel.app';
 
   let sessionPassword = sessionStorage.getItem('materialsPassword') || '';
@@ -166,87 +116,13 @@
   const gateEl = document.getElementById('gate');
   const appEl = document.getElementById('app');
   const gateError = document.getElementById('gateError');
-  const listEl = document.getElementById('materialsList');
-  const uploadForm = document.getElementById('uploadForm');
-  const uploadStatus = document.getElementById('uploadStatus');
-  const fileInput = document.getElementById('fileInput');
-
-  function fileKind(name) {
-    const ext = (name.split('.').pop() || '').toLowerCase();
-    if (['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'].includes(ext)) return 'image';
-    if (['mp4', 'webm', 'mov', 'm4v'].includes(ext)) return 'video';
-    if (['ppt', 'pptx', 'doc', 'docx', 'pdf'].includes(ext)) return 'office';
-    return 'other';
-  }
-
-  function formatSize(bytes) {
-    if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + 'KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + 'MB';
-  }
-
-  function renderMaterials(materials) {
-    if (!materials.length) {
-      listEl.innerHTML = '<p class="empty">아직 올린 자료가 없습니다.</p>';
-      return;
-    }
-
-    listEl.innerHTML = materials.map(m => {
-      const kind = fileKind(m.name);
-      let viewer;
-      if (kind === 'image') {
-        viewer = `<a href="${m.url}" target="_blank" rel="noopener"><img class="preview-img" src="${m.url}" alt="${m.name}"></a>`;
-      } else if (kind === 'video') {
-        viewer = `<video class="preview-video" src="${m.url}" controls></video>`;
-      } else if (kind === 'office') {
-        const src = 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(m.url);
-        viewer = `<iframe class="preview-office" src="${src}"></iframe>`;
-      } else {
-        viewer = `<a href="${m.url}" target="_blank" rel="noopener">파일 열기</a>`;
-      }
-      return `
-        <div class="material-card">
-          <div class="material-header">
-            <span class="material-name">${m.name} <span style="color:#94A3B8; font-weight:400;">(${formatSize(m.size)})</span></span>
-            <button type="button" class="material-delete" data-url="${m.url}">삭제</button>
-          </div>
-          ${viewer}
-        </div>
-      `;
-    }).join('');
-
-    listEl.querySelectorAll('.material-delete').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        if (!confirm('이 자료를 삭제하시겠습니까?')) return;
-        try {
-          const res = await fetch(`${API_BASE}/api/materials/delete`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: sessionPassword, url: btn.dataset.url }),
-          });
-          if (!res.ok) throw new Error('삭제 실패');
-          await refreshList();
-        } catch (error) {
-          alert('삭제에 실패했습니다: ' + error.message);
-        }
-      });
-    });
-  }
-
-  async function refreshList() {
-    const res = await fetch(`${API_BASE}/api/materials/list`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: sessionPassword }),
-    });
-    if (!res.ok) throw new Error('목록을 불러오지 못했습니다');
-    const data = await res.json();
-    renderMaterials(data.materials);
-  }
+  const driveFrame = document.getElementById('driveFrame');
+  const driveLoading = document.getElementById('driveLoading');
 
   async function tryEnter(password) {
     gateError.textContent = '';
     try {
-      const res = await fetch(`${API_BASE}/api/materials/list`, {
+      const res = await fetch(`${API_BASE}/api/materials/drive-folder`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
@@ -261,7 +137,12 @@
       sessionStorage.setItem('materialsPassword', password);
       gateEl.style.display = 'none';
       appEl.style.display = 'block';
-      renderMaterials(data.materials);
+
+      driveFrame.addEventListener('load', () => {
+        driveLoading.style.display = 'none';
+        driveFrame.style.display = 'block';
+      }, { once: true });
+      driveFrame.src = data.embedUrl;
     } catch (error) {
       gateError.textContent = '확인 중 오류가 발생했습니다: ' + error.message;
     }
@@ -276,31 +157,6 @@
   if (sessionPassword) {
     tryEnter(sessionPassword);
   }
-
-  uploadForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const file = fileInput.files[0];
-    if (!file) return;
-
-    uploadStatus.textContent = '업로드 중... 0%';
-    try {
-      const safeName = file.name.replace(/[^\w.\-가-힣]/g, '_');
-      await upload(`materials/${Date.now()}-${safeName}`, file, {
-        access: 'public',
-        handleUploadUrl: `${API_BASE}/api/materials/upload`,
-        clientPayload: JSON.stringify({ password: sessionPassword }),
-        onUploadProgress: (progress) => {
-          uploadStatus.textContent = `업로드 중... ${Math.round(progress.percentage)}%`;
-        },
-      });
-      uploadStatus.textContent = '✅ 업로드 완료!';
-      fileInput.value = '';
-      await refreshList();
-    } catch (error) {
-      console.error(error);
-      uploadStatus.textContent = '❌ 업로드 실패: ' + error.message;
-    }
-  });
 </script>
 
 </body>

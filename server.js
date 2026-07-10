@@ -291,6 +291,25 @@ async function backupMaterialToGitHub(pathname, fileUrl) {
   }
 }
 
+// 구글 드라이브 수업자료 폴더 (비밀번호 확인 후에만 폴더 ID 제공 — 코드/화면 소스에는 노출되지 않음)
+const DRIVE_FOLDER_ID = process.env.DRIVE_FOLDER_ID;
+
+app.post('/api/materials/drive-folder', async (req, res) => {
+  try {
+    const { password } = req.body;
+    if (password !== MATERIALS_PASSWORD) {
+      return res.status(401).json({ error: '비밀번호가 올바르지 않습니다' });
+    }
+    if (!DRIVE_FOLDER_ID) {
+      return res.status(500).json({ error: 'DRIVE_FOLDER_ID가 설정되지 않았습니다' });
+    }
+
+    res.json({ embedUrl: `https://drive.google.com/embeddedfolderview?id=${DRIVE_FOLDER_ID}#grid` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // 자료 목록 조회
 app.post('/api/materials/list', async (req, res) => {
   try {
