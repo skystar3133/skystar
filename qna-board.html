@@ -273,6 +273,18 @@
       gap: 16px;
     }
 
+    .qna-delete-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+    }
+    .qna-delete-btn:hover { color: #E53E3E; border-color: #E53E3E; }
+
     /* 모달 */
     .modal {
       display: none;
@@ -706,9 +718,19 @@
             <span>👁️ ${qna.views}</span>
             <span>💬 ${qna.answers.length}</span>
           </div>
+          <button type="button" class="qna-delete-btn" onclick="event.stopPropagation(); deleteQna(${qna.id})">🗑️ 삭제</button>
         </div>
       </div>
     `).join('');
+  }
+
+  function deleteQna(id) {
+    if (!confirm('이 질문을 삭제하시겠습니까?')) return;
+
+    qnaData = qnaData.filter(q => q.id !== id);
+    saveQnaData(qnaData);
+    filteredQna = filteredQna.filter(q => q.id !== id);
+    renderQnaList();
   }
 
   function openDetailModal(id) {
