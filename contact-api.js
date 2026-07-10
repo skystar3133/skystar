@@ -1,6 +1,22 @@
 // 문의하기 폼 클라이언트
 
 const CONTACT_API_URL = 'https://skystar-backend.vercel.app/api/contact';
+const KAKAO_CLICK_NOTIFY_URL = 'https://skystar-backend.vercel.app/api/kakao-click-notify';
+const KAKAO_OPEN_CHAT_URL = 'https://open.kakao.com/o/syNnsvCh';
+
+// 카카오톡 오픈채팅으로 이동하는 버튼/링크를 눌렀을 때 텔레그램으로 알림
+function notifyKakaoClick() {
+  fetch(KAKAO_CLICK_NOTIFY_URL, { method: 'POST' }).catch(error => {
+    console.error('Error notifying kakao click:', error);
+  });
+}
+
+document.addEventListener('click', function (event) {
+  const kakaoEl = event.target.closest(`a[href="${KAKAO_OPEN_CHAT_URL}"], .hnb-speed-btn`);
+  if (kakaoEl) {
+    notifyKakaoClick();
+  }
+});
 
 async function submitContactForm(event) {
   event.preventDefault();

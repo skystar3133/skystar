@@ -221,6 +221,18 @@ app.post('/api/qna-notify', async (req, res) => {
   }
 });
 
+// 카카오톡 오픈채팅 문의 버튼 클릭 알림
+// - 실제 오픈채팅 대화 내용은 카카오 플랫폼 안에서 이뤄지므로 확인 불가하지만,
+//   버튼을 눌러 오픈채팅으로 이동했다는 사실만 텔레그램으로 알려준다
+app.post('/api/kakao-click-notify', async (req, res) => {
+  try {
+    await sendTelegramMessage('💬 카카오톡 오픈채팅 문의 버튼을 클릭한 방문자가 있어요');
+    res.status(201).json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // 서버 시작 (로컬에서 `node server.js`로 직접 실행할 때만 포트를 연다 — Vercel 서버리스 환경에서는 app만 export)
 const PORT = process.env.PORT || 5000;
 if (require.main === module) {
