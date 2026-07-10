@@ -1,0 +1,11 @@
+node_modules
+images
+your-repo
+*.jpg
+*.png
+*.xlsx
+index.html
+qna-board.html
+education-board.html
+certificate-board.html
+typing-practice.html

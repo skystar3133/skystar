@@ -1,6 +1,6 @@
 // 문의하기 폼 클라이언트
 
-const CONTACT_API_URL = 'http://localhost:5000/api/contact';
+const CONTACT_API_URL = 'https://skystar-backend.vercel.app/api/contact';
 
 async function submitContactForm(event) {
   event.preventDefault();

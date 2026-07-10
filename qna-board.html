@@ -608,7 +608,7 @@
   let currentQnaId = null;
 
   // 새 질문 등록 시 원장님 텔레그램으로 알림 (실패해도 게시판 저장/화면 표시에는 영향 없음)
-  const QNA_NOTIFY_URL = 'http://localhost:5000/api/qna-notify';
+  const QNA_NOTIFY_URL = 'https://skystar-backend.vercel.app/api/qna-notify';
   function notifyNewQuestion(question) {
     fetch(QNA_NOTIFY_URL, {
       method: 'POST',

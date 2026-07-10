@@ -221,8 +221,12 @@ app.post('/api/qna-notify', async (req, res) => {
   }
 });
 
-// 서버 시작
+// 서버 시작 (로컬에서 `node server.js`로 직접 실행할 때만 포트를 연다 — Vercel 서버리스 환경에서는 app만 export)
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 서버 실행 중: http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 서버 실행 중: http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
