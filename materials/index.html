@@ -111,8 +111,6 @@
 <script>
   const API_BASE = 'https://skystar-backend.vercel.app';
 
-  let sessionPassword = sessionStorage.getItem('materialsPassword') || '';
-
   const gateEl = document.getElementById('gate');
   const appEl = document.getElementById('app');
   const gateError = document.getElementById('gateError');
@@ -129,12 +127,9 @@
       });
       if (!res.ok) {
         gateError.textContent = '비밀번호가 올바르지 않습니다.';
-        sessionStorage.removeItem('materialsPassword');
         return;
       }
       const data = await res.json();
-      sessionPassword = password;
-      sessionStorage.setItem('materialsPassword', password);
       gateEl.style.display = 'none';
       appEl.style.display = 'block';
 
@@ -153,10 +148,6 @@
     const password = document.getElementById('passwordInput').value.trim();
     if (password) tryEnter(password);
   });
-
-  if (sessionPassword) {
-    tryEnter(sessionPassword);
-  }
 </script>
 
 </body>
