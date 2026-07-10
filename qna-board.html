@@ -607,6 +607,23 @@
 <script>
   let currentQnaId = null;
 
+  // 새 질문 등록 시 원장님 텔레그램으로 알림 (실패해도 게시판 저장/화면 표시에는 영향 없음)
+  const QNA_NOTIFY_URL = 'http://localhost:5000/api/qna-notify';
+  function notifyNewQuestion(question) {
+    fetch(QNA_NOTIFY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: question.title,
+        author: question.author,
+        category: getCategoryLabel(question.category),
+        content: question.content,
+      }),
+    }).catch(error => {
+      console.error('Error notifying new question:', error);
+    });
+  }
+
   const defaultQnaData = [
     // 파이썬 문법 (7개)
     { id: 1, title: '파이썬에서 변수의 자료형을 확인하는 방법은?', author: '김민지', category: 'python', date: '2026-07-05', solved: true, views: 145, answers: [{ author: '강사', content: 'type() 함수를 사용합니다. 예: type(x)' }], content: '파이썬에서 변수의 자료형을 알아내려면 어떤 함수를 사용해야 하나요?' },
@@ -793,6 +810,8 @@
     renderQnaList();
     closeWriteModal();
     alert('질문이 작성되었습니다!');
+
+    notifyNewQuestion(newQuestion);
   }
 
   function filterQna() {
