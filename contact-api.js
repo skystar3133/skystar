@@ -5,8 +5,13 @@ const KAKAO_CLICK_NOTIFY_URL = 'https://skystar-backend.vercel.app/api/kakao-cli
 const KAKAO_OPEN_CHAT_URL = 'https://open.kakao.com/o/syNnsvCh';
 
 // 카카오톡 오픈채팅으로 이동하는 버튼/링크를 눌렀을 때 텔레그램으로 알림
+// - sendBeacon은 클릭 직후 새 탭/페이지 이동이 일어나도 요청이 끊기지 않도록 브라우저가 보장해준다
 function notifyKakaoClick() {
-  fetch(KAKAO_CLICK_NOTIFY_URL, { method: 'POST' }).catch(error => {
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(KAKAO_CLICK_NOTIFY_URL);
+    return;
+  }
+  fetch(KAKAO_CLICK_NOTIFY_URL, { method: 'POST', keepalive: true }).catch(error => {
     console.error('Error notifying kakao click:', error);
   });
 }
